@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-namespace DiceSurvivorB.WeaponSystem
+namespace DiceSurvivor.WeaponSystem
 {
     /// <summary>
     /// 공통 효과 인터페이스

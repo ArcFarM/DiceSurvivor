@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace DiceSurvivorB.WeaponSystem
+namespace DiceSurvivor.WeaponSystem
 {
     /// <summary>
     /// 투사체 데이터 관리하는 클래스 

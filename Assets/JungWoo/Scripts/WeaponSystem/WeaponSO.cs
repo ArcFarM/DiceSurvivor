@@ -1,8 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
-using DiceSurvivorB.ItemSystem;
+using DiceSurvivor.ItemSystem;
 
-namespace DiceSurvivorB.WeaponSystem
+namespace DiceSurvivor.WeaponSystem
 {
     /// <summary>
     /// 무기 데이터를 관리하는 클래스

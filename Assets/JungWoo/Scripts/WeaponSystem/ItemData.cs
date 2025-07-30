@@ -1,7 +1,7 @@
-using DiceSurvivorB.Common;
+using DiceSurvivor.Common;
 using UnityEngine;
 
-namespace DiceSurvivorB.ItemSystem
+namespace DiceSurvivor.ItemSystem
 {
     /// <summary>
     /// 아이템 기본 내용 주석

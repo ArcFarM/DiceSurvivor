@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace DiceSurvivorB.WeaponSystem
+namespace DiceSurvivor.WeaponSystem
 {
     /// <summary>
     /// 레벨 상승때의 데이터 속성을 관리하는 클래스
