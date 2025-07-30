@@ -1,15 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class RandomBoxSpawner : MonoBehaviour
 {
     #region Variables
-    public List<GameObject> boxPrefabs; // ¿©·¯ Á¾·ùÀÇ ¹Ú½º
-    public float minSpawnDelay = 10f;   // ÃÖ¼Ò ´ë±â ½Ã°£
-    public float maxSpawnDelay = 30f;   // ÃÖ´ë ´ë±â ½Ã°£
-    public List<Transform> spawnPoints; // »óÀÚ ½ºÆù °¡´ÉÇÑ À§Ä¡µé
+    public List<GameObject> boxPrefabs; // ì—¬ëŸ¬ ì¢…ë¥˜ì˜ ë°•ìŠ¤
+    public float minSpawnDelay = 10f;   // ìµœì†Œ ëŒ€ê¸° ì‹œê°„
+    public float maxSpawnDelay = 30f;   // ìµœëŒ€ ëŒ€ê¸° ì‹œê°„
+    public List<Transform> spawnPoints; // ìƒì ìŠ¤í° ê°€ëŠ¥í•œ ìœ„ì¹˜ë“¤
 
     public Transform player;
 
@@ -28,11 +27,11 @@ public class RandomBoxSpawner : MonoBehaviour
     {
         while (true)
         {
-            // »óÀÚ°¡ ÀÌ¹Ì Á¸ÀçÇÏ¸é ±â´Ù¸²
+            // ìƒìê°€ ì´ë¯¸ ì¡´ì¬í•˜ë©´ ê¸°ë‹¤ë¦¼
             while (currentBox != null)
                 yield return null;
 
-            // ÀÏÁ¤ ½Ã°£ ·£´ı ´ë±â
+            // ì¼ì • ì‹œê°„ ëœë¤ ëŒ€ê¸°
             float delay = Random.Range(minSpawnDelay, maxSpawnDelay);
             yield return new WaitForSeconds(delay);
 
@@ -44,10 +43,10 @@ public class RandomBoxSpawner : MonoBehaviour
     {
         if (boxPrefabs.Count == 0) return;
 
-        // ·£´ı ÇÁ¸®ÆÕ ¼±ÅÃ
+        // ëœë¤ í”„ë¦¬íŒ¹ ì„ íƒ
         GameObject selectedBox = boxPrefabs[Random.Range(0, boxPrefabs.Count)];
 
-        // ÇÃ·¹ÀÌ¾î ÁÖº¯ ·£´ı À§Ä¡ °è»ê
+        // í”Œë ˆì´ì–´ ì£¼ë³€ ëœë¤ ìœ„ì¹˜ ê³„ì‚°
         Vector3 playerPos = player.position;
         float radius = 10f;
         Vector2 randomCircle = UnityEngine.Random.insideUnitCircle * radius;
