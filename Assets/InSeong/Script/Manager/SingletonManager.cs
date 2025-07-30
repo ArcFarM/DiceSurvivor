@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 //싱글톤의 토대가 되는 부모 클래스
-namespace MainGame.Manager {
+namespace DiceSurvivor.Manager {
     //추상 글래스로 선언 : 직접 인스턴스 사용을 하지 않고, 상속을 원활하게 하기 위해
     public abstract class SingletonManager<T> : MonoBehaviour where T : MonoBehaviour {
         #region Variables
