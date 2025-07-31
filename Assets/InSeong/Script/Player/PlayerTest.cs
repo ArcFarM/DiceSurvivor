@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 namespace DiceSurvivor.Player {
@@ -79,7 +79,8 @@ namespace DiceSurvivor.Player {
         #region Custom Methods
         //아이템 구매/진화 시 상점 상태와 동기화
         public void SyncItem() {
-            //
+            //인스펙터에서 할당된 아이템 정보를 샵에 넘겨줌
+
         }
         #endregion
     }
