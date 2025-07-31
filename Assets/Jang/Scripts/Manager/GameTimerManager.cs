@@ -1,21 +1,21 @@
 using UnityEngine;
 using UnityEngine.Events;
-using MainGame.Manager; 
+using DiceSurvivor.Manager;
 
 /// <summary>
-/// °ÔÀÓ ³» ½Ã°£ °æ°ú¸¦ °ü¸®ÇÏ°í ÀÏÁ¤ ½Ã°£¿¡ ¸ÂÃç ÀÌº¥Æ®¸¦ ¹ß»ı½ÃÅ´
-/// - 5ºĞ: Áß°£ º¸½º ¼ÒÈ¯
-/// - 10ºĞ: ÃÖÁ¾ º¸½º ¼ÒÈ¯
+/// ê²Œì„ ë‚´ ì‹œê°„ ê²½ê³¼ë¥¼ ê´€ë¦¬í•˜ê³  ì¼ì • ì‹œê°„ì— ë§ì¶° ì´ë²¤íŠ¸ë¥¼ ë°œìƒì‹œí‚´
+/// - 5ë¶„: ì¤‘ê°„ ë³´ìŠ¤ ì†Œí™˜
+/// - 10ë¶„: ìµœì¢… ë³´ìŠ¤ ì†Œí™˜
 /// </summary>
 public class GameTimerManager : SingletonManager<GameTimerManager>
 {
     #region Variables
-    public float totalTime = 600f;  // 10ºĞ (600ÃÊ)
-    public float remainingTime;     // ³²Àº ½Ã°£
+    public float totalTime = 600f;  // 10ë¶„ (600ì´ˆ)
+    public float remainingTime;     // ë‚¨ì€ ì‹œê°„
     public bool isTimerRunning = true;
 
-    public UnityEvent onMidBossSpawn;    // 5ºĞ ³²¾ÒÀ» ¶§
-    public UnityEvent onFinalBossSpawn;  // 0ÃÊÀÏ ¶§
+    public UnityEvent onMidBossSpawn;    // 5ë¶„ ë‚¨ì•˜ì„ ë•Œ
+    public UnityEvent onFinalBossSpawn;  // 0ì´ˆì¼ ë•Œ
 
     private bool midBossSpawned = false;
     private bool finalBossSpawned = false;
@@ -31,11 +31,11 @@ public class GameTimerManager : SingletonManager<GameTimerManager>
         if (!isTimerRunning || remainingTime <= 0f) return;
 
         remainingTime -= Time.deltaTime;
-        remainingTime = Mathf.Max(remainingTime, 0f); // À½¼ö ¹æÁö
+        remainingTime = Mathf.Max(remainingTime, 0f); // ìŒìˆ˜ ë°©ì§€
 
         float timePassed = totalTime - remainingTime;
 
-        // 5ºĞ °æ°ú ½Ã Áß°£º¸½º ÀÌº¥Æ® È£Ãâ
+        // 5ë¶„ ê²½ê³¼ ì‹œ ì¤‘ê°„ë³´ìŠ¤ ì´ë²¤íŠ¸ í˜¸ì¶œ
         if (!midBossSpawned && timePassed >= 300f)
         {
             midBossSpawned = true;
@@ -52,7 +52,7 @@ public class GameTimerManager : SingletonManager<GameTimerManager>
     #endregion
 
     #region Custom Method
-    // UI¿¡ Å¸ÀÌ¸Ó¸¦ Ç¥½ÃÇÒ ¼ö ÀÖµµ·Ï 00:00 Çü½ÄÀ¸·Î ¹İÈ¯
+    // UIì— íƒ€ì´ë¨¸ë¥¼ í‘œì‹œí•  ìˆ˜ ìˆë„ë¡ 00:00 í˜•ì‹ìœ¼ë¡œ ë°˜í™˜
     public string GetFormattedTime()
     {
         int totalSeconds = Mathf.FloorToInt(remainingTime);

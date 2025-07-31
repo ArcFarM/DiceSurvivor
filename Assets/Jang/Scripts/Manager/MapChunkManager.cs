@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using MainGame.Manager;
+using DiceSurvivor.Manager;
 
 public class MapChunkManager : SingletonManager<MapChunkManager>
 {
@@ -15,7 +15,7 @@ public class MapChunkManager : SingletonManager<MapChunkManager>
     {
         if (tilePool.TryGetValue(coord, out GameObject tile))
         {
-            tile.SetActive(true); // ¥ŸΩ√ ƒ—±‚
+            tile.SetActive(true); // Îã§Ïãú ÏºúÍ∏∞
             return tile;
         }
         GameObject prefab = tilePrefabs[Random.Range(0, tilePrefabs.Length)];
@@ -31,7 +31,7 @@ public class MapChunkManager : SingletonManager<MapChunkManager>
     {
         if (tilePool.TryGetValue(coord, out GameObject tile))
         {
-            tile.SetActive(false); // ≤Ù±‚
+            tile.SetActive(false); // ÎÅÑÍ∏∞
         }
     }
 
