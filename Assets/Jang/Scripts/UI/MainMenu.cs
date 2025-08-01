@@ -18,10 +18,12 @@ using System.Collections;
         //메뉴
         public GameObject mainMenuUI;
         public GameObject optionUI;
-        /*public GameObject loadGameButton;
-        public GameObject creditCanvas;*/
+        public GameObject customizePanel;
+    public GameObject previewCharacter;
+    /*public GameObject loadGameButton;
+    public GameObject creditCanvas;*/
 
-        private bool isShowOption = false;
+    private bool isShowOption = false;
         private bool isShowCredit = false;
 
         //볼륨 조절
@@ -108,6 +110,19 @@ using System.Collections;
             //새게임 하러 가기
             fader.FadeTo(loadToScene);
         }
+
+    public void ShowCustomizeUI()
+    {
+        mainMenuUI.SetActive(false);
+        customizePanel.SetActive(true);
+        previewCharacter.SetActive(true);
+    }
+    public void HideCustomizeUI()
+    {
+        customizePanel.SetActive(false);
+        mainMenuUI.SetActive(true);
+        previewCharacter.SetActive(false);
+    }
     /*
         public void LoadGame()
         {
@@ -139,7 +154,7 @@ using System.Collections;
             StartCoroutine(ShowCreditUI());
         }
     */
-        public void QuitGame()
+    public void QuitGame()
         {
             //TODO: Cheating
             PlayerPrefs.DeleteAll();
