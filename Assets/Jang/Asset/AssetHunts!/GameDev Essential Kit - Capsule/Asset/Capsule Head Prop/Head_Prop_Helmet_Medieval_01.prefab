@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Head_Prop_Helmet_Medieval_01
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 13b2cc7ba6c373a49bf58ea6a668d5f4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
