@@ -7,7 +7,7 @@ namespace DiceSurvivor.ItemSystem
     /// 아이템 기본 내용 주석
     /// 내용: 이름, 아이디, 아이콘, 가격, 진화 조건
     /// </summary>
-    [CreateAssetMenu(fileName = "NewItem", menuName = "Item/ItemData")]
+    [System.Serializable]
     public class ItemData : ScriptableObject
     {
         [Header("공통 속성")]

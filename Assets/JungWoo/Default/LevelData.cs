@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace DiceSurvivor.WeaponSystem
@@ -9,9 +10,9 @@ namespace DiceSurvivor.WeaponSystem
     [System.Serializable]
     public class LevelData
     {
-        [Range(1, 8)] public int level;     //레벨
         public float damage;                //데미지  
         public float cooldown;              //공격 간격
+        public float range;                 // 사거리
         public float projectileSpeed;       //투사체 속도
 
         public EffectData effects;    //투사체 이펙트

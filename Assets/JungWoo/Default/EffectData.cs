@@ -24,10 +24,11 @@ namespace DiceSurvivor.WeaponSystem
 
         [Header("투사체 관련")]
         public int projectileCount;                 // 투사체 수
+        public int throwCount;                      // 투사체 반복 던지는 횟수
         public float projectileSize;                //투사체 사이즈
         public float angleSpread = 0f;              // 투사체 퍼짐 각도
         public bool rotateAroundPlayer = false;     // 360도 회전 여부
-        public bool shootTowardNearestEnemy = false; // 자동 조준 여부
+        public bool shootTowardNearestEnemy = false;// 자동 조준 여부
     }
 
 }
