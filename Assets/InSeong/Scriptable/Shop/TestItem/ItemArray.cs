@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 
-[Serializable]
-public class TestItemArray
+[CreateAssetMenu(fileName = "TestItemArray", menuName = "Scriptable Objects/TestItemArray")]
+public class TestItemArray : ScriptableObject
 {
     public TestItem[] items;
 }

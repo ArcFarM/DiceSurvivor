@@ -1,7 +1,8 @@
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class CustomizeUI : MonoBehaviour
 {
@@ -20,84 +21,52 @@ public class CustomizeUI : MonoBehaviour
 
     private void Start()
     {
-        SetupDropdowns();
-        LoadCustomization();
-        UpdatePreview();
+        // 불러와서 미리보기 적용
+        int headIndex = PlayerPrefs.GetInt("SelectedHeadProp", 0);
+        int eyeIndex = PlayerPrefs.GetInt("SelectedEyeVariant", 0);
+        int mouthIndex = PlayerPrefs.GetInt("SelectedMouthVariant", 0);
 
-        // 드롭다운 변경 이벤트 연결
-        headPropDropdown.onValueChanged.AddListener(UpdateHeadProp);
-        eyeDropdown.onValueChanged.AddListener(UpdateEye);
-        mouthDropdown.onValueChanged.AddListener(UpdateMouth);
+        headPropDropdown.value = headIndex;
+        eyeDropdown.value = eyeIndex;
+        mouthDropdown.value = mouthIndex;
+
+        UpdateCustomization(headProps, headIndex);
+        UpdateCustomization(eyes, eyeIndex);
+        UpdateCustomization(mouths, mouthIndex);
+
+        headPropDropdown.onValueChanged.AddListener((index) => UpdateCustomization(headProps, index));
+        eyeDropdown.onValueChanged.AddListener((index) => UpdateCustomization(eyes, index));
+        mouthDropdown.onValueChanged.AddListener((index) => UpdateCustomization(mouths, index));
     }
 
-    private void SetupDropdowns()
+    void UpdateCustomization(GameObject[] items, int selectedIndex)
     {
-        // 드롭다운 초기화
-        headPropDropdown.ClearOptions();
-        eyeDropdown.ClearOptions();
-        mouthDropdown.ClearOptions();
-
-        // 이름으로 옵션 구성
-        List<string> headNames = headProps.Select(h => h.name).ToList();
-        List<string> eyeNames = eyes.Select(e => e.name).ToList();
-        List<string> mouthNames = mouths.Select(m => m.name).ToList();
-
-        headPropDropdown.AddOptions(headNames);
-        eyeDropdown.AddOptions(eyeNames);
-        mouthDropdown.AddOptions(mouthNames);
-    }
-
-    private void UpdatePreview()
-    {
-        UpdateHeadProp(headPropDropdown.value);
-        UpdateEye(eyeDropdown.value);
-        UpdateMouth(mouthDropdown.value);
-    }
-
-    public void UpdateHeadProp(int index)
-    {
-        for (int i = 0; i < headProps.Length; i++)
+        for (int i = 0; i < items.Length; i++)
         {
-            if (headProps[i] != null)
-                headProps[i].SetActive(i == index);
-        }
-    }
-
-    public void UpdateEye(int index)
-    {
-        for (int i = 0; i < eyes.Length; i++)
-        {
-            if (eyes[i] != null)
-                eyes[i].SetActive(i == index);
-        }
-    }
-
-    public void UpdateMouth(int index)
-    {
-        for (int i = 0; i < mouths.Length; i++)
-        {
-            if (mouths[i] != null)
-                mouths[i].SetActive(i == index);
+            items[i].SetActive(i == selectedIndex);
         }
     }
 
     public void SaveCustomization()
     {
-        PlayerPrefs.SetInt("HeadIndex", headPropDropdown.value);
-        PlayerPrefs.SetInt("EyeIndex", eyeDropdown.value);
-        PlayerPrefs.SetInt("MouthIndex", mouthDropdown.value);
+        int headIndex = headPropDropdown.value;
+        int eyeIndex = eyeDropdown.value;
+        int mouthIndex = mouthDropdown.value;
+
+        PlayerPrefs.SetInt("SelectedHeadProp", headIndex);
+        PlayerPrefs.SetInt("SelectedEyeVariant", eyeIndex);
+        PlayerPrefs.SetInt("SelectedMouthVariant", mouthIndex);
         PlayerPrefs.Save();
-        Debug.Log("Customization Saved!");
+
+        Debug.Log($"Saved: Head={headIndex}, Eye={eyeIndex}, Mouth={mouthIndex}");
+
+        // 메인 메뉴로 복귀
+        StartCoroutine(ReturnToMainMenu());
     }
 
-    private void LoadCustomization()
+    IEnumerator ReturnToMainMenu()
     {
-        int headIndex = PlayerPrefs.GetInt("HeadIndex", 0);
-        int eyeIndex = PlayerPrefs.GetInt("EyeIndex", 0);
-        int mouthIndex = PlayerPrefs.GetInt("MouthIndex", 0);
-
-        headPropDropdown.value = Mathf.Clamp(headIndex, 0, headProps.Length - 1);
-        eyeDropdown.value = Mathf.Clamp(eyeIndex, 0, eyes.Length - 1);
-        mouthDropdown.value = Mathf.Clamp(mouthIndex, 0, mouths.Length - 1);
+        yield return new WaitForEndOfFrame();
+        SceneManager.LoadScene("MainMenu");
     }
 }
