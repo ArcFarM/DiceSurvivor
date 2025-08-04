@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DiceSurvivor.Player;
@@ -23,6 +23,9 @@ namespace DiceSurvivor.Manager {
         //아이템의 가격
         Dictionary<TestItem.ItemType, int> itemCosts;
 
+        //아이템 정보가 담긴 싱글톤
+        ItemManager im => ItemManager.Instance;
+
         //상점 잠금 여부
         bool isShopLocked = false;
 
@@ -33,7 +36,6 @@ namespace DiceSurvivor.Manager {
         [SerializeField]
         int currentGold = 0;
         #region UIElements
-        public Button buyButton;
         public Button rerollButton;
         public Button lockButton;
         public Button vanishButton;
@@ -42,14 +44,6 @@ namespace DiceSurvivor.Manager {
         #endregion
 
         #region Properties
-        //프로퍼티처럼 사용될 메서드
-        public int GetItemLevel(string itemName) {
-            //아이템 이름으로 현재 레벨을 가져온다
-            if (currItemLevelDict.TryGetValue(itemName, out int value)) {
-                return value;
-            }
-            return 0; //아이템이 없으면 0 반환
-        }
         #endregion
 
         #region Unity Event Methods
@@ -71,6 +65,8 @@ namespace DiceSurvivor.Manager {
             FillItem();
             RefreshGold();
         }
+
+        
         #endregion
 
         #region Custom Methods
@@ -89,24 +85,24 @@ namespace DiceSurvivor.Manager {
             if (currentGold < itemCost) return;
 
             // 2. 해당 아이템을 보유하고 있는 지 확인
-            bool hasItem = GetItemLevel(itemToBuy.itemName) > 0;
+            bool hasItem = im.GetItemLevel(itemToBuy.itemName) > 0;
 
             // 3-1. 보유한 아이템이라면 최대 레벨 이상인 지 확인
             if (hasItem) {
-                if(GetItemLevel(itemToBuy.itemName) >= itemToBuy.maxLevel) {
+                if(im.GetItemLevel(itemToBuy.itemName) >= itemToBuy.maxLevel) {
                     VanishMaxLevelItem(itemToBuy);
                     return;
                 }
             } else {
                 //3-2. 보유하지 않은 아이템이라면 남은 자리가 있는 지 확인
-                if (player.GetCurrCount(itemToBuy.type) + 1 >= player.GetMaxCount(itemToBuy.type)) {
+                if (im.GetCurrentItemCount(itemToBuy.type) + 1 >= im.GetMaxItemCount(itemToBuy.type)) {
                     return;
                 }
             }
 
             // 4. 구매 처리
             currentGold -= itemCost;
-            SaveLevel(itemToBuy);
+            im.BuyItem(itemToBuy);
             RefreshGold();
 
             //5. 아이템 칸 정보 갱신
@@ -174,17 +170,14 @@ namespace DiceSurvivor.Manager {
             }
         }
 
-        //아이템 구매 시 아이템 정보 저장
-        void SaveLevel(TestItem item) {
-            //구매한 아이템 이름 가져오기
-            string itemName = item.itemName;
-            //아이템의 레벨 증가 시키기
-            if (currItemLevelDict.TryGetValue(itemName, out int value)){
-                currItemLevelDict[itemName] = value + 1;
-            } else currItemLevelDict.Add(itemName, 1);
-
-            //플레이어에 정보 반영
-
+        //플레이어 아이템 레벨 정보 업데이트 (PlayerTest에서 호출)
+        public void UpdatePlayerItemLevel(string itemName, int level) {
+            if (currItemLevelDict.ContainsKey(itemName)) {
+                currItemLevelDict[itemName] = level;
+            }
+            else {
+                currItemLevelDict.Add(itemName, level);
+            }
         }
 
         //최대 레벨에 도달한 아이템 삭제
