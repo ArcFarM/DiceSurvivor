@@ -59,6 +59,12 @@ namespace DiceSurvivor.Manager {
                 { TestItem.ItemType.Passive, 3 }
             };
             RefreshGold();
+            //json파일을 통해 무기 설명문 데이터를 딕셔너리에 저장
+            /*
+             jsonFile json;
+            Dictionary<string, string[]> weapondetails = new Dictionary<string, string[]>();
+            >> json 안에 있는 정보를 string(weaponID)별로 따와서 LIst<string> 혹은 string[maxLEvel] 형태로 저장
+            */
         }
 
         private void OnEnable() {

@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4762164f8a2b69a4096aab5dfe217ac6, type: 3}
   m_Name: Scythe
   m_EditorClassIdentifier: 
-  id: 
-  itemName: 
+  id: MW_Scythe
+  itemName: Scythe
   icon: {fileID: 0}
   modelPrefab: {fileID: 0}
-  type: 0
+  type: 1
   buyPrice: 0
   sellPrice: 0
-  isCanBuy: 0
+  isCanBuy: 1
   description: 
