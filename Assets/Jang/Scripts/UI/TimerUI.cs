@@ -1,5 +1,5 @@
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class TimerUI : MonoBehaviour
 {
@@ -7,9 +7,10 @@ public class TimerUI : MonoBehaviour
 
     void Update()
     {
-        if (GameTimerManager.Instance == null || !GameTimerManager.Instance.isTimerRunning)
+        if (GameTimerManager.Instance == null)
             return;
 
+        // 진행 중이든 멈춰있든 현재 값 표시
         timerText.text = GameTimerManager.Instance.GetFormattedTime();
     }
 }

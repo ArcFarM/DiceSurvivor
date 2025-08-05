@@ -1,64 +1,104 @@
 using UnityEngine;
-using UnityEngine.Events;
-using DiceSurvivor.Manager;
+using UnityEngine.SceneManagement;
 
-/// <summary>
-/// 게임 내 시간 경과를 관리하고 일정 시간에 맞춰 이벤트를 발생시킴
-/// - 5분: 중간 보스 소환
-/// - 10분: 최종 보스 소환
-/// </summary>
-public class GameTimerManager : SingletonManager<GameTimerManager>
+public class GameTimerManager : MonoBehaviour
 {
-    #region Variables
-    public float totalTime = 600f;  // 10분 (600초)
-    public float remainingTime;     // 남은 시간
-    public bool isTimerRunning = true;
+    // 싱글톤 인스턴스
+    public static GameTimerManager Instance { get; private set; }
 
-    public UnityEvent onMidBossSpawn;    // 5분 남았을 때
-    public UnityEvent onFinalBossSpawn;  // 0초일 때
+    [Header("설정 옵션")]
+    [SerializeField] private bool dontDestroyOnLoad = true;           // 씬 전환 시 유지할지 여부
+    [SerializeField] private bool autoStartOnSceneLoaded = true;      // 씬이 로드되면 자동 시작할지 여부
 
-    private bool midBossSpawned = false;
-    private bool finalBossSpawned = false;
-    #endregion
+    [SerializeField] private float startTimeInSeconds = 600f;         // 시작 시간 (초) — 기본값: 10분 = 600초
 
-    #region Unity Event Method
-    protected override void OnSingletonAwake()
+    // 현재 타이머 상태
+    public bool IsRunning { get; private set; } = false;
+    public float RemainingTime { get; private set; } = 0f;
+
+    // 타이머 종료 여부
+    public bool IsFinished => RemainingTime <= 0f;
+
+    // 싱글톤 설정
+    private void Awake()
     {
-        remainingTime = totalTime; 
+        // 이미 인스턴스가 있으면 파괴 (중복 방지)
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+
+        // 필요하면 씬 전환 시에도 파괴되지 않도록 유지
+        if (dontDestroyOnLoad)
+            DontDestroyOnLoad(gameObject);
     }
-    void Update()
+
+    // 씬 로드 이벤트 등록
+    private void OnEnable()
     {
-        if (!isTimerRunning || remainingTime <= 0f) return;
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
 
-        remainingTime -= Time.deltaTime;
-        remainingTime = Mathf.Max(remainingTime, 0f); // 음수 방지
+    // 씬 로드 이벤트 해제
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
 
-        float timePassed = totalTime - remainingTime;
+    // 씬이 로드되었을 때 자동으로 타이머 초기화 & 시작
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        ResetTimer();              // 10분으로 리셋
+        if (autoStartOnSceneLoaded)
+            StartTimer();          // 자동 시작
+    }
 
-        // 5분 경과 시 중간보스 이벤트 호출
-        if (!midBossSpawned && timePassed >= 300f)
+    // 매 프레임마다 타이머 감소
+    private void Update()
+    {
+        // 타이머가 실행 중이 아니거나 이미 끝났으면 리턴
+        if (!IsRunning || IsFinished) return;
+
+        // 시간 감소
+        RemainingTime -= Time.deltaTime;
+
+        // 0 이하로 떨어지면 종료 처리
+        if (RemainingTime <= 0f)
         {
-            midBossSpawned = true;
-            onMidBossSpawn.Invoke();
-        }
+            RemainingTime = 0f;
+            IsRunning = false;
 
-        if (!finalBossSpawned && remainingTime <= 0f)
-        {
-            finalBossSpawned = true;
-            isTimerRunning = false;
-            onFinalBossSpawn.Invoke();
+            // 타이머가 끝났을 때 원하는 처리 (예: 보스 등장)
+            Debug.Log("⏰ 타이머 종료!");
         }
     }
-    #endregion
 
-    #region Custom Method
-    // UI에 타이머를 표시할 수 있도록 00:00 형식으로 반환
+    // 타이머 시작
+    public void StartTimer()
+    {
+        IsRunning = true;
+    }
+
+    // 타이머 일시정지
+    public void StopTimer()
+    {
+        IsRunning = false;
+    }
+
+    // 타이머 리셋 (시간: 시작시간, 정지 상태)
+    public void ResetTimer()
+    {
+        IsRunning = false;
+        RemainingTime = startTimeInSeconds;
+    }
+
+    // 남은 시간을 "MM:SS" 형식의 문자열로 반환
     public string GetFormattedTime()
     {
-        int totalSeconds = Mathf.FloorToInt(remainingTime);
-        int minutes = totalSeconds / 60;
-        int seconds = totalSeconds % 60;
-        return $"{minutes:00}:{seconds:00}";
+        int minutes = Mathf.FloorToInt(RemainingTime / 60f);
+        int seconds = Mathf.FloorToInt(RemainingTime % 60f);
+        return $"{minutes:D2}:{seconds:D2}";
     }
-    #endregion
 }

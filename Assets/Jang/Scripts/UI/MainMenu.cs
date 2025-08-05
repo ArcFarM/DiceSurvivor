@@ -19,11 +19,13 @@ using System.Collections;
         public GameObject mainMenuUI;
         public GameObject optionUI;
         public GameObject customizePanel;
-    public GameObject previewCharacter;
+        public GameObject previewCharacter;
+        public GameObject thePlayer;
+        public GameObject gameName;
     /*public GameObject loadGameButton;
     public GameObject creditCanvas;*/
 
-    private bool isShowOption = false;
+        private bool isShowOption = false;
         private bool isShowCredit = false;
 
         //볼륨 조절
@@ -116,24 +118,18 @@ using System.Collections;
         mainMenuUI.SetActive(false);
         customizePanel.SetActive(true);
         previewCharacter.SetActive(true);
+        thePlayer.SetActive(false);
+        gameName.SetActive(false);
     }
     public void HideCustomizeUI()
     {
         customizePanel.SetActive(false);
         mainMenuUI.SetActive(true);
         previewCharacter.SetActive(false);
+        thePlayer.SetActive(true);
+        gameName.SetActive(true);
     }
-    /*
-        public void LoadGame()
-        {
-            //메뉴 선택 사운드
-           // audioManager.StopBgm();
-           // audioManager.Play("ButtonClick");
-
-            //새게임 하러 가기
-            fader.FadeTo(sceneNumber);
-        }
-
+    
 
         public void Options()
         {
@@ -145,15 +141,15 @@ using System.Collections;
             mainMenuUI.SetActive(false);
             optionUI.SetActive(true);
         }
-        public void Credits()
-        {
-            //메뉴 선택 사운드
-           // audioManager.Play("MenuSelect");
+    /*  public void Credits()
+      {
+          //메뉴 선택 사운드
+         // audioManager.Play("MenuSelect");
 
-            //크레딧 UI 보여주기
-            StartCoroutine(ShowCreditUI());
-        }
-    */
+          //크레딧 UI 보여주기
+          StartCoroutine(ShowCreditUI());
+      }
+  */
     public void QuitGame()
         {
             //TODO: Cheating

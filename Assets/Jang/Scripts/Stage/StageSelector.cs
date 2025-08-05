@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class StageSelector : MonoBehaviour
 {
@@ -160,5 +161,10 @@ public class StageSelector : MonoBehaviour
         }
 
         return closest;
+    }
+
+    public void OnBackButton()
+    {
+        SceneManager.LoadScene("MainMenu"); 
     }
 }

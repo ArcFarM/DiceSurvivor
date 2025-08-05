@@ -504,7 +504,7 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1001 &1838527884196459538
+--- !u!1001 &2416082283519240744
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -798,7 +798,8 @@ MonoBehaviour:
   - {fileID: 2171033370669397020, guid: aac4cf1b58ed2a34aa8394fe937011d6, type: 3}
   - {fileID: 2171033370669397020, guid: 99adad0dc7c84c04ca638a760f3d9c2f, type: 3}
   chunkSize: 35
-  tileActivationRange: 50
+  activationRange: 50
+  dontDestroyOnLoad: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -809,5 +810,5 @@ SceneRoots:
   - {fileID: 4980294569457188247}
   - {fileID: 6237324484695577399}
   - {fileID: 3856440109909737780}
-  - {fileID: 1838527884196459538}
+  - {fileID: 2416082283519240744}
   - {fileID: 1002344028}
