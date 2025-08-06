@@ -1,20 +1,26 @@
+using DiceSurvivor.Manager;
 using UnityEngine;
 
 namespace DiceSurvivor.Enemy {
-    public class EnemyTest : MonoBehaviour {
+    public class EnemyActivity : MonoBehaviour {
         #region Variables
+        EnemyData enemyData; 
         public Transform playerPos;
         #endregion
 
         #region Properties
+        public EnemyData EnemyData {
+            get { return enemyData; }
+            set { enemyData = value; }
+        }
         #endregion
 
         #region Unity Event Methods
         private void Start() {
             // 플레이어의 위치를 찾기
-            playerPos = FindFirstObjectByType<DiceSurvivor.Player.PlayerTest>().transform;
+            playerPos = EnemySpawnManager.Instance.playerPos;
             if (playerPos == null) {
-                Debug.LogError("Player not found!");
+                Debug.LogError("Player position not found. Please ensure the player is tagged correctly.");
             }
         }
         private void Update() {
