@@ -1,5 +1,6 @@
 using DiceSurvivor.WeaponDataSystem;
 using UnityEngine;
+using DiceSurvivor.Manager;
 
 namespace DiceSurvivor.Weapon
 {
@@ -22,7 +23,7 @@ namespace DiceSurvivor.Weapon
             // ScytheWeapon 컴포넌트가 없으면 찾기
             if (scytheWeapon == null)
             {
-                scytheWeapon = GetComponent<ScytheWeapon>();
+                
                 if (scytheWeapon == null)
                 {
                     Debug.LogError("ScytheWeapon 컴포넌트를 찾을 수 없습니다!");
@@ -32,6 +33,7 @@ namespace DiceSurvivor.Weapon
 
         private void Start()
         {
+            scytheWeapon = GetComponent<ScytheWeapon>();
             // 초기 무기 데이터 로드 및 설정
             LoadAndApplyWeaponData();
         }
@@ -57,32 +59,8 @@ namespace DiceSurvivor.Weapon
             {
                 Debug.LogError($"{weaponName} Lv.{currentLevel} 데이터를 찾을 수 없습니다!");
 
-                // 기본 데이터로 대체
-                //ApplyDefaultStats();
+                
             }
-        }
-
-        /// <summary>
-        /// 기본 스탯 적용 (데이터 로드 실패 시)
-        /// </summary>
-        private void ApplyDefaultStats()
-        {
-            WeaponStats defaultStats = new WeaponStats
-            {
-                id = "Wp_Me_Scythe",
-                name = "Scythe",
-                type = "Wp_Me",
-                level = 1,
-                damage = 18,
-                cooldown = 3f,
-                range = 3f,
-                description = "기본 Scythe 무기"
-            };
-
-            currentStats = defaultStats;
-            scytheWeapon.SetWeaponStats(defaultStats);
-
-            Debug.LogWarning("기본 Scythe 스탯을 적용했습니다.");
         }
 
         /// <summary>
@@ -98,8 +76,11 @@ namespace DiceSurvivor.Weapon
             }
 
             // 레벨 증가 -> TODO
-
-            currentLevel++;
+            if (CanLevelUp())
+            {
+                
+                //currentLevel++;
+            }
 
             // 새로운 레벨의 데이터 로드 및 적용
             LoadAndApplyWeaponData();
@@ -153,14 +134,6 @@ namespace DiceSurvivor.Weapon
         }
 
         /// <summary>
-        /// 무기 활성화/비활성화
-        /// </summary>
-        public void SetActive(bool active)
-        {
-            scytheWeapon.SetWeaponActive(active);
-        }
-
-        /*/// <summary>
         /// 디버그용 - 무기 정보 출력
         /// </summary>
         [ContextMenu("Print Weapon Info")]
@@ -180,6 +153,6 @@ namespace DiceSurvivor.Weapon
             {
                 Debug.Log("무기 데이터가 로드되지 않았습니다.");
             }
-        }*/
+        }
     }
 }

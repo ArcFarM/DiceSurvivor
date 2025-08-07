@@ -119,6 +119,75 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &169935224
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 169935225}
+  - component: {fileID: 169935227}
+  - component: {fileID: 169935226}
+  m_Layer: 6
+  m_Name: theScy (4)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &169935225
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 169935224}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8150726809045091276}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &169935226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 169935224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0362894434fc7084c89f33cd3eab5d44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 4847311569010405646}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  sweepEffectPrefab: {fileID: 2319723480773785741, guid: c6dca6c4fbc21944a98ede34ef81688a, type: 3}
+  weaponPivot: {fileID: 1444983637}
+  scytheModel: {fileID: 2319723480773785741, guid: c6dca6c4fbc21944a98ede34ef81688a, type: 3}
+  sweepAngle: 400
+  attackSpeed: 1
+--- !u!114 &169935227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 169935224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fab08a4c6bfa41141b484c30a6b31a7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scytheWeapon: {fileID: 169935226}
+  weaponName: Scythe
+  currentLevel: 5
 --- !u!1 &199369626
 GameObject:
   m_ObjectHideFlags: 0
@@ -168,11 +237,11 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
-  sweepEffectPrefab: {fileID: 2319723480773785741, guid: c6dca6c4fbc21944a98ede34ef81688a, type: 3}
+  sweepEffectPrefab: {fileID: 5202248270484329786, guid: 0144fde912255074bafc903064640309, type: 3}
   weaponPivot: {fileID: 1444983637}
-  scytheModel: {fileID: 2319723480773785741, guid: c6dca6c4fbc21944a98ede34ef81688a, type: 3}
-  sweepAngle: 400
-  attackSpeed: 1
+  scytheModel: {fileID: 5202248270484329786, guid: 0144fde912255074bafc903064640309, type: 3}
+  sweepAngle: 200
+  attackSpeed: 0.5
 --- !u!114 &199369629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,7 +366,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &393806780
+--- !u!1 &392841112
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -305,22 +374,23 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 393806781}
-  - component: {fileID: 393806782}
+  - component: {fileID: 392841113}
+  - component: {fileID: 392841115}
+  - component: {fileID: 392841114}
   m_Layer: 6
-  m_Name: Spear
+  m_Name: theScy (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!4 &393806781
+--- !u!4 &392841113
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 393806780}
+  m_GameObject: {fileID: 392841112}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -329,27 +399,111 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8150726809045091276}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &393806782
+--- !u!114 &392841114
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 393806780}
+  m_GameObject: {fileID: 392841112}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90dc1f6e2b0e4f5498f566b1658cbe19, type: 3}
+  m_Script: {fileID: 11500000, guid: 0362894434fc7084c89f33cd3eab5d44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponName: Spear
   player: {fileID: 4847311569010405646}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
-  attackEffectPrefab: {fileID: 0}
-  attackPoint: {fileID: 0}
-  currentLevel: 1
-  attackType: 1
+  sweepEffectPrefab: {fileID: 2319723480773785741, guid: c6dca6c4fbc21944a98ede34ef81688a, type: 3}
+  weaponPivot: {fileID: 1444983637}
+  scytheModel: {fileID: 2319723480773785741, guid: c6dca6c4fbc21944a98ede34ef81688a, type: 3}
+  sweepAngle: 400
+  attackSpeed: 1
+--- !u!114 &392841115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 392841112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fab08a4c6bfa41141b484c30a6b31a7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scytheWeapon: {fileID: 392841114}
+  weaponName: Scythe
+  currentLevel: 6
+--- !u!1 &500548622
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 500548623}
+  - component: {fileID: 500548625}
+  - component: {fileID: 500548624}
+  m_Layer: 6
+  m_Name: theScy (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &500548623
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 500548622}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8150726809045091276}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &500548624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 500548622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0362894434fc7084c89f33cd3eab5d44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 4847311569010405646}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  sweepEffectPrefab: {fileID: 2319723480773785741, guid: c6dca6c4fbc21944a98ede34ef81688a, type: 3}
+  weaponPivot: {fileID: 1444983637}
+  scytheModel: {fileID: 2319723480773785741, guid: c6dca6c4fbc21944a98ede34ef81688a, type: 3}
+  sweepAngle: 400
+  attackSpeed: 1
+--- !u!114 &500548625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 500548622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fab08a4c6bfa41141b484c30a6b31a7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scytheWeapon: {fileID: 500548624}
+  weaponName: Scythe
+  currentLevel: 3
 --- !u!1 &571463356
 GameObject:
   m_ObjectHideFlags: 0
@@ -381,6 +535,75 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &599389022
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 599389023}
+  - component: {fileID: 599389025}
+  - component: {fileID: 599389024}
+  m_Layer: 6
+  m_Name: theScy (6)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &599389023
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 599389022}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8150726809045091276}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &599389024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 599389022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0362894434fc7084c89f33cd3eab5d44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 4847311569010405646}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  sweepEffectPrefab: {fileID: 2319723480773785741, guid: c6dca6c4fbc21944a98ede34ef81688a, type: 3}
+  weaponPivot: {fileID: 1444983637}
+  scytheModel: {fileID: 2319723480773785741, guid: c6dca6c4fbc21944a98ede34ef81688a, type: 3}
+  sweepAngle: 400
+  attackSpeed: 1
+--- !u!114 &599389025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 599389022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fab08a4c6bfa41141b484c30a6b31a7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scytheWeapon: {fileID: 599389024}
+  weaponName: Scythe
+  currentLevel: 7
 --- !u!1 &599445373
 GameObject:
   m_ObjectHideFlags: 0
@@ -1015,7 +1238,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4847311569010405646}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1650688709
+--- !u!1 &1480984235
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1023,22 +1246,23 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1650688710}
-  - component: {fileID: 1650688711}
+  - component: {fileID: 1480984236}
+  - component: {fileID: 1480984238}
+  - component: {fileID: 1480984237}
   m_Layer: 6
-  m_Name: Hammer
+  m_Name: theScy (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!4 &1650688710
+--- !u!4 &1480984236
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1650688709}
+  m_GameObject: {fileID: 1480984235}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -1047,27 +1271,235 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8150726809045091276}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1650688711
+--- !u!114 &1480984237
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1650688709}
+  m_GameObject: {fileID: 1480984235}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90dc1f6e2b0e4f5498f566b1658cbe19, type: 3}
+  m_Script: {fileID: 11500000, guid: 0362894434fc7084c89f33cd3eab5d44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponName: Hammer
   player: {fileID: 4847311569010405646}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
-  attackEffectPrefab: {fileID: 0}
-  attackPoint: {fileID: 0}
-  currentLevel: 1
-  attackType: 2
+  sweepEffectPrefab: {fileID: 2319723480773785741, guid: c6dca6c4fbc21944a98ede34ef81688a, type: 3}
+  weaponPivot: {fileID: 1444983637}
+  scytheModel: {fileID: 2319723480773785741, guid: c6dca6c4fbc21944a98ede34ef81688a, type: 3}
+  sweepAngle: 400
+  attackSpeed: 1
+--- !u!114 &1480984238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1480984235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fab08a4c6bfa41141b484c30a6b31a7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scytheWeapon: {fileID: 1480984237}
+  weaponName: Scythe
+  currentLevel: 2
+--- !u!1 &1729337974
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1729337975}
+  - component: {fileID: 1729337977}
+  - component: {fileID: 1729337976}
+  m_Layer: 6
+  m_Name: theScy (7)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1729337975
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1729337974}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8150726809045091276}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1729337976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1729337974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0362894434fc7084c89f33cd3eab5d44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 4847311569010405646}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  sweepEffectPrefab: {fileID: 2319723480773785741, guid: c6dca6c4fbc21944a98ede34ef81688a, type: 3}
+  weaponPivot: {fileID: 1444983637}
+  scytheModel: {fileID: 2319723480773785741, guid: c6dca6c4fbc21944a98ede34ef81688a, type: 3}
+  sweepAngle: 400
+  attackSpeed: 1
+--- !u!114 &1729337977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1729337974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fab08a4c6bfa41141b484c30a6b31a7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scytheWeapon: {fileID: 1729337976}
+  weaponName: Scythe
+  currentLevel: 8
+--- !u!1 &1848230018
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1848230019}
+  - component: {fileID: 1848230020}
+  m_Layer: 0
+  m_Name: GameObject (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1848230019
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1848230018}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: -0.600769, z: 0, w: 0.7994227}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3633287508157910102}
+  m_Father: {fileID: 4847311569010405646}
+  m_LocalEulerAnglesHint: {x: 0, y: -73.85, z: 0}
+--- !u!95 &1848230020
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1848230018}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4f516dc3c07d7784d8470717b868ce81, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &1905982048
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1905982049}
+  - component: {fileID: 1905982051}
+  - component: {fileID: 1905982050}
+  m_Layer: 6
+  m_Name: theScy (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1905982049
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1905982048}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8150726809045091276}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1905982050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1905982048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0362894434fc7084c89f33cd3eab5d44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 4847311569010405646}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  sweepEffectPrefab: {fileID: 2319723480773785741, guid: c6dca6c4fbc21944a98ede34ef81688a, type: 3}
+  weaponPivot: {fileID: 1444983637}
+  scytheModel: {fileID: 2319723480773785741, guid: c6dca6c4fbc21944a98ede34ef81688a, type: 3}
+  sweepAngle: 400
+  attackSpeed: 1
+--- !u!114 &1905982051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1905982048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fab08a4c6bfa41141b484c30a6b31a7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scytheWeapon: {fileID: 1905982050}
+  weaponName: Scythe
+  currentLevel: 4
 --- !u!1 &78513156715851253
 GameObject:
   m_ObjectHideFlags: 0
@@ -1334,6 +1766,14 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &2454140979495697073
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202248269948502210}
+  m_Mesh: {fileID: -851181763185500212, guid: bf3acba086f31b04da08d0e6b6dc1d31, type: 3}
 --- !u!1 &2677615084158304542
 GameObject:
   m_ObjectHideFlags: 0
@@ -1474,6 +1914,21 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3008494722596424777}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &3633287508157910102
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202248269948502210}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.5}
+  m_LocalScale: {x: 250, y: 250, z: 250}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1848230019}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3640262198649944324
 MeshFilter:
@@ -1692,6 +2147,7 @@ Transform:
   - {fileID: 4906855276095930553}
   - {fileID: 1444983637}
   - {fileID: 8150726809045091276}
+  - {fileID: 1848230019}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4906855276095930553
@@ -1754,28 +2210,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &4930973858183669342
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6470021427155348715}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b4c0d35e72bf3dc42b638d5a64c38002, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5052533222761927771
 GameObject:
   m_ObjectHideFlags: 0
@@ -1789,6 +2223,25 @@ GameObject:
   - component: {fileID: 2450482042492735315}
   m_Layer: 0
   m_Name: Cube.004
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &5202248269948502210
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3633287508157910102}
+  - component: {fileID: 2454140979495697073}
+  - component: {fileID: 7899954691254421412}
+  - component: {fileID: 7899954691254421413}
+  m_Layer: 0
+  m_Name: Scythe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1977,7 +2430,6 @@ GameObject:
   - component: {fileID: 4705462005745384492}
   - component: {fileID: 4925829904435858862}
   - component: {fileID: 6222189916517359201}
-  - component: {fileID: 4930973858183669342}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -2213,6 +2665,74 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8101506223337066343}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &7899954691254421412
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202248269948502210}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 8124912014036548992, guid: bf3acba086f31b04da08d0e6b6dc1d31, type: 3}
+  - {fileID: 3166678884702197586, guid: bf3acba086f31b04da08d0e6b6dc1d31, type: 3}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &7899954691254421413
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5202248269948502210}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -851181763185500212, guid: bf3acba086f31b04da08d0e6b6dc1d31, type: 3}
 --- !u!4 &8101506223337066343
 Transform:
   m_ObjectHideFlags: 0
@@ -2283,10 +2803,15 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 997092734}
-  - {fileID: 1650688710}
-  - {fileID: 393806781}
   - {fileID: 3034068867719597132}
   - {fileID: 199369627}
+  - {fileID: 1480984236}
+  - {fileID: 500548623}
+  - {fileID: 1905982049}
+  - {fileID: 169935225}
+  - {fileID: 392841113}
+  - {fileID: 599389023}
+  - {fileID: 1729337975}
   m_Father: {fileID: 4847311569010405646}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8234939374982226578
@@ -2429,6 +2954,15 @@ MonoBehaviour:
   orbSpreadRadius: 1
   deathEffectPrefab: {fileID: 0}
   enemyRenderer: {fileID: 0}
+  player: {fileID: 0}
+  rb: {fileID: 0}
+  isDead: 0
+  originalColor:
+    r: 0
+    g: 0
+    b: 0
+    a: 0
+  damageFlashDuration: 0.1
 --- !u!114 &8523288099621476615
 MonoBehaviour:
   m_ObjectHideFlags: 0

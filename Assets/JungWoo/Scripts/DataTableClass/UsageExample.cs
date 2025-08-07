@@ -4,7 +4,7 @@ public class UsageExample : MonoBehaviour
 {
     void Start()
     {
-        // 사용 예시
+       /* // 사용 예시
         DataTable dataTable = DataTableManager.Instance.GetDataTable();
         
         // 1레벨 Scythe 무기 정보 가져오기
@@ -36,6 +36,6 @@ public class UsageExample : MonoBehaviour
             {
                 Debug.Log($"Scythe Level {level.Key} - Damage: {level.Value.damage}");
             }
-        }
+        }*/
     }
 }
