@@ -105,10 +105,8 @@ public class PlayerController : MonoBehaviour
     // 코인 추가
     public void AddCoins(int amount)
     {
-        coinCount += amount;
-        Debug.Log($"코인 획득: +{amount} → 총 코인: {coinCount}");
+        GoldWallet.Instance.Add(amount);
     }
-
     // 이동속도 버프
     public void ApplySpeedBuff(float multiplier, float duration)
     {

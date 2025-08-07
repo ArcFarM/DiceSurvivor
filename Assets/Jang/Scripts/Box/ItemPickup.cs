@@ -6,7 +6,7 @@ public class ItemPickup : MonoBehaviour
     public ItemType itemType;
 
     public float healAmount = 20f;
-    public int coinAmount = 1;
+    public int goldAmount = 1;
     public float buffDuration = 5f;
     public float speedMultiplier = 1.5f;
     public float magnetDuration = 5f;
@@ -30,7 +30,7 @@ public class ItemPickup : MonoBehaviour
                 break;
 
             case ItemType.Coin:
-                player.AddCoins(coinAmount);
+                player.AddCoins(goldAmount);
                 break;
 
             case ItemType.Buff:

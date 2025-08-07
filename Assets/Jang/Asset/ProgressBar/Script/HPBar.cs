@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [ExecuteInEditMode]
-public class ProgressBar : MonoBehaviour
+public class HPBar : MonoBehaviour
 {
     [Header("Title Setting")]
     public string Title = "HP";

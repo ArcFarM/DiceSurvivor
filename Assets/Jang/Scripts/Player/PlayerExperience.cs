@@ -69,7 +69,7 @@ public class PlayerExperience : MonoBehaviour
             int max = Mathf.FloorToInt(expToLevelUp);
             float percent = (currentExp / expToLevelUp) * 100f;
 
-            expText.text = $"{cur:0000}/{max:0000}  ({percent:00.00}%)";
+            expText.text = $"{cur:000}/{max:000}  ({percent:00.00}%)";
         }
     }
 
