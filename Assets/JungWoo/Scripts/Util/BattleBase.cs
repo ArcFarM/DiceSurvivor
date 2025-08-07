@@ -21,6 +21,7 @@ namespace DiceSurvivor.Battle
         #endregion
 
         #region Properties
+
         public float CurrentHealth { get; private set; }
         public bool IsInvulnerable { get; set; }
         #endregion
@@ -111,6 +112,7 @@ namespace DiceSurvivor.Battle
         public virtual void Die()
         {
             //ChangeState(CombatState.Dead);
+            Destroy(gameObject);
         }
 
         public virtual bool IsInRange(GameObject target)

@@ -1,8 +1,9 @@
-using UnityEngine;
+/*using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using DiceSurvivor.Battle;
 using DiceSurvivor.WeaponDataSystem;
+using static DiceSurvivor.WeaponDataSystem.UnifiedWeaponDataManager;
 
 namespace DiceSurvivor.Weapon
 {
@@ -31,7 +32,7 @@ namespace DiceSurvivor.Weapon
         public LayerMask enemyLayer = 1; // 적 레이어
 
 
-        private WeaponData weaponData;
+        private WeaponStats weaponData;
         private List<GameObject> activeMeteors = new List<GameObject>();
         private bool isActive = false;
 
@@ -47,7 +48,7 @@ namespace DiceSurvivor.Weapon
                 if (player != null)
                     target = player.transform;
             }
-            //LoadWeaponData();
+            LoadWeaponData();
 
             // 무한 반복 시작
             StartCoroutine(MeteorCycle());
@@ -71,7 +72,7 @@ namespace DiceSurvivor.Weapon
                     foreach (GameObject meteor in activeMeteors)
                     {
                         if (meteor != null)
-                            Gizmos.DrawWireSphere(meteor.transform.position, radius);
+                            Gizmos.DrawWireSphere(meteor.transform.position, weaponData.radius);
                     }
                 }
             }
@@ -87,7 +88,7 @@ namespace DiceSurvivor.Weapon
                 yield return StartCoroutine(ActivateMeteors());
 
                 // 쿨다운 대기
-                yield return new WaitForSeconds(cooldown);
+                yield return new WaitForSeconds(weaponData.cooldown);
             }
         }
 
@@ -99,13 +100,13 @@ namespace DiceSurvivor.Weapon
             // duration 동안 회전
             float elapsedTime = 0f;
 
-            while (elapsedTime < duration && target != null)
+            while (elapsedTime < weaponData.duration && target != null)
             {
                 float deltaTime = Time.deltaTime;
                 elapsedTime += deltaTime;
 
                 // 1초에 projectileSpeed 바퀴 회전 (360도 * projectileSpeed * deltaTime)
-                float rotationSpeed = 360f * projectileSpeed;
+                float rotationSpeed = 360f * weaponData.projectileSpeed;
                 float angleIncrement = rotationSpeed * deltaTime;
 
                 // 모든 운석 회전
@@ -130,9 +131,9 @@ namespace DiceSurvivor.Weapon
             DestroyMeteors();
 
             // projectileCount 수만큼 운석 생성
-            float angleStep = 360f / projectileCount;
+            float angleStep = 360f / weaponData.projectileCount;
 
-            for (int i = 0; i < projectileCount; i++)
+            for (int i = 0; i < weaponData.projectileCount; i++)
             {
                 float angle = i * angleStep;
                 float radian = angle * Mathf.Deg2Rad;
@@ -150,7 +151,7 @@ namespace DiceSurvivor.Weapon
                 if (instance == null)
                     instance = meteor.AddComponent<MeteorInstance>();
 
-                instance.Initialize(this, damage, i);
+                instance.Initialize(this, weaponData.damage, i);
                 activeMeteors.Add(meteor);
             }
         }
@@ -159,7 +160,7 @@ namespace DiceSurvivor.Weapon
         {
             if (target == null) return;
 
-            float angleStep = 360f / projectileCount;
+            float angleStep = 360f / weaponData.projectileCount;
 
             for (int i = 0; i < activeMeteors.Count; i++)
             {
@@ -196,7 +197,7 @@ namespace DiceSurvivor.Weapon
                 if (meteor != null)
                 {
                     // 각 운석 주변의 적들 체크
-                    Collider[] enemies = Physics.OverlapSphere(meteor.transform.position, radius, enemyLayer);
+                    Collider[] enemies = Physics.OverlapSphere(meteor.transform.position, weaponData.radius, enemyLayer);
 
                     foreach (Collider enemy in enemies)
                     {
@@ -204,7 +205,7 @@ namespace DiceSurvivor.Weapon
                         BattleBase damageable = enemy.GetComponent<BattleBase>();
                         if (damageable != null)
                         {
-                            damageable.TakeDamage(damage * Time.deltaTime); // 초당 데미지
+                            damageable.TakeDamage(weaponData.damage * Time.deltaTime); // 초당 데미지
                         }
                     }
                 }
@@ -221,16 +222,16 @@ namespace DiceSurvivor.Weapon
             activeMeteors.Clear();
         }
 
-        //void LoadWeaponData()
-        //{
+        void LoadWeaponData()
+        {
 
-        //    weaponData = WeaponDataManager.Instance.GetWeaponData(weaponName, weaponLevel);
-        //    if (weaponData == null)
-        //    {
-        //        Debug.LogError($"무기 '{weaponName}' 레벨 {weaponLevel}의 데이터를 찾을 수 없습니다.");
-        //        return;
-        //    }
-        //}
+            weaponData = DataTableManager.Instance.GetMeleeWeapon(weaponName, weaponLevel);
+            if (weaponData == null)
+            {
+                Debug.LogError($"무기 '{weaponName}' 레벨 {weaponLevel}의 데이터를 찾을 수 없습니다.");
+                return;
+            }
+        }
     }
     #endregion
 
@@ -265,4 +266,4 @@ namespace DiceSurvivor.Weapon
     }
 
     
-}
+}*/
