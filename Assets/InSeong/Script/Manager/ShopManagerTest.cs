@@ -17,8 +17,10 @@ namespace DiceSurvivor.Manager {
 
         //아이템 삭제 가능 횟수
         [SerializeField] int vanishChance = 5;
-        //이번 상점에서 새로고침을 한 횟수 (구매 시 초기화)
+        //이번 상점에서 새로고침을 한 횟수 (구매 시/새 상점 열릴 때 초기화)
         int consecutiveRerollCount = 0;
+        //리롤 가격
+        int rerollCost = 10;
 
         //아이템의 가격
         Dictionary<TestItem.ItemType, int> itemCosts;
@@ -141,6 +143,19 @@ namespace DiceSurvivor.Manager {
             slot.changeInfo();
         }
 
+        //버튼 리스너
+        public void OnRerollButtonClicked()
+        {
+            int currRerollCost = rerollCost + (consecutiveRerollCount * 5);
+            if (currentGold >= currRerollCost)
+            {
+                RerollShop();
+                currentGold -= currRerollCost;
+                RefreshGold();
+                consecutiveRerollCount++; 
+            }
+
+        }
         //새로고침 했을 때 상점 아이템을 새로 채우기
         void RerollShop() {
             //잠금 여부와 상관 없이 아이템을 새로 채운다

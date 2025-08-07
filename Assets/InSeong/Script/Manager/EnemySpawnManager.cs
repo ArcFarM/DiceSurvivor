@@ -16,6 +16,9 @@ namespace DiceSurvivor.Manager {
         [Header("적 스폰 관련 변수")]
         public float minSpawnOffset = 5f; // 플레이어 주변에서 적 스폰할 반경 최소치
         public float maxSpawnOffset = 10f; // 플레이어 주변에서 적 스폰할 반경 최대치
+
+        public float spawnInterval = 0.2f; // 적 스폰 간격 (초)
+        public float spawnTimer = 0f; // 스폰 타이머
         // 3. 웨이브 및 시간/레벨 관리 변수
         public int currentWaveIndex = 0; // 현재 웨이브 인덱스
         public float waveDuration = 60f; // 웨이브 지속 시간 (초)
@@ -43,8 +46,22 @@ namespace DiceSurvivor.Manager {
         void Update()
         {
             // 게임 시간/웨이브 진행 체크
-            // 웨이브 교체 타이밍 감지 시 적 교체 로직 실행
+            timeSinceLastWave += Time.deltaTime;
+            if (timeSinceLastWave >= waveDuration)
+            {
+                // 웨이브 교체 로직 실행
+                ChangeWave(currentWaveIndex + 1);
+                timeSinceLastWave = 0f;
+            }
             // 주기적 적 스폰 관리
+            spawnTimer += Time.deltaTime;
+            if (spawnTimer >= spawnInterval)
+            {
+                //일반 적 스폰 로직 실행
+                SpawnEnemy(epManager.enemyDataArray[currentWaveIndex]);
+                spawnTimer = 0f;
+                //TODO : 일정 조건을 만족했을 때 엘리트적/보스 적 소환 추가
+            }
         }
         #endregion
         #region Custom Methods
@@ -110,23 +127,8 @@ namespace DiceSurvivor.Manager {
             // 현재 웨이브 인덱스 갱신
             currentWaveIndex = waveIndex;
             // EnemyData 배열/리스트에서 다음 웨이브 적 구성 선택 및 스폰
-            
-        }
-
-        /// <summary>
-        /// 적 전체 반환(예: 웨이브 완전 교체, 보스 등장 등)
-        /// </summary>
-        void RemoveAllEnemies()
-        {
-            // EnemyPoolManager.Instance.ReturnAllEnemies()
-        }
-
-        /// <summary>
-        /// 웨이브/시간에 따른 적 스폰 정보 업데이트
-        /// </summary>
-        void UpdateSpawnConfig()
-        {
-            // EnemyData 배열/리스트에서 현재 웨이브/시간에 맞는 적 종류/수/난이도 갱신
+            epManager.ReturnAllEnemies();
+            //ReturnAllEnemies로 모든 비활성화 된 적을 풀에 반환하고, ReturnEnemy에서 현재 인덱스로 갱신
         }
         #endregion
     }

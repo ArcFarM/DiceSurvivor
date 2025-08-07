@@ -170,7 +170,7 @@ namespace DiceSurvivor.Manager {
         }
 
         /// <summary>
-        /// 모든 적 반환(전체 비활성화)
+        /// 모든 비활성화 된 적 반환
         /// </summary>
         public void ReturnAllEnemies()
         {
@@ -183,7 +183,7 @@ namespace DiceSurvivor.Manager {
                 if (enemy is GameObject enemyObj)
                 {
                     EnemyActivity ea = enemyObj.GetComponent<EnemyActivity>();
-                    if (ea != null)
+                    if (ea != null && !enemyObj.activeSelf)
                     {
                         ReturnEnemy(ea.EnemyData, enemyObj);
                     }
@@ -194,7 +194,7 @@ namespace DiceSurvivor.Manager {
                 if (eliteEnemy is GameObject eliteEnemyObj)
                 {
                     EnemyActivity ea = eliteEnemyObj.GetComponent<EnemyActivity>();
-                    if (ea != null)
+                    if (ea != null && !eliteEnemyObj.activeSelf)
                     {
                         ReturnEnemy(ea.EnemyData, eliteEnemyObj);
                     }
@@ -205,7 +205,7 @@ namespace DiceSurvivor.Manager {
                 if (bossEnemy is GameObject bossEnemyObj)
                 {
                     EnemyActivity ea = bossEnemyObj.GetComponent<EnemyActivity>();
-                    if (ea != null)
+                    if (ea != null && !bossEnemyObj.activeSelf)
                     {
                         ReturnEnemy(ea.EnemyData, bossEnemyObj);
                     }
