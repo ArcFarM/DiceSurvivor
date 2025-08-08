@@ -27,10 +27,6 @@ public class RandomBoxSpawner : MonoBehaviour
     {
         while (true)
         {
-            // 상자가 이미 존재하면 기다림
-            while (currentBox != null)
-                yield return null;
-
             // 일정 시간 랜덤 대기
             float delay = Random.Range(minSpawnDelay, maxSpawnDelay);
             yield return new WaitForSeconds(delay);
@@ -48,7 +44,7 @@ public class RandomBoxSpawner : MonoBehaviour
 
         // 플레이어 주변 랜덤 위치 계산
         Vector3 playerPos = player.position;
-        float radius = 10f;
+        float radius = 30f;
         Vector2 randomCircle = UnityEngine.Random.insideUnitCircle * radius;
         Vector3 spawnPos = new Vector3(playerPos.x + randomCircle.x, playerPos.y, playerPos.z + randomCircle.y);
 
