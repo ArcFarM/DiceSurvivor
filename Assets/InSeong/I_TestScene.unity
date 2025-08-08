@@ -246,6 +246,8 @@ MonoBehaviour:
   playerPos: {fileID: 0}
   minSpawnOffset: 5
   maxSpawnOffset: 10
+  spawnInterval: 0.2
+  spawnTimer: 0
   currentWaveIndex: 0
   waveDuration: 60
   timeSinceLastWave: 0
