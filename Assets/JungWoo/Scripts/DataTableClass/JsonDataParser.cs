@@ -20,27 +20,27 @@ public class JsonDataParser : MonoBehaviour
             // 직접 MeleeWeapons 파싱
             if (rootObject["MeleeWeapons"] != null)
             {
-                Debug.Log("MeleeWeapons 발견");
+                //Debug.Log("MeleeWeapons 발견");
                 ParseWeaponArray(rootObject["MeleeWeapons"] as JArray, dataTable.MeleeWeapons);
             }
 
             // RangedWeapons 파싱
             if (rootObject["RangedWeapons"] != null)
             {
-                Debug.Log("RangedWeapons 발견");
+                //Debug.Log("RangedWeapons 발견");
                 ParseWeaponArray(rootObject["RangedWeapons"] as JArray, dataTable.RangedWeapons);
             }
 
             // SplashWeapons 파싱
             if (rootObject["SplashWeapons"] != null)
             {
-                Debug.Log("SplashWeapons 발견");
+                //Debug.Log("SplashWeapons 발견");
                 ParseWeaponArray(rootObject["SplashWeapons"] as JArray, dataTable.SplashWeapons);
             }
 
             // 파싱 결과 로그
-            Debug.Log($"파싱 완료 - 근접무기: {dataTable.MeleeWeapons.GetWeaponNames().Count}개");
-            Debug.Log($"근접무기 목록: {string.Join(", ", dataTable.MeleeWeapons.GetWeaponNames())}");
+            //Debug.Log($"파싱 완료 - 근접무기: {dataTable.MeleeWeapons.GetWeaponNames().Count}개");
+            //Debug.Log($"근접무기 목록: {string.Join(", ", dataTable.MeleeWeapons.GetWeaponNames())}");
         }
         catch (Exception e)
         {
@@ -74,7 +74,7 @@ public class JsonDataParser : MonoBehaviour
                 string weaponName = property.Name;
                 JArray weaponLevels = property.Value as JArray;
 
-                Debug.Log($"무기 발견: {weaponName}, 레벨 수: {weaponLevels?.Count ?? 0}");
+                //Debug.Log($"무기 발견: {weaponName}, 레벨 수: {weaponLevels?.Count ?? 0}");
 
                 if (weaponLevels != null)
                 {
@@ -86,7 +86,7 @@ public class JsonDataParser : MonoBehaviour
                             if (stats != null)
                             {
                                 weaponCategory.AddWeapon(weaponName, stats.level, stats);
-                                Debug.Log($"{weaponName} Lv.{stats.level} 추가됨 - 데미지: {stats.damage}");
+                                //Debug.Log($"{weaponName} Lv.{stats.level} 추가됨 - 데미지: {stats.damage}");
                             }
                         }
                         catch (Exception e)

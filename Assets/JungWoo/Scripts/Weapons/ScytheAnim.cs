@@ -1,5 +1,4 @@
-
-    using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DiceSurvivor.Battle;
@@ -85,24 +84,7 @@ namespace DiceSurvivor.Weapon
             }
         }
 
-        /// <summary>
-        /// 공격 범위 내 적이 있는지 확인
-        /// </summary>
-        /*private bool HasEnemyInRange()
-        {
-            Collider[] enemies = Physics.OverlapSphere(player.position, currentStats.range, enemyLayer);
-            return enemies.Length > 0;
-        }*/
-
-        /*public void Attack()
-        {
-            Debug.Log($"적에게 {currentStats.damage}를 준다");
-            IBattle damageable = enemies.GetComponent<IBattle>();
-            if (damageable != null)
-            {
-                damageable.TakeDamage(currentStats.damage);
-            }
-        }*/
+        
         /// <summary>
         /// Scythe 휩쓸기 공격 수행
         /// </summary>
@@ -111,16 +93,6 @@ namespace DiceSurvivor.Weapon
             isAttacking = true;
             lastAttackTime = Time.time;
             hitEnemiesThisAttack.Clear(); // 피격 리스트 초기화
-
-            /*// 가장 가까운 적 방향으로 회전
-            //GameObject nearestEnemy = FindNearestEnemy();
-            *//*if (nearestEnemy != null)
-            {
-                
-            }*//*
-            Vector3 direction = (nearestEnemy.transform.position - player.position).normalized;
-            direction.y = 0; // 수평 회전만
-            player.rotation = Quaternion.LookRotation(direction);*/
 
             // 휩쓸기 애니메이션
             float startAngle = -sweepAngle / 2f;

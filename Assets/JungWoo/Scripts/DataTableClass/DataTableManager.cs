@@ -8,6 +8,7 @@ namespace DiceSurvivor.Manager
     {
         [SerializeField] private TextAsset jsonFile; // Inspector에서 JSON 파일을 할당
         private DataTable dataTable;
+        //private PassiveTable passiveTable;
 
         public TextAsset GetJson {
             get { return jsonFile; }
@@ -27,8 +28,8 @@ namespace DiceSurvivor.Manager
         {
             if (jsonFile != null)
             {
-                Debug.Log($"JSON 파일 로드 시작: {jsonFile.name}");
-                Debug.Log($"JSON 내용 첫 500자: {jsonFile.text.Substring(0, Mathf.Min(500, jsonFile.text.Length))}");
+                //Debug.Log($"JSON 파일 로드 시작: {jsonFile.name}");
+                //Debug.Log($"JSON 내용 첫 500자: {jsonFile.text.Substring(0, Mathf.Min(500, jsonFile.text.Length))}");
 
                 dataTable = JsonDataParser.ParseJsonToDataTable(jsonFile.text);
 
@@ -60,10 +61,10 @@ namespace DiceSurvivor.Manager
 
             // 근접 무기 목록 출력
             var meleeWeaponNames = dataTable.MeleeWeapons.GetWeaponNames();
-            Debug.Log($"로드된 근접 무기 수: {meleeWeaponNames.Count}");
+            //Debug.Log($"로드된 근접 무기 수: {meleeWeaponNames.Count}");
             foreach (var weaponName in meleeWeaponNames)
             {
-                Debug.Log($"- {weaponName}");
+                //Debug.Log($"- {weaponName}");
 
                 // 각 레벨 확인
                 var weaponLevels = dataTable.MeleeWeapons.GetAllLevelsOfWeapon(weaponName);
@@ -128,9 +129,14 @@ namespace DiceSurvivor.Manager
             return dataTable?.SplashWeapons?.GetWeapon(weaponName, level);
         }
 
-        public PassiveSkill GetStatPassive(string passiveName)
+        public PassiveSkill GetStatPassive(string passiveName,int level)
         {
-            return dataTable?.StatPassives?.GetPassive(passiveName);
+            return dataTable?.StatPassives?.GetPassive(passiveName,level);
+        }
+
+        public PassiveSkill GetRevivePassive(string passiveName, int level)
+        {
+            return dataTable?.RevivePassives?.GetPassive(passiveName, level);
         }
 
         /// <summary>
@@ -169,6 +175,22 @@ namespace DiceSurvivor.Manager
             {
                 var levels = dataTable.SplashWeapons.GetAllLevelsOfWeapon(weaponName);
                 Debug.Log($"{weaponName}: {levels.Count}개 레벨");
+            }
+
+            // 패시브 아이템
+            Debug.Log("--- 스텟 패시브 아이템  ---");
+            foreach (var passiveName in dataTable.StatPassives.GetPassiveNames())
+            {
+                var levels = dataTable.ActivePassives.GetAllLevelsOfPassive(passiveName);
+                Debug.Log($"{passiveName}: {levels.Count}개 레벨");
+            }
+
+            // 패시브 아이템
+            Debug.Log("---Revive 패시브 아이템  ---");
+            foreach (var passiveName in dataTable.RevivePassives.GetPassiveNames())
+            {
+                var levels = dataTable.RevivePassives.GetAllLevelsOfPassive(passiveName);
+                Debug.Log($"{passiveName}: {levels.Count}개 레벨");
             }
         }
     }

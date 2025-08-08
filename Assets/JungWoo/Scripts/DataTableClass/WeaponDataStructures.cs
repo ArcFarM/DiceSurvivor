@@ -1,3 +1,4 @@
+using DiceSurvivor.WeaponDataSystem;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -85,23 +86,37 @@ public class WeaponCategory
 [Serializable]
 public class PassiveCategory
 {
-    private Dictionary<string, PassiveSkill> passiveData;
+    private Dictionary<string, Dictionary<int, PassiveSkill>> passiveData;
     
     public PassiveCategory()
     {
-        passiveData = new Dictionary<string, PassiveSkill>();
+        passiveData = new Dictionary<string, Dictionary<int, PassiveSkill>>();
     }
     
-    public void AddPassive(string passiveName, PassiveSkill passive)
+    public void AddPassive(string passiveName,int level, PassiveSkill passive)
     {
-        passiveData[passiveName] = passive;
+        if (!passiveData.ContainsKey(passiveName))
+        {
+            passiveData[passiveName] = new Dictionary<int, PassiveSkill>();
+        }
+        passiveData[passiveName][level] = passive;
     }
-    
-    public PassiveSkill GetPassive(string passiveName)
+
+    public PassiveSkill GetPassive(string passiveName,int level)
+    {
+        if (passiveData.ContainsKey(passiveName)&& passiveData[passiveName].ContainsKey(level))
+        {
+            return passiveData[passiveName][level];
+        }
+
+        return null;
+    }
+
+    public Dictionary<int, PassiveSkill> GetAllLevelsOfPassive(string passiveName)
     {
         return passiveData.ContainsKey(passiveName) ? passiveData[passiveName] : null;
     }
-    
+
     public List<string> GetPassiveNames()
     {
         return new List<string>(passiveData.Keys);
