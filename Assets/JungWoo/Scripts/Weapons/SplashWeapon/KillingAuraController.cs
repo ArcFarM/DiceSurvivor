@@ -90,6 +90,8 @@ namespace DiceSurvivor.Weapon
 
             currentLevel++;
             LoadWeaponData();
+            UpdateChildScale("KillingAuraParticle", new Vector3(0.04f,0, 0.04f));
+            
 
             if (debugMode)
             {
@@ -97,6 +99,7 @@ namespace DiceSurvivor.Weapon
                 PrintWeaponInfo();
             }
         }
+
 
         /// <summary>
         /// 특정 레벨로 설정
@@ -185,10 +188,40 @@ namespace DiceSurvivor.Weapon
             }
         }
 
-        /// <summary>
-        /// 디버그용 키 입력 처리
-        /// </summary>
-        void Update()
+        void UpdateChildScale(string childName, Vector3 scaleMultiplier)
+        {
+            // 자식 이름으로 자식 Transform 찾기
+            Transform child = transform.Find(childName);
+
+            if (child != null)
+            {
+                // 자식의 기존 localScale 가져오기
+                Vector3 originalScale = child.localScale;
+
+                // 원하는 방식으로 변환
+                //Vector3 newScale = Vector3.Scale(originalScale, scaleMultiplier);
+
+                // 변경 적용
+                child.localScale += scaleMultiplier;
+
+                Debug.Log($"{child.name}의 새로운 스케일: {child.localScale}");
+                if (currentLevel == 1)
+                {
+                    child.localScale = originalScale;
+                }
+            }
+            else
+            {
+                Debug.LogWarning($"{childName}이라는 자식 오브젝트를 찾을 수 없습니다.");
+            }
+        }
+        
+        
+
+            /// <summary>
+            /// 디버그용 키 입력 처리
+            /// </summary>
+            void Update()
         {
             if (!debugMode) return;
 
@@ -210,7 +243,7 @@ namespace DiceSurvivor.Weapon
                 SetLevel(maxLevel);
             }
         }
-
+        
         /// <summary>
         /// 에디터 메뉴 - 레벨업
         /// </summary>

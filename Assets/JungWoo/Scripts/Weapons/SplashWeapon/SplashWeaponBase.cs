@@ -11,6 +11,7 @@ namespace DiceSurvivor.Weapon
         [Header("Base Settings")]
         [SerializeField] protected string weaponName;
         [SerializeField] protected int currentLevel = 1;
+        [SerializeField] protected int lostLevel = 1;
 
         [Header("Weapon Stats")]
         protected float damage;

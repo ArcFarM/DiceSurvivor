@@ -34,7 +34,7 @@ namespace DiceSurvivor.Weapon
             // Aura 시각화 생성
             if (showAuraVisual)
             {
-                CreateAuraVisual();
+                //CreateAuraVisual();
             }
         }
 
@@ -53,6 +53,7 @@ namespace DiceSurvivor.Weapon
                 dotTimer = 0f; // 타이머 리셋
             }
 
+           
             // 범위를 벗어난 적 정리
             CleanupNullEnemies();
         }
@@ -205,15 +206,15 @@ namespace DiceSurvivor.Weapon
                     Debug.Log($"[KillingAura] Enemy 진입: {other.gameObject.name} - 현재 적 수: {enemiesInAura.Count}");
 
                     // 즉시 초기 데미지 적용
-                    if (dotDamage > 0)
+                    /*if (dotDamage > 0)
                     {
                         var enemyComp = other.gameObject.GetComponent<Test.WJEnemy>();
                         if (enemyComp != null)
                         {
-                            enemyComp.TakeDamage(dotDamage);
+                            //enemyComp.TakeDamage(dotDamage);
                             Debug.Log($"[KillingAura] 진입 즉시 데미지 {dotDamage} 적용: {other.gameObject.name}");
                         }
-                    }
+                    }*/
 
                     // 즉시 감속 적용
                     if (duration > 0)

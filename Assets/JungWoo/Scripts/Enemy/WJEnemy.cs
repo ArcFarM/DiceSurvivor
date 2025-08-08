@@ -239,7 +239,7 @@ namespace DiceSurvivor.Test
                 enemyRenderer.material.color = Color.blue;
             }
 
-            Debug.Log($"{name} 감속됨: {slowPercent * 100}% 감소, {duration}초 동안");
+            //Debug.Log($"{name} 감속됨: {slowPercent * 100}% 감소, {duration}초 동안");
 
             // 지속 시간 대기
             yield return new WaitForSeconds(duration);

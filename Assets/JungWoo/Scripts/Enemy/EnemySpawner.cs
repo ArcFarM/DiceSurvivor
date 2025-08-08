@@ -134,7 +134,7 @@ namespace DiceSurvivor.Test
             // 리스트에 추가
             activeEnemies.Add(newEnemy);
 
-            Debug.Log($"적 스폰됨: {newEnemy.name} at {spawnPosition}");
+            //Debug.Log($"적 스폰됨: {newEnemy.name} at {spawnPosition}");
         }
 
         /// <summary>
