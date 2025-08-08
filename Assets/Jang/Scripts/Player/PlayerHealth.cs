@@ -5,16 +5,15 @@ public class PlayerHealth : MonoBehaviour
     public float maxHealth = 100f;
     private float currentHealth;
 
-    public ProgressBar hpBarUI;  // 인스펙터에서 연결할 UI
+    public HPBar hpBarUI;
 
     private void Start()
     {
         currentHealth = maxHealth;
-
         if (hpBarUI != null)
         {
             hpBarUI.MaxValue = maxHealth;
-            hpBarUI.BarValue = currentHealth;
+            hpBarUI.CurrentValue = currentHealth;
         }
     }
 
@@ -24,7 +23,7 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
         if (hpBarUI != null)
-            hpBarUI.BarValue = currentHealth;
+            hpBarUI.CurrentValue = currentHealth;
     }
 
     public void Heal(float amount)
@@ -33,6 +32,6 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
         if (hpBarUI != null)
-            hpBarUI.BarValue = currentHealth;
+            hpBarUI.CurrentValue = currentHealth;
     }
 }

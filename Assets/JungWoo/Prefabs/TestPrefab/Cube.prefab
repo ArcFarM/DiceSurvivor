@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 9107731086246938677}
   - component: {fileID: 2887615598635645321}
   - component: {fileID: 2555417042965944249}
+  - component: {fileID: 5704957627629902000}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -28,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 8352547467933095158}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 25.94, y: 0.99, z: -4.38}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -108,3 +109,28 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5704957627629902000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8352547467933095158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59fb5531b15379b449f10e1d02a75cda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 0
+  moveSpeed: 0
+  damage: 10
+  attackRange: 1.5
+  attackCooldown: 1
+  currentMoveSpeed: 0
+  isSlowed: 0
+  target: {fileID: 0}
+  detectionRange: 15
+  enemyRenderer: {fileID: 0}
+  isDead: 0
+  isAttacking: 0

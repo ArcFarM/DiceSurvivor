@@ -1,112 +1,87 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 [ExecuteInEditMode]
 public class HPBar : MonoBehaviour
 {
-    [Header("Title Setting")]
+    [Header("텍스트 설정")]
     public string Title = "HP";
     public Color TitleColor = Color.white;
     public Font TitleFont;
     public int TitleFontSize = 14;
 
-    [Header("Bar Setting")]
+    [Header("바 설정")]
     public Color BarColor = Color.green;
-    public Color BarBackGroundColor = Color.gray;
-    public Sprite BarBackGroundSprite;
+    public Color BarBackColor = Color.gray;
+    public Sprite BarBackSprite;
     [Range(1f, 100f)]
-    public int Alert = 20;  // 퍼센트 기준
-    public Color BarAlertColor = Color.red;
+    public int AlertPercent = 20;
+    public Color AlertColor = Color.red;
 
-    [Header("Sound Alert")]
-    public AudioClip sound;
-    public bool repeat = false;
-    public float RepeatRate = 1f;
-
-    [Header("HP 값 설정")]
+    [Header("HP 수치 설정")]
     public float MaxValue = 100f;
 
-    private Image bar, barBackground;
-    private float nextPlay;
-    private Text txtTitle;
-    private float barValue;
+    private float currentValue = 100f;
+    private Image barFillImage, barBackgroundImage;
+    private Text titleText;
 
-    public float BarValue
+    public float CurrentValue
     {
-        get { return barValue; }
+        get => currentValue;
         set
         {
-            barValue = Mathf.Clamp(value, 0, MaxValue);
-            UpdateValue(barValue);
+            currentValue = Mathf.Clamp(value, 0, MaxValue);
+            UpdateBar();
         }
     }
 
     private void Awake()
     {
-        bar = transform.Find("Bar").GetComponent<Image>();
-        barBackground = transform.Find("BarBackground").GetComponent<Image>();
-        txtTitle = transform.Find("Text").GetComponent<Text>();
-        // audiosource = GetComponent<AudioSource>();  // 필요시 사용
+        barFillImage = transform.Find("Bar").GetComponent<Image>();
+        barBackgroundImage = transform.Find("BarBackground").GetComponent<Image>();
+        titleText = transform.Find("Text").GetComponent<Text>();
     }
 
     private void Start()
     {
-        txtTitle.text = Title;
-        txtTitle.color = TitleColor;
-        txtTitle.font = TitleFont;
-        txtTitle.fontSize = TitleFontSize;
+        // 초기 설정
+        titleText.text = Title;
+        titleText.color = TitleColor;
+        titleText.font = TitleFont;
+        titleText.fontSize = TitleFontSize;
 
-        bar.color = BarColor;
-        barBackground.color = BarBackGroundColor;
-        barBackground.sprite = BarBackGroundSprite;
+        barFillImage.color = BarColor;
+        barBackgroundImage.color = BarBackColor;
+        barBackgroundImage.sprite = BarBackSprite;
 
-        UpdateValue(barValue);
+        UpdateBar();
     }
 
-    void UpdateValue(float val)
+    void UpdateBar()
     {
-        // 게이지 반영
-        bar.fillAmount = val / MaxValue;
+        if (barFillImage == null || titleText == null) return;
 
-        // 텍스트 형식: "HP 075 / 100"
-        string current = Mathf.FloorToInt(val).ToString("000");
+        float percent = currentValue / MaxValue;
+        barFillImage.fillAmount = percent;
+
+        string cur = Mathf.FloorToInt(currentValue).ToString("000");
         string max = Mathf.FloorToInt(MaxValue).ToString("000");
-        txtTitle.text = $"{Title} {current} / {max}";
+        titleText.text = $"{Title} {cur} / {max}";
 
-        // 경고 색상 처리
-        float percent = (val / MaxValue) * 100f;
-        if (Alert >= percent)
-        {
-            bar.color = BarAlertColor;
-        }
+        if (percent * 100f <= AlertPercent)
+            barFillImage.color = AlertColor;
         else
-        {
-            bar.color = BarColor;
-        }
+            barFillImage.color = BarColor;
     }
 
+#if UNITY_EDITOR
     private void Update()
     {
         if (!Application.isPlaying)
         {
-            UpdateValue(MaxValue / 2f); // 에디터에서 미리보기
-            txtTitle.color = TitleColor;
-            txtTitle.font = TitleFont;
-            txtTitle.fontSize = TitleFontSize;
-
-            bar.color = BarColor;
-            barBackground.color = BarBackGroundColor;
-            barBackground.sprite = BarBackGroundSprite;
-        }
-        else
-        {
-            if (Alert >= (barValue / MaxValue) * 100f && Time.time > nextPlay)
-            {
-                nextPlay = Time.time + RepeatRate;
-                // audiosource.PlayOneShot(sound);  // 필요 시 활성화
-            }
+            // 에디터에서 미리보기 반영
+            UpdateBar();
         }
     }
+#endif
 }

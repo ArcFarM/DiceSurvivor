@@ -88,6 +88,7 @@ namespace DiceSurvivor.Battle
         public virtual void TakeDamage(float damage)
         {
             CurrentHealth -= damage;
+            Debug.Log($"Damage In: {damage}");
 
             if (CurrentHealth <= 0 && isDeath == false)
             {
