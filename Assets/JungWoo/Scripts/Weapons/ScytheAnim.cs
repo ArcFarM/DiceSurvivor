@@ -1,4 +1,4 @@
-using System.Collections;
+/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DiceSurvivor.Battle;
@@ -9,7 +9,7 @@ namespace DiceSurvivor.Weapon
     /// <summary>
     /// Scythe 무기 전용 클래스
     /// 휩쓸기(Sweep) 공격 패턴을 사용하는 근접 무기
-    /// </summary>
+    /// </summary>/**//*
     public class ScytheAnim : MonoBehaviour
     {
         [Header("무기 기본 설정")]
@@ -169,8 +169,8 @@ namespace DiceSurvivor.Weapon
                 GameObject effect = Instantiate(sweepEffectPrefab, weaponPivot.position, weaponPivot.rotation);
                 effect.transform.SetParent(weaponPivot);
 
-                /*// 이펙트 크기를 공격 범위에 맞게 조정
-                effect.transform.localScale = Vector3.one * (currentStats.range / 3f);*/
+                *//*// 이펙트 크기를 공격 범위에 맞게 조정
+                effect.transform.localScale = Vector3.one * (currentStats.range / 3f);*//*
 
                 Destroy(effect, attackSpeed);
             }
@@ -214,3 +214,4 @@ namespace DiceSurvivor.Weapon
 }
 
 
+*/

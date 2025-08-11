@@ -35,6 +35,7 @@ namespace DiceSurvivor.Manager
 
                 // 로드된 데이터 확인
                 VerifyLoadedData();
+                PrintAllWeapons();
             }
             else
             {
@@ -181,7 +182,7 @@ namespace DiceSurvivor.Manager
             Debug.Log("--- 스텟 패시브 아이템  ---");
             foreach (var passiveName in dataTable.StatPassives.GetPassiveNames())
             {
-                var levels = dataTable.ActivePassives.GetAllLevelsOfPassive(passiveName);
+                var levels = dataTable.StatPassives.GetAllLevelsOfPassive(passiveName);
                 Debug.Log($"{passiveName}: {levels.Count}개 레벨");
             }
 
