@@ -2442,10 +2442,9 @@
       ]
     }
   ],
-  "Passive": [
+  "StatPassive": [
     {
-      "Stat": [
-        {
+      
           "Protein": [
             {
               "id": "Ps_Protein",
@@ -3068,7 +3067,7 @@
           ]
         }
       ],
-      "Revive": [
+  "RevivePassive": [
         {
           "Cross": [
             {
@@ -3087,5 +3086,3 @@
         }
       ]
     }
-  ]
-}

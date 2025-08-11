@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using DiceSurvivor.Manager;
 namespace DiceSurvivor.Weapon
 
 {

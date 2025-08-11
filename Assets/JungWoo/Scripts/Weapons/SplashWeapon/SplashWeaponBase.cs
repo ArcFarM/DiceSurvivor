@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using DiceSurvivor.Manager;
 
 namespace DiceSurvivor.Weapon
 {
