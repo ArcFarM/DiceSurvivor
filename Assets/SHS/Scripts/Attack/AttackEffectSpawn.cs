@@ -9,7 +9,10 @@ public class AttackEffectSpawn : MonoBehaviour
     private Animator animator;
 
     public ParticleSystem attackEffect;         //Spawn할 AttackEffect
-    public Transform effectSpawnTransform;      //Spawn할 위치    
+    public Transform effectSpawnTransform;      //Spawn할 위치
+
+    [SerializeField]
+    private bool isSpearAndStaff = false;
     #endregion
 
     #region Properties
@@ -18,14 +21,14 @@ public class AttackEffectSpawn : MonoBehaviour
     #region Unity Event Methods
     private void Start()
     {
-        animator = this.GetComponent<Animator>();
+        animator = this.GetComponent<Animator>();        
     }
 
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            animator.SetTrigger("IsAttack");
+            animator.SetTrigger("IsAttack");   
         }
     }
     #endregion
@@ -33,9 +36,15 @@ public class AttackEffectSpawn : MonoBehaviour
     #region Custom Methods
     public void HammerEffectSpawn()
     {
-
-
         ParticleSystem effect = Instantiate(attackEffect, effectSpawnTransform.position, effectSpawnTransform.rotation);
+
+        if (isSpearAndStaff)
+        {
+            particleAttractorSpherical particle = attackEffect.GetComponentInChildren<particleAttractorSpherical>();
+
+            particle.target = effectSpawnTransform;
+        }
+
         Destroy(effect.gameObject, 5f);
     }
     #endregion
