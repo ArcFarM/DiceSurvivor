@@ -26,7 +26,11 @@ namespace DiceSurvivor.Manager {
         Dictionary<TestItem.ItemType, int> itemCosts;
 
         //아이템 정보가 담긴 싱글톤
-        ItemManager im => ItemManager.Instance;
+        ItemManager im;
+
+        //JSON 파일을 통해 아이템 설명문을 불러옴
+        DataTable dt;
+        DataTableManager dtm;
 
         //상점 잠금 여부
         bool isShopLocked = false;
@@ -37,19 +41,26 @@ namespace DiceSurvivor.Manager {
         //현재 보유 금액
         [SerializeField]
         int currentGold = 0;
-        #region UIElements
+        [Header("UI Elements")]
         public Button rerollButton;
         public Button lockButton;
         public Button vanishButton;
         public TextMeshProUGUI goldText;
-        #endregion
+        public TextMeshProUGUI shopLevelText;
+        public TextMeshProUGUI detail_weaponName;
+        public TextMeshProUGUI detail_weaponLevel;
+        public TextMeshProUGUI detail_description;
+
+        //아이템 구매/삭제 모드 전환
+        public bool isBuyingMode = true;
         #endregion
 
         #region Properties
         #endregion
 
         #region Unity Event Methods
-        protected override void Awake() {
+        protected override void Awake()
+        {
             base.Awake();
             //플레이어는 게임 전체에서 단 하나이므로 findfirstobjectbytype 사용
             player = FindFirstObjectByType<PlayerTest>().GetComponent<PlayerTest>();
@@ -60,16 +71,14 @@ namespace DiceSurvivor.Manager {
                 { TestItem.ItemType.SubWeapon, 5 },
                 { TestItem.ItemType.Passive, 3 }
             };
+            im = ItemManager.Instance;
+            dtm = DataTableManager.Instance;
+            dt = DataTableManager.Instance.GetDataTable();
             RefreshGold();
-            //json파일을 통해 무기 설명문 데이터를 딕셔너리에 저장
-            /*
-             jsonFile json;
-            Dictionary<string, string[]> weapondetails = new Dictionary<string, string[]>();
-            >> json 안에 있는 정보를 string(weaponID)별로 따와서 LIst<string> 혹은 string[maxLEvel] 형태로 저장
-            */
         }
 
-        private void OnEnable() {
+        private void OnEnable()
+        {
             FillItem();
             RefreshGold();
         }
@@ -86,9 +95,15 @@ namespace DiceSurvivor.Manager {
 
             // 1. 금액 확인
             int itemCost = 0;
-            if (itemCosts.TryGetValue(itemToBuy.type, out int cost)) {
+            //enum을 비트 형태로 만들어서 카테고리를 파악
+            int category = (int)(itemToBuy.type & TestItem.ItemType.SubWeapon) != 0 ?
+                            (int)TestItem.ItemType.SubWeapon : (int)itemToBuy.type;
+
+            if (itemCosts.TryGetValue((TestItem.ItemType)category, out int cost))
+            {
                 itemCost = cost;
-            } else Debug.LogError("해당 아이템 구매 시도 시 오류 발생 : " + itemToBuy);
+            }
+            else Debug.LogError("해당 아이템 구매 시도 시 오류 발생 : " + itemToBuy);
 
             if (currentGold < itemCost) return;
 
@@ -131,11 +146,11 @@ namespace DiceSurvivor.Manager {
 
         void AddItem(ItemSlot slot) {
             //아이템 칸에 무작위로 구매 가능한 아이템을 채움
-            int randomIndex = Random.Range(0, testItems.items.Length);
+            int randomIndex = Random.Range(0, testItems.items.Count);
             TestItem randomItem = testItems.items[randomIndex];
 
             while (!randomItem.canIBuy) {
-                randomIndex = Random.Range(0, testItems.items.Length);
+                randomIndex = Random.Range(0, testItems.items.Count);
                 randomItem = testItems.items[randomIndex];
             }
 
@@ -163,7 +178,11 @@ namespace DiceSurvivor.Manager {
             FillItem();
         }
 
-
+        public void OnLockButtonClicked()
+        {
+            ToggleLockShop();
+            //TODO : 상점 잠금 버튼 스프라이트 변경
+        }
         //상점 잠금 및 잠금 해제
         void ToggleLockShop() {
             if (isShopLocked) {
@@ -174,20 +193,69 @@ namespace DiceSurvivor.Manager {
             }
         }
 
-        //아이템 영구 삭제 (게임당 가능한 횟수 정해져 있음)
-        void VanishItem(ItemSlot slot) {
-            if(vanishChance <= 0) {
+        public void OnVanishButtonClicked()
+        {
+            //TODO : 아이템 칸을 추가로 클릭했을 때 해당 칸의 아이템을 삭제
+            /*
+            1. 상점을 삭제 모드로 전환
+            -> 각 아이템 슬롯을 전부 삭제 모드로 전환
+            2. 아이템 슬롯의 버튼 클릭 이벤트 함수에 삭제 모드 시 수행할 행동을 추가
+            */
+            //구매 모드 일 경우 삭제 모드로 진입, 삭제 모드에서 다시 누르면 구매 모드로 전환 (삭제 취소)
+            if (isBuyingMode) isBuyingMode = false;
+            else
+            {
+                isBuyingMode = true;
+                foreach (ItemSlot iSlot in itemSlots)
+                {
+                    iSlot.GetComponent<Image>().color = new Color(1, 1, 1, 0.25f); // 패널 색 변경
+                }
                 return;
             }
-            else {
+
+            //디테일 텍스트를 삭제 안내로 전환
+            DetailTextChange();
+            //각 아이템 슬롯의 패널 색을 빨갛게 변경
+            foreach (ItemSlot slot in itemSlots)
+            {
+                slot.GetComponent<Image>().color = new Color(1, 0, 0, 0.25f);
+            }
+        }
+        //아이템 삭제 모드 에서 디테일 텍스트 전환하기
+        void DetailTextChange()
+        {
+            if (!isBuyingMode)
+            {
+                detail_weaponName.text = "";
+                detail_weaponLevel.text = "";
+                detail_description.text = "삭제할 아이템을 클릭하세요. (삭제 모드 취소 : 삭제 버튼을 다시 클릭)";
+            }
+        }
+
+        //아이템 영구 삭제 (게임당 가능한 횟수 정해져 있음)
+        public void VanishItem(ItemSlot slot)
+        {
+            if (isBuyingMode) return;
+            if (vanishChance <= 0)
+            {
+                return;
+            }
+            else
+            {
                 vanishChance--;
-                slot.currentItem.canIBuy = false;
                 ClearItem(slot);
+                //삭제 모드 종료. 구매 모드로 전환
+                isBuyingMode = true;
+                foreach (ItemSlot iSlot in itemSlots)
+                {
+                    iSlot.GetComponent<Image>().color = new Color(1, 1, 1, 0.25f); // 패널 색 변경
+                }
             }
 
-            if(vanishChance <= 0) {
+            if (vanishChance <= 0)
+            {
                 //버튼 비활성화
-                //vanishButton.interactable = false;
+                vanishButton.interactable = false;
             }
         }
 
@@ -222,6 +290,7 @@ namespace DiceSurvivor.Manager {
         }
         //아이템 칸 정보 지우기
         void ClearItem(ItemSlot slot) {
+            if(!isBuyingMode) slot.currentItem.canIBuy = false;
             slot.currentItem = null;
             slot.changeInfo();
         }
@@ -229,6 +298,37 @@ namespace DiceSurvivor.Manager {
         //플레이어 무기 칸이 최대치에 도달한 경우 갖고 있지 않은 아이템은 모두 삭제
         void ClearAllUnused() {
 
+        }
+
+        //아이템 설명 가져오기
+        public string GetItemDescription(TestItem item)
+        {
+            //아이템 이름을 통해 json 파일에서 설명문을 가져옴
+            if (dt == null)
+            {
+                Debug.LogError("DataTable이 null입니다!");
+                return "아이템 설명을 불러올 수 없습니다.";
+            }
+
+            WeaponStats currWeapon = new WeaponStats();
+            int currLevel = im.GetItemLevel(item.itemName);
+
+            switch (item.type)
+            {
+                case TestItem.ItemType.MeleeWeapon:
+                    currWeapon = dt.MeleeWeapons.GetWeapon(item.itemName, currLevel);
+                    return currWeapon.description;
+                case TestItem.ItemType.RangedWeapon:
+                    currWeapon = dt.RangedWeapons.GetWeapon(item.itemName, currLevel);
+                    return currWeapon.description;
+                case TestItem.ItemType.SplashWeapon:
+                    currWeapon = dt.SplashWeapons.GetWeapon(item.itemName, currLevel);
+                    return currWeapon.description;
+                //case TestItem.ItemType.Passive:
+                //return dt.PassiveItems[item.ID].description;
+                default:
+                    return "알 수 없는 아이템 타입입니다.";
+            }
         }
 
         //골드 정보 갱신

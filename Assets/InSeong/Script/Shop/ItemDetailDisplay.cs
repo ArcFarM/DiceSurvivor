@@ -26,7 +26,7 @@ public class ItemDetailDisplay : MonoBehaviour {
 
         // UI 업데이트
         itemNameText.text = item.itemName;
-        itemDescriptionText.text = item.description;
+        itemDescriptionText.text = item.weapon.description;
         itemLevelText.text = $"Level: {currentLevel}/{item.maxLevel}";
 
         gameObject.SetActive(true);

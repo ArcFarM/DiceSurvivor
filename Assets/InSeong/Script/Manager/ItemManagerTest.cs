@@ -32,7 +32,9 @@ namespace DiceSurvivor.Manager {
             base.Awake();
             maxItemCounts = new Dictionary<TestItem.ItemType, int>() {
                 { TestItem.ItemType.MeleeWeapon, maxWeapons },
-                { TestItem.ItemType.SubWeapon, maxSubWeapons },
+                //원거리 아이템과 스플래시 아이템은 둘이 합쳐서 maxSubWeapons 개수로 제한, 초기화만 이렇게
+                { TestItem.ItemType.RangedWeapon, maxSubWeapons },
+                { TestItem.ItemType.SplashWeapon, maxSubWeapons },
                 { TestItem.ItemType.Passive, maxPassives }
             };
         }
@@ -46,6 +48,9 @@ namespace DiceSurvivor.Manager {
 
         //아이템 구매/레벨업
         public bool BuyItem(TestItem item) {
+            if (!ShopManagerTest.Instance.isBuyingMode) return false;
+            if (!item.canIBuy) return false;    
+
             string itemName = item.itemName;
             bool hasItem = GetItemLevel(itemName) > 0;
 

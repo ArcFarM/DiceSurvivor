@@ -6,7 +6,9 @@ public class WeaponBase : ScriptableObject
     /// <summary>
     /// 상점에 사용할 아이템들의 기본 정보
     /// 
-
+    //무기 데이터에서 받아올 자신의 이름과 ID
+    string weaponID;
+    string weaponName;
     //참조할 무기 데이터
     DiceSurvivor.WeaponDataSystem.WeaponData weaponData;
     //구매 가능 여부
