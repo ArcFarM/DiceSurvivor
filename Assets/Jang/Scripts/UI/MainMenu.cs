@@ -8,7 +8,7 @@ using System.Collections;
     {
         #region Variables
         //참조
-        //private AudioManager audioManager;
+        private AudioManager audioManager;
 
         //씬 변경
         public SceneFader fader;
@@ -29,14 +29,14 @@ using System.Collections;
         private bool isShowCredit = false;
 
         //볼륨 조절
-     /*   public AudioMixer audioMixer;
+        public AudioMixer audioMixer;
 
-        public Slider bgmSlider;
-        public Slider sfxSlider;
-        public Slider masterSlider;
+       // public Slider bgmSlider;
+        //public Slider sfxSlider;
+       // public Slider masterSlider;
 
         //게임 데이터
-        private int sceneNumber;*/
+        private int sceneNumber;
         #endregion
 
         #region Unity Event Method
@@ -57,13 +57,13 @@ using System.Collections;
             }
         */
             //참조
-            //audioManager = AudioManager.Instance;
+            audioManager = AudioManager.Instance;
 
             //씬 시작시 페이드인 효과
             fader.FadeStart();
 
             //메뉴 배경음 플레이
-           // audioManager.PlayBgm("TitleBgm");
+            audioManager.PlayBgm("MainMenu");
 
             //초기화
          /*   isShowOption = false;
@@ -106,8 +106,8 @@ using System.Collections;
         public void PlayGame()
         {
             //메뉴 선택 사운드
-           // audioManager.StopBgm();
-           // audioManager.Play("ButtonClick");
+            audioManager.StopBgm();
+            audioManager.Play("ButtonClick");
 
             //새게임 하러 가기
             fader.FadeTo(loadToScene);
@@ -120,6 +120,8 @@ using System.Collections;
         previewCharacter.SetActive(true);
         thePlayer.SetActive(false);
         gameName.SetActive(false);
+
+        audioManager.Play("ButtonClick");
     }
     public void HideCustomizeUI()
     {
@@ -128,18 +130,21 @@ using System.Collections;
         previewCharacter.SetActive(false);
         thePlayer.SetActive(true);
         gameName.SetActive(true);
+
+        audioManager.Play("ButtonClick");
     }
     
 
         public void Options()
         {
             //메뉴 선택 사운드
-            //audioManager.Play("ButtonClick");
+            audioManager.Play("ButtonClick");
 
             //옵션 UI 보여주기
             isShowOption = true;
             mainMenuUI.SetActive(false);
             optionUI.SetActive(true);
+
         }
     /*  public void Credits()
       {

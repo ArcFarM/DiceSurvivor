@@ -9,6 +9,8 @@ public class StageSelector : MonoBehaviour
     public SceneFader sceneFader;                // 씬 전환 연출
     public StageNode startingNode;               // 시작할 노드 (인스펙터에서 설정)
 
+    public AudioManager audioManager;
+
     private StageNode selectedNode;              // 현재 선택된 노드
     [SerializeField]
     private bool loadLastStagePosition = false;
@@ -20,6 +22,9 @@ public class StageSelector : MonoBehaviour
 
     private void Start()
     {
+        //참조
+        audioManager = AudioManager.Instance;
+        audioManager.PlayBgm("Bgm");
         StageNode found = null;
 
         if (loadLastStagePosition)
@@ -68,12 +73,13 @@ public class StageSelector : MonoBehaviour
             TryMoveByInput(input);
         }
 
-        // Z 또는 Enter 키 누르면 스테이지 진입
+        //키 누르면 스테이지 진입
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
         {
             if (selectedNode != null && player.IsAtTarget())
             {
                 sceneFader.FadeTo(selectedNode.sceneName);
+                audioManager.StopBgm();
             }
         }
     }
