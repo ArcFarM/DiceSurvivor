@@ -1,51 +1,78 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class AttackEffectSpawn : MonoBehaviour
+namespace DiceSurvivor.SHS
 {
-    #region Variables
-    //참조
-    private Animator animator;
-
-    public ParticleSystem attackEffect;         //Spawn할 AttackEffect
-    public Transform effectSpawnTransform;      //Spawn할 위치
-
-    [SerializeField]
-    private bool isSpearAndStaff = false;
-    #endregion
-
-    #region Properties
-    #endregion
-
-    #region Unity Event Methods
-    private void Start()
+    public class AttackEffectSpawn : MonoBehaviour
     {
-        animator = this.GetComponent<Animator>();        
-    }
+        #region Variables
+        //참조
+        private Animator animator;
+        private ParticleSystem effect;
 
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
+        public GameObject weaponSocket;             //Weapon 위치
+        public ParticleSystem attackEffect;         //Spawn할 AttackEffect
+        public Transform effectSpawnTransform;      //Spawn할 위치
+
+        [SerializeField]
+        private float destroyTime = 5f;             //effect 제거할 시간
+        [SerializeField]
+        private WeaponType currentWeapon;           //Weapon Type
+        
+        #endregion
+
+        #region Properties
+        #endregion
+
+        #region Unity Event Methods
+        private void Start()
         {
-            animator.SetTrigger("IsAttack");   
-        }
-    }
-    #endregion
-
-    #region Custom Methods
-    public void HammerEffectSpawn()
-    {
-        ParticleSystem effect = Instantiate(attackEffect, effectSpawnTransform.position, effectSpawnTransform.rotation);
-
-        if (isSpearAndStaff)
-        {
-            particleAttractorSpherical particle = attackEffect.GetComponentInChildren<particleAttractorSpherical>();
-
-            particle.target = effectSpawnTransform;
+            animator = this.GetComponent<Animator>();
         }
 
-        Destroy(effect.gameObject, 5f);
+        private void Update()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                animator.SetTrigger("IsAttack");
+            }
+        }
+
+        private void LateUpdate()
+        {
+            Vector3 pos = this.transform.position;
+
+            switch (currentWeapon)
+            {
+                case WeaponType.Hammer:
+                    break;
+                case WeaponType.GreatSword:
+                    break;
+                case WeaponType.Scythe:
+                    break;
+                case WeaponType.Whip:
+                    break;
+                case WeaponType.Staff:
+                case WeaponType.Spear:
+                    pos.x = weaponSocket.transform.position.x;
+                    destroyTime = 0.5f;
+                    break;
+            }
+
+            this.transform.position = pos;
+        }
+        #endregion
+
+        #region Custom Methods
+        public void HammerEffectSpawn()
+        {
+            effect = Instantiate(attackEffect, effectSpawnTransform.position, effectSpawnTransform.rotation);
+            Destroy(effect.gameObject, destroyTime);
+
+        }
+        #endregion
     }
-    #endregion
+
 }

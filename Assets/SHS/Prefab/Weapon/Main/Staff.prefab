@@ -124,8 +124,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67ede863dc97ba34b9b630bd0690cc85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackEffect: {fileID: 2069640192808883838, guid: 7b82f364f0cd1a748ae50864d67bfd1b, type: 3}
+  weaponSocket: {fileID: 0}
+  attackEffect: {fileID: 8771972552311404798, guid: bbf9e36a48d6c5648a13889afab076fd, type: 3}
   effectSpawnTransform: {fileID: 6797206515523561574}
+  destroyTime: 5
+  currentWeapon: 3
 --- !u!1 &5753544182472280001
 GameObject:
   m_ObjectHideFlags: 0
@@ -151,7 +154,7 @@ Transform:
   m_GameObject: {fileID: 5753544182472280001}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: -0.01235}
+  m_LocalPosition: {x: 0, y: -0, z: 0.00188}
   m_LocalScale: {x: 0.0066666664, y: 0.0066666654, z: 0.0066666654}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -1,17 +1,17 @@
-using DiceSurvivor;
+using DiceSurvivor.SHS;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Weapon", menuName = "Weapon System/Weapon")]
 public class WeaponData : ScriptableObject
 {
     /// <summary>
-    /// Weapon¿¡ Á¤º¸¸¦ ¼³Á¤ÇÒ ¼ö ÀÖ´Â Data
+    /// Weaponì— ì •ë³´ë¥¼ ì„¤ì •í•  ìˆ˜ ìˆëŠ” Data
     /// </summary>
     #region Variables
-    public Weapon weapon;               //¹«±âÀÇ Á¤º¸°¡ µé¾îÀÖ´Â Å¬·¡½º
+    public Weapon weapon;               //ë¬´ê¸°ì˜ ì •ë³´ê°€ ë“¤ì–´ìˆëŠ” í´ë˜ìŠ¤
 
-    public SkillType skillType;         //½ºÅ³ Å¸ÀÔ Weapon, Passive
-    public int evolutionTargetId;       //ÁøÈ­ ´ë»ó ¹«±â Id
+    public SkillType skillType;         //ìŠ¤í‚¬ íƒ€ì… Weapon, Passive
+    public int evolutionTargetId;       //ì§„í™” ëŒ€ìƒ ë¬´ê¸° Id
     #endregion
 
     #region Custom Method
