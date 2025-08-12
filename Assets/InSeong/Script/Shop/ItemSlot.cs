@@ -35,7 +35,7 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     // 마우스를 올렸을 때
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (currentItem != null && detailDisplay != null)
+        if (currentItem != null && detailDisplay != null && ShopManagerTest.Instance.isBuyingMode)
         {
             detailDisplay.ShowDetail(currentItem);
         }
@@ -44,7 +44,7 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     // 마우스를 뗐을 때
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (detailDisplay != null)
+        if (detailDisplay != null && ShopManagerTest.Instance.isBuyingMode)
         {
             detailDisplay.HideDetail();
         }

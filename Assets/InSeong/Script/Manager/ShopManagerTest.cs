@@ -47,9 +47,8 @@ namespace DiceSurvivor.Manager {
         public Button vanishButton;
         public TextMeshProUGUI goldText;
         public TextMeshProUGUI shopLevelText;
-        public TextMeshProUGUI detail_weaponName;
-        public TextMeshProUGUI detail_weaponLevel;
-        public TextMeshProUGUI detail_description;
+
+        public ItemDetailDisplay detailDisplay;
 
         //아이템 구매/삭제 모드 전환
         public bool isBuyingMode = true;
@@ -224,11 +223,13 @@ namespace DiceSurvivor.Manager {
         //아이템 삭제 모드 에서 디테일 텍스트 전환하기
         void DetailTextChange()
         {
+            detailDisplay.gameObject.SetActive(true);
             if (!isBuyingMode)
             {
-                detail_weaponName.text = "";
-                detail_weaponLevel.text = "";
-                detail_description.text = "삭제할 아이템을 클릭하세요. (삭제 모드 취소 : 삭제 버튼을 다시 클릭)";
+                
+                detailDisplay.itemNameText.text = "";
+                detailDisplay.itemLevelText.text = "";
+                detailDisplay.itemDescriptionText.text = "삭제할 아이템을 클릭하세요. (삭제 모드 취소 : 삭제 버튼을 다시 클릭)";
             }
         }
 
@@ -246,6 +247,7 @@ namespace DiceSurvivor.Manager {
                 ClearItem(slot);
                 //삭제 모드 종료. 구매 모드로 전환
                 isBuyingMode = true;
+                detailDisplay.HideDetail();
                 foreach (ItemSlot iSlot in itemSlots)
                 {
                     iSlot.GetComponent<Image>().color = new Color(1, 1, 1, 0.25f); // 패널 색 변경
