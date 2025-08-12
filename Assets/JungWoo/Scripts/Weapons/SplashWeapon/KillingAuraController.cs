@@ -60,7 +60,7 @@ namespace DiceSurvivor.Weapon
             var dataManager = DataTableManager.Instance;
             if (dataManager == null)
             {
-                Debug.LogError("DataTableManager not found!");
+                Debug.LogError("[KillingAuraController] DataTableManager를 찾을 수 없습니다!");
                 return;
             }
 
@@ -69,11 +69,16 @@ namespace DiceSurvivor.Weapon
             if (currentStats != null)
             {
                 killingAuraWeapon.UpdateWeaponStats(currentStats);
-                Debug.Log($"KillingAura Lv.{currentLevel} loaded successfully!");
+
+                // 【중요】 데이터 로드 후 Collider와 파티클 업데이트
+                killingAuraWeapon.UpdateColliderRadius();
+                killingAuraWeapon.UpdateParticleScale();
+
+                Debug.Log($"[KillingAuraController] KillingAura Lv.{currentLevel} 로드 성공!");
             }
             else
             {
-                Debug.LogError($"Failed to load KillingAura Lv.{currentLevel} data!");
+                Debug.LogError($"[KillingAuraController] KillingAura Lv.{currentLevel} 데이터 로드 실패!");
             }
         }
 
@@ -84,22 +89,19 @@ namespace DiceSurvivor.Weapon
         {
             if (currentLevel >= maxLevel)
             {
-                Debug.Log($"KillingAura is already at max level ({maxLevel})!");
+                Debug.Log($"[KillingAuraController] 이미 최대 레벨({maxLevel})입니다!");
                 return;
             }
 
             currentLevel++;
-            LoadWeaponData();
-            UpdateChildScale("KillingAuraParticle", new Vector3(0.04f,0, 0.04f));
-            
+            LoadWeaponData(); // 이 안에서 UpdateColliderRadius()와 UpdateParticleScale() 호출됨
 
             if (debugMode)
             {
-                Debug.Log($"KillingAura leveled up to Lv.{currentLevel}!");
+                Debug.Log($"[KillingAuraController] 레벨업! 현재 레벨: {currentLevel}");
                 PrintWeaponInfo();
             }
         }
-
 
         /// <summary>
         /// 특정 레벨로 설정
@@ -108,16 +110,16 @@ namespace DiceSurvivor.Weapon
         {
             if (level < 1 || level > maxLevel)
             {
-                Debug.LogError($"Invalid level: {level}. Must be between 1 and {maxLevel}");
+                Debug.LogError($"[KillingAuraController] 잘못된 레벨: {level} (1~{maxLevel} 범위)");
                 return;
             }
 
             currentLevel = level;
-            LoadWeaponData();
+            LoadWeaponData(); // 이 안에서 UpdateColliderRadius()와 UpdateParticleScale() 호출됨
 
             if (debugMode)
             {
-                Debug.Log($"KillingAura set to Lv.{currentLevel}");
+                Debug.Log($"[KillingAuraController] 레벨 설정: {currentLevel}");
                 PrintWeaponInfo();
             }
         }
@@ -153,7 +155,7 @@ namespace DiceSurvivor.Weapon
         {
             if (IsMaxLevel())
             {
-                Debug.Log("Already at max level!");
+                Debug.Log("[KillingAuraController] 이미 최대 레벨입니다!");
                 return null;
             }
 
@@ -170,12 +172,12 @@ namespace DiceSurvivor.Weapon
         {
             if (currentStats == null) return;
 
-            Debug.Log("=== KillingAura Info ===");
-            Debug.Log($"Level: {currentLevel}/{maxLevel}");
+            Debug.Log("=== KillingAura 정보 ===");
+            Debug.Log($"레벨: {currentLevel}/{maxLevel}");
             Debug.Log($"Radius: {currentStats.radius}");
-            Debug.Log($"DoT Damage: {currentStats.dotDamage}");
-            Debug.Log($"Slow Duration: {currentStats.duration}");
-            Debug.Log($"Description: {currentStats.description}");
+            Debug.Log($"DoT 데미지: {currentStats.dotDamage}");
+            Debug.Log($"감속 지속시간: {currentStats.duration}");
+            Debug.Log($"설명: {currentStats.description}");
 
             // 다음 레벨 정보
             if (!IsMaxLevel())
@@ -183,45 +185,15 @@ namespace DiceSurvivor.Weapon
                 var nextStats = GetNextLevelStats();
                 if (nextStats != null)
                 {
-                    Debug.Log($"Next Level Preview: {nextStats.description}");
+                    Debug.Log($"다음 레벨: {nextStats.description}");
                 }
             }
         }
 
-        void UpdateChildScale(string childName, Vector3 scaleMultiplier)
-        {
-            // 자식 이름으로 자식 Transform 찾기
-            Transform child = transform.Find(childName);
-
-            if (child != null)
-            {
-                // 자식의 기존 localScale 가져오기
-                Vector3 originalScale = child.localScale;
-
-                // 원하는 방식으로 변환
-                //Vector3 newScale = Vector3.Scale(originalScale, scaleMultiplier);
-
-                // 변경 적용
-                child.localScale += scaleMultiplier;
-
-                Debug.Log($"{child.name}의 새로운 스케일: {child.localScale}");
-                if (currentLevel == 1)
-                {
-                    child.localScale = originalScale;
-                }
-            }
-            else
-            {
-                Debug.LogWarning($"{childName}이라는 자식 오브젝트를 찾을 수 없습니다.");
-            }
-        }
-        
-        
-
-            /// <summary>
-            /// 디버그용 키 입력 처리
-            /// </summary>
-            void Update()
+        /// <summary>
+        /// 디버그용 키 입력 처리
+        /// </summary>
+        void Update()
         {
             if (!debugMode) return;
 
@@ -243,7 +215,7 @@ namespace DiceSurvivor.Weapon
                 SetLevel(maxLevel);
             }
         }
-        
+
         /// <summary>
         /// 에디터 메뉴 - 레벨업
         /// </summary>

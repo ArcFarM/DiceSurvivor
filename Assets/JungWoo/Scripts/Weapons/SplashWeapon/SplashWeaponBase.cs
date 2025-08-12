@@ -7,7 +7,7 @@ namespace DiceSurvivor.Weapon
     /// <summary>
     /// 범위 무기 기본 클래스
     /// </summary>
-    public abstract class SplashWeapon : MonoBehaviour
+    public abstract class SplashWeaponBase : MonoBehaviour
     {
         [Header("Base Settings")]
         [SerializeField] protected string weaponName;
