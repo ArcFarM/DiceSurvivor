@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DiceSurvivor.Manager;
-using DiceSurvivor.Weapon;
+using DiceSurvivor.Test;
 
 namespace DiceSurvivor.Weapon
 {
     /// <summary>
     /// KillingAura 무기 - 자기 주변 원형 범위에 지속적으로 DoT 데미지를 주는 무기
     /// </summary>
-    public class KillingAuraWeapon : SplashWeapon
+    public class KillingAuraWeapon : SplashWeaponBase
     {
         [Header("KillingAura Specific")]
         [SerializeField] private float dotInterval = 1f; // DoT 데미지 간격 (1초)
@@ -30,12 +30,6 @@ namespace DiceSurvivor.Weapon
         {
             weaponName = "KillingAura";
             base.Start();
-
-            // Aura 시각화 생성
-            if (showAuraVisual)
-            {
-                //CreateAuraVisual();
-            }
         }
 
         protected override void Update()
@@ -53,7 +47,6 @@ namespace DiceSurvivor.Weapon
                 dotTimer = 0f; // 타이머 리셋
             }
 
-           
             // 범위를 벗어난 적 정리
             CleanupNullEnemies();
         }
@@ -84,7 +77,7 @@ namespace DiceSurvivor.Weapon
             sphereCollider.isTrigger = true;
             sphereCollider.radius = radius;
 
-            Debug.Log($"KillingAura Collider 설정 - 반경: {radius}");
+            Debug.Log($"[KillingAura] Collider 설정 - 반경: {radius}");
         }
 
         /// <summary>
@@ -106,18 +99,58 @@ namespace DiceSurvivor.Weapon
                 UpdateWeaponStats(weaponStats);
 
                 // Collider 크기 업데이트
-                SphereCollider sphereCollider = GetComponent<SphereCollider>();
-                if (sphereCollider != null)
-                {
-                    sphereCollider.radius = radius;
-                }
+                UpdateColliderRadius();
 
-                // 시각화 업데이트
-                UpdateAuraVisual();
+                // 파티클 스케일 업데이트
+                UpdateParticleScale();
+
+                //Debug.Log($"[KillingAura] Lv.{currentLevel} 로드 - Radius: {radius}, DoT: {dotDamage}");
             }
             else
             {
-                Debug.LogError($"KillingAura Lv.{currentLevel} 데이터를 찾을 수 없습니다!");
+                //Debug.LogError($"KillingAura Lv.{currentLevel} 데이터를 찾을 수 없습니다!");
+            }
+        }
+
+        /// <summary>
+        /// 【위치: Line 108-119】 Collider Radius 업데이트 메서드
+        /// </summary>
+        public void UpdateColliderRadius()
+        {
+            // SphereCollider 컴포넌트 가져오기
+            SphereCollider sphereCollider = GetComponent<SphereCollider>();
+
+            // null 체크 후 radius 업데이트
+            if (sphereCollider != null)
+            {
+                sphereCollider.radius = radius;
+                //Debug.Log($"[KillingAura] Collider Radius 업데이트: {radius}");
+            }
+            else
+            {
+                //Debug.LogWarning("[KillingAura] SphereCollider를 찾을 수 없습니다!");
+            }
+        }
+
+        /// <summary>
+        /// 【위치: Line 121-142】 파티클 스케일 업데이트 (radius와 연동)
+        /// </summary>
+        public void UpdateParticleScale()
+        {
+            // KillingAuraParticle 자식 오브젝트 찾기
+            Transform particleTransform = transform.Find("KillingAuraParticle");
+
+            if (particleTransform != null)
+            {
+                // radius에 비례하여 파티클 스케일 설정
+                float scaleMultiplier = radius * 0.5f;
+                particleTransform.localScale = new Vector3(scaleMultiplier, scaleMultiplier, scaleMultiplier);
+
+                //Debug.Log($"[KillingAura] 파티클 업데이트 - Scale: {particleTransform.localScale}, Radius: {radius}");
+            }
+            else
+            {
+                //Debug.LogWarning("[KillingAura] KillingAuraParticle 오브젝트를 찾을 수 없습니다.");
             }
         }
 
@@ -132,7 +165,7 @@ namespace DiceSurvivor.Weapon
             // 적이 없으면 리턴
             if (enemiesCopy.Count == 0) return;
 
-            Debug.Log($"[KillingAura] DoT 타이머 발동! 범위 내 적: {enemiesCopy.Count}명");
+            //Debug.Log($"[KillingAura] DoT 타이머 발동! 범위 내 적: {enemiesCopy.Count}명");
 
             int damageAppliedCount = 0;
 
@@ -148,7 +181,7 @@ namespace DiceSurvivor.Weapon
                 if (dotDamage > 0)
                 {
                     // Enemy 컴포넌트 직접 찾아서 데미지 적용
-                    var enemyComponent = enemy.GetComponent<Test.WJEnemy>();
+                    var enemyComponent = enemy.GetComponent<WJEnemy>();
                     if (enemyComponent != null)
                     {
                         enemyComponent.TakeDamage(dotDamage);
@@ -163,7 +196,7 @@ namespace DiceSurvivor.Weapon
                 }
             }
 
-            Debug.Log($"[KillingAura] DoT 데미지 적용 완료: {damageAppliedCount}명에게 {dotDamage} 데미지");
+            //Debug.Log($"[KillingAura] DoT 데미지 적용 완료: {damageAppliedCount}명에게 {dotDamage} 데미지");
         }
 
         /// <summary>
@@ -198,7 +231,6 @@ namespace DiceSurvivor.Weapon
             // Enemy 레이어 체크
             if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
-                Debug.Log($"{other.gameObject.name} - 현재 적 수: {enemiesInAura.Count}");
                 // 배열에 추가 (중복 방지)
                 if (!enemiesInAura.Contains(other.gameObject))
                 {
@@ -206,15 +238,15 @@ namespace DiceSurvivor.Weapon
                     Debug.Log($"[KillingAura] Enemy 진입: {other.gameObject.name} - 현재 적 수: {enemiesInAura.Count}");
 
                     // 즉시 초기 데미지 적용
-                    /*if (dotDamage > 0)
+                    if (dotDamage > 0)
                     {
-                        var enemyComp = other.gameObject.GetComponent<Test.WJEnemy>();
+                        var enemyComp = other.gameObject.GetComponent<WJEnemy>();
                         if (enemyComp != null)
                         {
-                            //enemyComp.TakeDamage(dotDamage);
-                            Debug.Log($"[KillingAura] 진입 즉시 데미지 {dotDamage} 적용: {other.gameObject.name}");
+                            enemyComp.TakeDamage(dotDamage);
+                            //Debug.Log($"[KillingAura] 진입 즉시 데미지 {dotDamage} 적용: {other.gameObject.name}");
                         }
-                    }*/
+                    }
 
                     // 즉시 감속 적용
                     if (duration > 0)
@@ -253,7 +285,7 @@ namespace DiceSurvivor.Weapon
                 // 배열에서 제거
                 if (enemiesInAura.Remove(other.gameObject))
                 {
-                    Debug.Log($"Enemy 퇴장 (KillingAura): {other.gameObject.name} - 남은 적 수: {enemiesInAura.Count}");
+                    //Debug.Log($"[KillingAura] Enemy 퇴장: {other.gameObject.name} - 남은 적 수: {enemiesInAura.Count}");
                 }
 
                 // DoT 시간 기록 제거
@@ -269,47 +301,9 @@ namespace DiceSurvivor.Weapon
         /// </summary>
         private void CreateAuraVisual()
         {
-            if (auraVisual == null)
-            {
-                // 원형 평면 시각화
-                auraVisual = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-                auraVisual.name = "KillingAuraVisual";
-                auraVisual.transform.SetParent(transform);
-                auraVisual.transform.localPosition = Vector3.zero;
-                auraVisual.transform.localScale = new Vector3(radius * 2, 0.1f, radius * 2);
-
-                // 콜라이더 제거 (시각화만)
-                Destroy(auraVisual.GetComponent<Collider>());
-
-                // 반투명 빨간색 머티리얼 설정
-                var renderer = auraVisual.GetComponent<MeshRenderer>();
-                if (renderer != null)
-                {
-                    Material mat = new Material(Shader.Find("Standard"));
-                    mat.color = new Color(1f, 0f, 0f, 0.2f); // 반투명 빨간색
-                    mat.SetFloat("_Mode", 3); // Transparent
-                    mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
-                    mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
-                    mat.SetInt("_ZWrite", 0);
-                    mat.DisableKeyword("_ALPHATEST_ON");
-                    mat.EnableKeyword("_ALPHABLEND_ON");
-                    mat.DisableKeyword("_ALPHAPREMULTIPLY_ON");
-                    mat.renderQueue = 3000;
-                    renderer.material = mat;
-                }
-            }
+            
         }
 
-        /// <summary>
-        /// Aura 시각화 업데이트
-        /// </summary>
-        private void UpdateAuraVisual()
-        {
-            if (auraVisual != null)
-            {
-                auraVisual.transform.localScale = new Vector3(radius * 2, 0.1f, radius * 2);
-            }
-        }
 
         /// <summary>
         /// 공격 수행 (사용하지 않음 - KillingAura는 지속 효과)
@@ -333,7 +327,7 @@ namespace DiceSurvivor.Weapon
         public override void LevelUp()
         {
             base.LevelUp();
-            Debug.Log($"KillingAura 레벨업! 현재 레벨: {currentLevel}");
+            Debug.Log($"[KillingAura] 레벨업! 현재 레벨: {currentLevel}");
         }
 
         /// <summary>
@@ -383,11 +377,6 @@ namespace DiceSurvivor.Weapon
             enemiesInAura.Clear();
             lastDotTime.Clear();
 
-            // 시각화 오브젝트 제거
-            if (auraVisual != null)
-            {
-                Destroy(auraVisual);
-            }
         }
     }
 }

@@ -35,7 +35,7 @@ namespace DiceSurvivor.Manager
 
                 // 로드된 데이터 확인
                 VerifyLoadedData();
-                PrintAllWeapons();
+                //PrintAllWeapons();
             }
             else
             {
