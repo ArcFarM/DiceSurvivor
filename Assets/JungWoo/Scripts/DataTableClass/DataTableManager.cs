@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace DiceSurvivor.Manager
 {
+    /// <summary>
+    /// 무기 / 패시브  Data 싱글톤 
+    /// </summary>
     public class DataTableManager : SingletonManager<DataTableManager>
     {
         [SerializeField] private TextAsset jsonFile; // Inspector에서 JSON 파일을 할당

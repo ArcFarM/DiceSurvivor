@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace DiceSurvivor.Manager
 {
+    /// <summary>
+    /// Json 파일에 있는 weapon, passive 속성 참조 및 가져오기
+    /// </summary>
     [Serializable]
     public class WeaponStats
     {
