@@ -77,8 +77,9 @@ GameObject:
   - component: {fileID: 6219550986632743760}
   - component: {fileID: 907925171510401825}
   - component: {fileID: 5062710957338720537}
+  - component: {fileID: 8475049612431772042}
   m_Layer: 0
-  m_Name: GreatSword
+  m_Name: Greatsword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -187,5 +188,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67ede863dc97ba34b9b630bd0690cc85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponSocket: {fileID: 0}
   attackEffect: {fileID: 1106240584898350275, guid: ef58c4943eaa0974cb8407c0752837f8, type: 3}
   effectSpawnTransform: {fileID: 5193946248622234802}
+  defaultDestroyTime: 5
+  currentWeapon: 1
+--- !u!114 &8475049612431772042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6261767822914084838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ee4e5f2be1ef5944962dd07fd50ba29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponName: Greatsword
+  weaponLevel: 1
+  currentWeaponStats:
+    id: 
+    name: 
+    type: 
+    level: 0
+    damage: 0
+    cooldown: 0
+    radius: 0
+    range: 0
+    projectileSize: 0
+    projectileSpeed: 0
+    projectileCount: 0
+    explosionRadius: 0
+    explosionDamage: 0
+    dotDamage: 0
+    duration: 0
+    isPiercing: 0
+    canReturn: 0
+    description: 

@@ -76,6 +76,7 @@ GameObject:
   - component: {fileID: 7622676074569018168}
   - component: {fileID: 8134049610769557833}
   - component: {fileID: 4847983765243255607}
+  - component: {fileID: 2565399301089524605}
   m_Layer: 0
   m_Name: Spear
   m_TagString: Untagged
@@ -191,5 +192,38 @@ MonoBehaviour:
   weaponSocket: {fileID: 0}
   attackEffect: {fileID: 1429954232896169632, guid: 83036083a4ebcd34f98131bd3cf6f4d2, type: 3}
   effectSpawnTransform: {fileID: 1082813969769884069}
-  destroyTime: 5
+  defaultDestroyTime: 5
   currentWeapon: 2
+--- !u!114 &2565399301089524605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3695344515555971768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ee4e5f2be1ef5944962dd07fd50ba29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponName: Spear
+  weaponLevel: 1
+  currentWeaponStats:
+    id: 
+    name: 
+    type: 
+    level: 0
+    damage: 0
+    cooldown: 0
+    radius: 0
+    range: 0
+    projectileSize: 0
+    projectileSpeed: 0
+    projectileCount: 0
+    explosionRadius: 0
+    explosionDamage: 0
+    dotDamage: 0
+    duration: 0
+    isPiercing: 0
+    canReturn: 0
+    description: 
