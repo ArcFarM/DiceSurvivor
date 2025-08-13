@@ -5,9 +5,11 @@ using System.Collections;
 public class PlayerController : MonoBehaviour
 {
     #region Variables
+    [Header("이동")]
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float turnSmoothTime = 0.1f;
 
+    [Header("중력/그라운드")]
     [SerializeField] private float gravity = -9.81f;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundDistance = 0.3f;
@@ -20,21 +22,22 @@ public class PlayerController : MonoBehaviour
     private Vector2 inputMove;
     private Camera mainCamera;
 
-    [SerializeField] private float playerHP = 100f;
+    [Header("버프/자석")]
     [SerializeField] private float normalSpeed = 5f;
     [SerializeField] private float buffedSpeed = 8f;
-    private float currentSpeed;
-
+    private float cachedSpeed;
     private Coroutine buffCoroutine;
     private Coroutine magnetCoroutine;
 
-    private bool isDead = false;
+    // 체력은 PlayerHealth가 관리
+    private PlayerHealth health;
     #endregion
 
     #region Unity Event Method
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
+        health = GetComponent<PlayerHealth>();
     }
 
     private void Start()
@@ -42,6 +45,12 @@ public class PlayerController : MonoBehaviour
         if (controller == null)
         {
             Debug.LogError("CharacterController가 없습니다!");
+            enabled = false;
+            return;
+        }
+        if (health == null)
+        {
+            Debug.LogError("PlayerHealth가 없습니다!");
             enabled = false;
             return;
         }
@@ -53,20 +62,15 @@ public class PlayerController : MonoBehaviour
     {
         if (controller == null || !controller.enabled || !gameObject.activeInHierarchy)
             return;
+        if (health != null && health.IsDead) return;
 
         GroundCheck();
         Move();
         ApplyGravity();
-
-        if (!isDead && playerHP <= 0f)
-        {
-            isDead = true;
-            Die();
-        }
     }
     #endregion
 
-    #region Custom Method
+    #region Movement
     private void GroundCheck()
     {
         if (groundCheck == null)
@@ -76,21 +80,18 @@ public class PlayerController : MonoBehaviour
         }
 
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-
-        if (isGrounded && velocity.y < 0f)
-            velocity.y = -2f;
+        if (isGrounded && velocity.y < 0f) velocity.y = -2f;
     }
 
     private void Move()
     {
-        if (controller == null || !controller.enabled || !gameObject.activeInHierarchy)
-            return;
+        if (controller == null || !controller.enabled || !gameObject.activeInHierarchy) return;
 
         Vector3 direction = new Vector3(inputMove.x, 0f, inputMove.y).normalized;
-
         if (direction.magnitude >= 0.1f)
         {
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + mainCamera.transform.eulerAngles.y;
+            float camY = (mainCamera != null) ? mainCamera.transform.eulerAngles.y : 0f;
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + camY;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
@@ -106,27 +107,30 @@ public class PlayerController : MonoBehaviour
 
     private void ApplyGravity()
     {
-        if (controller == null || !controller.enabled || !gameObject.activeInHierarchy)
-        {
-            Debug.LogWarning("ApplyGravity: controller 비활성 상태로 Move 중단");
-            return;
-        }
+        if (controller == null || !controller.enabled || !gameObject.activeInHierarchy) return;
 
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
     }
+    #endregion
 
+    #region Interaction / Effects
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         if (hit.collider.TryGetComponent(out Box box))
             box.BreakOnTouch();
     }
 
+    public void TakeDamage(float damage)
+    {
+        if (health == null) return;
+        health.TakeDamage(damage, true); // 무적/깜빡임 포함
+    }
+
     public void Heal(float amount)
     {
-        playerHP += amount;
-        playerHP = Mathf.Min(playerHP, 100f);
-        Debug.Log($"HP 회복: {amount} → 현재 HP: {playerHP}");
+        if (health == null) return;
+        health.Heal(amount);
     }
 
     public void AddCoins(int amount)
@@ -136,58 +140,32 @@ public class PlayerController : MonoBehaviour
 
     public void ApplySpeedBuff(float multiplier, float duration)
     {
-        if (buffCoroutine != null)
-            StopCoroutine(buffCoroutine);
-
+        if (buffCoroutine != null) StopCoroutine(buffCoroutine);
         buffCoroutine = StartCoroutine(SpeedBuffRoutine(multiplier, duration));
     }
 
     private IEnumerator SpeedBuffRoutine(float multiplier, float duration)
     {
-        currentSpeed = moveSpeed;
+        cachedSpeed = moveSpeed;
         moveSpeed *= multiplier;
         Debug.Log($"이동속도 버프 시작: {moveSpeed}");
-
         yield return new WaitForSeconds(duration);
-
-        moveSpeed = currentSpeed;
+        moveSpeed = cachedSpeed;
         Debug.Log("이동속도 버프 종료");
     }
 
     public void ActivateMagnet(float duration)
     {
-        if (magnetCoroutine != null)
-            StopCoroutine(magnetCoroutine);
-
+        if (magnetCoroutine != null) StopCoroutine(magnetCoroutine);
         magnetCoroutine = StartCoroutine(MagnetRoutine(duration));
     }
 
     private IEnumerator MagnetRoutine(float duration)
     {
         Debug.Log("자석 효과 시작");
-        // 자석 범위 내 코인 끌어당기기 구현 가능
+        // TODO: 자석 범위 내 코인 끌어당기기 로직
         yield return new WaitForSeconds(duration);
         Debug.Log("자석 효과 종료");
-    }
-
-    public void TakeDamage(float damage)
-    {
-        if (isDead) return;
-
-        playerHP -= damage;
-        Debug.Log("플레이어 HP: " + playerHP);
-    }
-
-    private void Die()
-    {
-        Debug.Log("플레이어 사망");
-        Time.timeScale = 0f;
-
-        GameOverUI gameOver = FindObjectOfType<GameOverUI>();
-        if (gameOver != null)
-        {
-            gameOver.ShowGameOverUI();
-        }
     }
     #endregion
 }
