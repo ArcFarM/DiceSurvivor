@@ -98,7 +98,9 @@ namespace DiceSurvivor.SHS
                     effect.GetComponentInChildren<rotation>().topEnd = effectSpawnTransform;
                     break;
 
-                    // 다른 무기 타입은 필요 시 추가
+                case WeaponType.Whip:
+                    effect.GetComponentInChildren<rotation>().topEnd = effectSpawnTransform;
+                    break;
             }
 
             Destroy(effect.gameObject, destroyTime);

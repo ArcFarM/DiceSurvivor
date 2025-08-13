@@ -6,9 +6,6 @@ public class rotation : MonoBehaviour
 
     #region Variables
     public Transform topEnd; // 따라갈 대상
-                                       //public float xRotation = 0f;
-                                       //public float yRotation = 0f;
-                                       //public float zRotation = 0f;
 
     #endregion
 
@@ -32,11 +29,15 @@ public class rotation : MonoBehaviour
     {
         CancelInvoke();
     }
-
-    private void Start()
+    private void rotate()
     {
-        this.gameObject.transform.SetParent(topEnd.transform);
+        if (topEnd != null)
+        {
+            transform.position = topEnd.position;
+            transform.rotation = topEnd.rotation;
+        }
     }
+
     #endregion
 
 }
