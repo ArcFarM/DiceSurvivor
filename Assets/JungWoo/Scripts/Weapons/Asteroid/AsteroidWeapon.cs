@@ -19,6 +19,15 @@ namespace DiceSurvivor.Weapon
         private float spawnTimer = 0f;                                 // 스폰 타이머
         private List<AsteroidOrbit> activeAsteroids;                   // 활성 소행성 목록
         private Coroutine deactivateCoroutine;                         // 비활성화 코루틴
+        private const float MinCooldown = 0.1f;                 // 1프레임 생성 방지용 최소 쿨다운
+
+        private bool HasActiveWave => activeAsteroids != null && activeAsteroids.Count > 0;
+
+        private void Awake()
+        {
+            // 이중 안전장치
+            if (activeAsteroids == null) activeAsteroids = new List<AsteroidOrbit>();
+        }
 
         protected override void Start()
         {
@@ -27,6 +36,10 @@ namespace DiceSurvivor.Weapon
 
             // 리스트 초기화
             activeAsteroids = new List<AsteroidOrbit>();
+            if (asteroidPrefab == null)
+            {
+                Debug.LogError("[Asteroid] asteroidPrefab이 비어 있습니다. 인스펙터에서 지정하세요.");
+            }
 
         }
 
@@ -37,7 +50,9 @@ namespace DiceSurvivor.Weapon
             // 쿨다운 체크
             spawnTimer += Time.deltaTime;
 
-            if (spawnTimer >= cooldown)
+            // 활성 파동이 없을 때만 새 파동 생성 (프레임당 무한 생성 방지)
+            float cd = Mathf.Max(cooldown, MinCooldown);
+            if (!HasActiveWave && spawnTimer >= cd)
             {
                 PerformAttack();
                 spawnTimer = 0f;
@@ -55,10 +70,14 @@ namespace DiceSurvivor.Weapon
         /// </summary>
         private void UpdateActiveAsteroids()
         {
+            if (activeAsteroids == null) return; // NRE 1차 방어
+            
             for (int i = activeAsteroids.Count - 1; i >= 0; i--)
             {
+                
                 if (activeAsteroids[i] == null || !activeAsteroids[i].IsActive)
                 {
+                    
                     activeAsteroids.RemoveAt(i);
                 }
                 else
@@ -75,8 +94,12 @@ namespace DiceSurvivor.Weapon
         {
             LoadWeaponData();
 
-            // 초기 소행성 생성
-            PerformAttack();
+            /*// 시작 시 한 번만 소환 (이미 활성 파동이 있으면 중복 소환 금지)
+            if (!HasActiveWave)
+            {
+                PerformAttack();
+                spawnTimer = 0f;
+            }*/
         }
 
         /// <summary>
@@ -108,24 +131,27 @@ namespace DiceSurvivor.Weapon
         /// </summary>
         protected override void PerformAttack()
         {
+            if (asteroidPrefab == null || player == null) return;
+
+            //if (HasActiveWave) return;
+
             // 기존 소행성 제거
             //CleanupAllAsteroids();
 
             // projectileCount 만큼 소행성 생성
-            float angleStep = projectileCount;
+            int count = Mathf.Max(1, projectileCount);
+            float angleStep = 360f / count;
 
-            for (int i = 0; i < projectileCount; i++)
+            for (int i = 0; i < count; i++)
             {
                 float angle = angleStep * i;
                 CreateAsteroid(angle);
             }
 
-            // duration 후 비활성화
-            if (deactivateCoroutine != null)
-            {
-                StopCoroutine(deactivateCoroutine);
-            }
-            deactivateCoroutine = StartCoroutine(DeactivateAfterDuration());
+            // duration 경과 후 전체 제거
+            if (deactivateCoroutine != null) StopCoroutine(deactivateCoroutine);
+            if (duration > 0f)
+                deactivateCoroutine = StartCoroutine(DeactivateAfterDuration());
 
             Debug.Log($"[Asteroid] {projectileCount}개 소행성 생성 - Duration: {duration}초");
         }
@@ -136,8 +162,10 @@ namespace DiceSurvivor.Weapon
         private void CreateAsteroid(float startAngle)
         {
             // 소행성 생성 (플레이어가 아닌 월드 공간에 생성)
-            GameObject asteroid = Instantiate(asteroidPrefab);
+            GameObject asteroid = Instantiate(asteroidPrefab, player.position, Quaternion.identity);
             asteroid.name = $"Asteroid";
+
+            asteroid.transform.SetParent(this.transform, worldPositionStays: true);
 
             // AsteroidOrbit 컴포넌트 추가/설정
             AsteroidOrbit orbit = asteroid.GetComponent<AsteroidOrbit>();
@@ -167,8 +195,13 @@ namespace DiceSurvivor.Weapon
         {
             yield return new WaitForSeconds(duration);
 
-            Debug.Log($"[Asteroid] Duration 종료 - 소행성 비활성화");
-            CleanupAllAsteroids();
+            
+            if (duration < cooldown)
+            {
+                CleanupAllAsteroids();
+                Debug.Log($"[Asteroid] Duration 종료 - 소행성 비활성화");
+            }
+            
         }
 
         /// <summary>
@@ -176,6 +209,7 @@ namespace DiceSurvivor.Weapon
         /// </summary>
         private void CleanupInactiveAsteroids()
         {
+            if (activeAsteroids == null) return;
             activeAsteroids.RemoveAll(asteroid => asteroid == null || !asteroid.IsActive);
         }
 
@@ -184,6 +218,7 @@ namespace DiceSurvivor.Weapon
         /// </summary>
         private void CleanupAllAsteroids()
         {
+            if (activeAsteroids == null) return;
             foreach (var asteroid in activeAsteroids)
             {
                 if (asteroid != null)
@@ -208,8 +243,8 @@ namespace DiceSurvivor.Weapon
 
             // 레벨업 시 즉시 새로운 소행성 생성
             CleanupAllAsteroids();
-            PerformAttack();
             spawnTimer = 0f;
+            PerformAttack();
 
             Debug.Log($"[Asteroid] 레벨업! 현재 레벨: {currentLevel}");
         }
@@ -237,7 +272,7 @@ namespace DiceSurvivor.Weapon
             CleanupAllAsteroids();
         }
     }
-
+    /*
     /// <summary>
     /// 소행성 공전 컴포넌트
     /// </summary>
@@ -346,8 +381,8 @@ namespace DiceSurvivor.Weapon
 
                         Debug.Log($"[AsteroidOrbit] {other.name}에게 데미지 {damage} 적용");
 
-                        /*// 타격 이펙트
-                        CreateHitEffect(other.transform.position);*/
+                        *//*// 타격 이펙트
+                        CreateHitEffect(other.transform.position);
                     }
                 }
             }
@@ -381,13 +416,14 @@ namespace DiceSurvivor.Weapon
 
             // 0.2초 후 제거
             Destroy(effect, 0.2f);
-        }*/
+        }
 
         /// <summary>
         /// 소행성 비활성화
         /// </summary>
         public void Deactivate()
         {
+            if (!IsActive) return;
             IsActive = false;
 
             // 페이드 아웃 효과
@@ -436,5 +472,5 @@ namespace DiceSurvivor.Weapon
                 Gizmos.DrawLine(transform.position, centerPoint.position);
             }
         }
-    }
+    }*/
 }
