@@ -1,5 +1,7 @@
 using DiceSurvivor.Attack;
+using DiceSurvivor.Utility;
 using DiceSurvivor.Weapon;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace DiceSurvivor.SHS
@@ -8,18 +10,16 @@ namespace DiceSurvivor.SHS
     {
         // 캐릭터 애니메이션을 제어할 Animator
         private Animator animator;
-
         // 현재 생성된 공격 이펙트의 인스턴스
         private ParticleSystem effect;
-
         // 무기 위치를 나타내는 소켓 (스피어/스태프 등은 이 위치를 따라감)
         public GameObject weaponSocket;
-
         // 생성할 공격 이펙트의 프리팹
         public ParticleSystem attackEffect;
-
         // 이펙트를 생성할 위치
         public Transform effectSpawnTransform;
+        //궤적 프리팹
+        public GameObject whipWayPointPrefab;
 
         // 기본 이펙트 삭제 시간 (무기에 따라 변경 가능)
         [SerializeField] private float defaultDestroyTime = 5f;
@@ -100,6 +100,18 @@ namespace DiceSurvivor.SHS
 
                 case WeaponType.Whip:
                     effect.GetComponentInChildren<rotation>().topEnd = effectSpawnTransform;
+
+                    //WayPointGenerator 설정
+                    WayPointsGenerator generator = effect.gameObject.AddComponent <WayPointsGenerator>();
+                    generator.center = effect.transform;
+                    generator.wayPointPrefab = whipWayPointPrefab;
+                    generator.count = 10;
+                    generator.radius = 2f;
+
+                    List<Transform> wayPoints = generator.GenerateWayPoints();
+
+                    WhipAttack whipAttack = this.GetComponent<WhipAttack>();
+                    whipAttack.SetWayPoints(wayPoints);
                     break;
             }
 
