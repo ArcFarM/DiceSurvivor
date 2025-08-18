@@ -82,12 +82,18 @@ namespace DiceSurvivor.Manager {
             RefreshGold();
         }
 
+        void OnDisable()
+        {
+            //상점 닫힐 때 현재 보유한 무기들과 정보 동기화
+            //예) im.SyncItemData();
+        }
         
         #endregion
 
         #region Custom Methods
         //구매 버튼 눌렀을 때 실행
-        public void BuyItem(ItemSlot slot) {
+        public void BuyItem(ItemSlot slot)
+        {
             //해당 칸 아이템 정보를 플레이어 한테 넘김
             TestItem itemToBuy = slot.currentItem;
             if (itemToBuy == null) return;
@@ -95,11 +101,13 @@ namespace DiceSurvivor.Manager {
             // 1. 금액 확인
             int itemCost = 0;
             //enum을 비트 형태로 만들어서 카테고리를 파악
-            int category = (int)(itemToBuy.type & TestItem.ItemType.SubWeapon) != 0 ?
-                            (int)TestItem.ItemType.SubWeapon : (int)itemToBuy.type;
+            TestItem.ItemType category = (int)(itemToBuy.type & TestItem.ItemType.SubWeapon) != 0 ?
+                            TestItem.ItemType.SubWeapon : itemToBuy.type;
+            //Debug.Log(category);
 
-            if (itemCosts.TryGetValue((TestItem.ItemType)category, out int cost))
+            if (itemCosts.TryGetValue(category, out int cost))
             {
+                //Debug.Log(cost);
                 itemCost = cost;
             }
             else Debug.LogError("해당 아이템 구매 시도 시 오류 발생 : " + itemToBuy);
@@ -110,14 +118,19 @@ namespace DiceSurvivor.Manager {
             bool hasItem = im.GetItemLevel(itemToBuy.itemName) > 0;
 
             // 3-1. 보유한 아이템이라면 최대 레벨 이상인 지 확인
-            if (hasItem) {
-                if(im.GetItemLevel(itemToBuy.itemName) >= itemToBuy.maxLevel) {
+            if (hasItem)
+            {
+                if (im.GetItemLevel(itemToBuy.itemName) >= itemToBuy.maxLevel)
+                {
                     VanishMaxLevelItem(itemToBuy);
                     return;
                 }
-            } else {
+            }
+            else
+            {
                 //3-2. 보유하지 않은 아이템이라면 남은 자리가 있는 지 확인
-                if (im.GetCurrentItemCount(itemToBuy.type) + 1 >= im.GetMaxItemCount(itemToBuy.type)) {
+                if (im.GetCurrentItemCount(itemToBuy.type) >= im.GetMaxItemCount(itemToBuy.type))
+                {
                     return;
                 }
             }

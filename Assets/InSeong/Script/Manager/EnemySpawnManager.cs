@@ -55,7 +55,7 @@ namespace DiceSurvivor.Manager {
             }
             // 주기적 적 스폰 관리
             spawnTimer += Time.deltaTime;
-            if (spawnTimer >= spawnInterval)
+            if (spawnTimer >= spawnInterval && epManager.enemyPool.Count > 0)
             {
                 //일반 적 스폰 로직 실행
                 SpawnEnemy(epManager.enemyDataArray[currentWaveIndex]);
@@ -65,6 +65,31 @@ namespace DiceSurvivor.Manager {
         }
         #endregion
         #region Custom Methods
+        //소환 가능 여부 점검
+        public bool SpawnCondCheck(EnemyData enemyData)
+        {
+            switch (enemyData.type)
+            {
+                case EnemyData.EnemyType.Normal:
+                    if (epManager.enemyPool.Count > 0)
+                    {
+                        return true; // 풀에 여유가 있어야 소환 가능
+                    } break;
+                case EnemyData.EnemyType.Elite:
+                    if (epManager.eliteEnemyPool.Count > 0)
+                    {
+                        return true; // 풀에 여유가 있어야 소환 가능
+                    } break;
+                case EnemyData.EnemyType.Boss:
+                    if (epManager.bossEnemyPool.Count > 0)
+                    {
+                        return true; // 풀에 여유가 있어야 소환 가능
+                    } break;
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// EnemyData 기준 적 스폰 (풀에서 꺼내어 위치 지정 및 활성화)
         /// </summary>

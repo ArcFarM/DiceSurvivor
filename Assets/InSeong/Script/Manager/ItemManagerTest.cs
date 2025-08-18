@@ -54,12 +54,16 @@ namespace DiceSurvivor.Manager {
             string itemName = item.itemName;
             bool hasItem = GetItemLevel(itemName) > 0;
 
-            if (hasItem) {
+            Debug.Log(hasItem);
+            Debug.Log(CanAddItem(item.type));
+            if (hasItem)
+            {
                 //기존 아이템 레벨업
                 if (GetItemLevel(itemName) >= item.maxLevel) return false;
                 itemLevelDict[itemName]++;
             }
-            else {
+            else
+            {
                 //새로운 아이템 추가
                 if (!CanAddItem(item.type)) return false;
                 AddNewItem(item);
@@ -79,7 +83,9 @@ namespace DiceSurvivor.Manager {
             switch (itemType) {
                 case TestItem.ItemType.MeleeWeapon:
                     return meleeWeapon != null ? 1 : 0;
-                case TestItem.ItemType.SubWeapon:
+                case TestItem.ItemType.RangedWeapon:
+                    return subWeapons.Count;
+                case TestItem.ItemType.SplashWeapon:
                     return subWeapons.Count;
                 case TestItem.ItemType.Passive:
                     return passives.Count;
@@ -99,7 +105,10 @@ namespace DiceSurvivor.Manager {
                 case TestItem.ItemType.MeleeWeapon:
                     meleeWeapon = item;
                     break;
-                case TestItem.ItemType.SubWeapon:
+                case TestItem.ItemType.RangedWeapon:
+                    subWeapons.Add(item);
+                    break;
+                case TestItem.ItemType.SplashWeapon:
                     subWeapons.Add(item);
                     break;
                 case TestItem.ItemType.Passive:

@@ -9,15 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4762164f8a2b69a4096aab5dfe217ac6, type: 3}
-  m_Name: Scythe
+  m_Script: {fileID: 11500000, guid: 7631d352148fc7f4ca9319b844ec463e, type: 3}
+  m_Name: Passives
   m_EditorClassIdentifier: 
-  id: MW_Scythe
-  itemName: Scythe
-  icon: {fileID: 0}
-  modelPrefab: {fileID: 0}
-  type: 1
-  buyPrice: 0
-  sellPrice: 0
-  isCanBuy: 1
-  description: 
+  items: []
