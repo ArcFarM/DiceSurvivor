@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace DiceSurvivor.SHS
+namespace DiceSurvivor.Type
 {
     public enum SkillType
     {

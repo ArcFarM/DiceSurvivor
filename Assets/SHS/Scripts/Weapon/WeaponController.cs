@@ -1,5 +1,5 @@
+using DiceSurvivor.Attack;
 using DiceSurvivor.Manager;
-using DiceSurvivor.SHS;
 using UnityEngine;
 
 namespace DiceSurvivor.Weapon
@@ -25,20 +25,26 @@ namespace DiceSurvivor.Weapon
         #endregion
 
         #region Unity Event Methods
-        private void Start()
+        private void Awake()
         {
             animator = this.GetComponent<Animator>();
-            attackEffect = this.GetComponentInChildren<AttackEffectSpawn>();
+            attackEffect = this.GetComponentInChildren<AttackEffectSpawn>();            
+        }
 
+        private void Start()
+        {
             LoadWeaponData();
         }
 
-        private void Update()
+        private void OnEnable()
         {
-            if (Input.GetMouseButtonDown(0)) // 마우스 왼쪽 클릭 시
-            {
-                animator.SetTrigger("IsAttack"); // 공격 애니메이션 트리거 실행
-            }
+            int dictLevel = ItemManager.Instance.GetItemLevel(weaponName);
+            if (weaponLevel < dictLevel) weaponLevel = dictLevel;
+            animator.SetBool("IsAttack",true); // 공격 애니메이션 트리거 실행
+        }
+        private void OnDisable()
+        {
+            animator.SetBool("IsAttack", false);
         }
         #endregion
 

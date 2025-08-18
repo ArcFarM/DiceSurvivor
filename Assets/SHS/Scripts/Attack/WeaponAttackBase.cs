@@ -31,6 +31,7 @@ namespace DiceSurvivor.Attack
         #region Unity Event Methods
         protected virtual void Awake()
         {
+            if(GetComponentInParent<WeaponController>() != null)
             weaponController = GetComponentInParent<WeaponController>();            
             if (weaponController != null)
             {

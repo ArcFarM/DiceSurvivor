@@ -1,11 +1,11 @@
-using DiceSurvivor.Attack;
 using DiceSurvivor.Manager;
+using DiceSurvivor.Type;
 using DiceSurvivor.Utility;
 using DiceSurvivor.Weapon;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DiceSurvivor.SHS
+namespace DiceSurvivor.Attack
 {
     public class AttackEffectSpawn : MonoBehaviour
     {
