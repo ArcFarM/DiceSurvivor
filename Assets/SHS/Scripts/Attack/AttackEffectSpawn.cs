@@ -1,4 +1,5 @@
 using DiceSurvivor.Attack;
+using DiceSurvivor.Manager;
 using DiceSurvivor.Utility;
 using DiceSurvivor.Weapon;
 using System.Collections.Generic;
@@ -8,17 +9,20 @@ namespace DiceSurvivor.SHS
 {
     public class AttackEffectSpawn : MonoBehaviour
     {
-        // 캐릭터 애니메이션을 제어할 Animator
-        private Animator animator;
+        #region Variables
         // 현재 생성된 공격 이펙트의 인스턴스
         private ParticleSystem effect;
-        // 무기 위치를 나타내는 소켓 (스피어/스태프 등은 이 위치를 따라감)
-        public GameObject weaponSocket;
+
+        //Attack Handler
+        public GameObject weaponHandler;
+
         // 생성할 공격 이펙트의 프리팹
         public ParticleSystem attackEffect;
+
         // 이펙트를 생성할 위치
         public Transform effectSpawnTransform;
-        //궤적 프리팹
+
+        // 채찍 궤적에 사용할 WayPoint 프리팹
         public GameObject whipWayPointPrefab;
 
         // 기본 이펙트 삭제 시간 (무기에 따라 변경 가능)
@@ -26,96 +30,84 @@ namespace DiceSurvivor.SHS
 
         // 현재 장착 중인 무기 타입
         [SerializeField] private WeaponType currentWeapon;
+        #endregion
 
-        // 초기화 (Animator 참조 가져오기)
-        private void Start()
-        {
-            animator = GetComponent<Animator>();
-        }
-
-        // 매 프레임마다 입력 감지
-        private void Update()
-        {
-            // 마우스 왼쪽 클릭 시 공격 애니메이션 트리거 실행
-            if (Input.GetMouseButtonDown(0))
-            {
-                animator.SetTrigger("IsAttack");
-            }
-        }
-
-        // LateUpdate: 모든 Update가 끝난 뒤 호출 (이펙트 위치를 무기 소켓에 맞춤)
+        #region Unity Event Method
+        // 이펙트 위치 보정 (무기 소켓에 맞춰 위치 조정)
         private void LateUpdate()
         {
-            if (effect == null) return;
+            if (effect == null) return; // 이펙트가 없으면 종료
 
             switch (currentWeapon)
             {
                 case WeaponType.Hammer:
-                    // 해머는 위치 고정 (아무 것도 안 함)
+                    // 해머는 위치 고정 (보정 없음)
                     break;
 
                 case WeaponType.GreatSword:
-                    // 대검 전용 위치 보정 (필요 시)
+                    // 대검 전용 위치 보정 (필요 시 구현)
                     break;
 
                 case WeaponType.Scythe:
-                    // 낫 전용 위치 보정 (필요 시)
+                    // 낫 전용 위치 보정 (필요 시 구현)
                     break;
 
                 case WeaponType.Whip:
-                    // 채찍 전용 위치 보정 (필요 시)
+                    // 채찍 전용 위치 보정 (필요 시 구현)
                     break;
 
                 case WeaponType.Staff:
                 case WeaponType.Spear:
-                    // 스태프/스피어는 무기 소켓을 따라감
+                    //이펙트 위치를 맞춤
                     effect.transform.position = effectSpawnTransform.transform.position;
                     break;
             }
         }
+        #endregion
 
-        // 공격 이펙트를 생성하는 메서드 (Animation Event로 호출 가능)
+        #region Custom Method
+        // 공격 이펙트를 생성하는 함수 (애니메이션 이벤트에서 호출 가능)
         public void SpawnAttackEffect()
         {
-            effect = Instantiate(attackEffect, effectSpawnTransform.position, effectSpawnTransform.rotation);
+            effect = Instantiate(attackEffect, effectSpawnTransform.position, effectSpawnTransform.rotation); // 이펙트 생성
 
             float destroyTime = (currentWeapon == WeaponType.Staff || currentWeapon == WeaponType.Spear)
                 ? 0.5f
-                : defaultDestroyTime;
+                : defaultDestroyTime; // 무기 타입에 따라 삭제 시간 설정
 
             switch (currentWeapon)
             {
                 case WeaponType.Hammer:
-                    WeaponController weaponController = this.GetComponent<WeaponController>();
+                    WeaponController weaponController = this.GetComponentInParent<WeaponController>(); // 무기 정보 가져오기
 
-                    // 해머 전용 이펙트 설정
-                    WeaponSplashAttack aoe = effect.GetComponent<WeaponSplashAttack>();
-                    aoe.weaponData = weaponController;
+                    WeaponSplashAttack aoe = effect.GetComponent<WeaponSplashAttack>(); // 해머 전용 이펙트 컴포넌트
+                    aoe.Weapon = weaponController.currentWeaponStats; // 무기 스탯 전달
                     break;
 
                 case WeaponType.Staff:
                 case WeaponType.Spear:
-                    effect.GetComponentInChildren<rotation>().topEnd = effectSpawnTransform;
+                    effect.GetComponentInChildren<rotation>().topEnd = effectSpawnTransform; // 회전 이펙트의 끝 위치 설정
                     break;
 
                 case WeaponType.Whip:
-                    effect.GetComponentInChildren<rotation>().topEnd = effectSpawnTransform;
+                    effect.GetComponentInChildren<rotation>().topEnd = effectSpawnTransform; // 회전 이펙트의 끝 위치 설정
 
-                    //WayPointGenerator 설정
-                    WayPointsGenerator generator = effect.gameObject.AddComponent <WayPointsGenerator>();
-                    generator.center = effect.transform;
-                    generator.wayPointPrefab = whipWayPointPrefab;
-                    generator.count = 10;
-                    generator.radius = 2f;
+                    // 채찍 궤적 생성기 설정
+                    WayPointsGenerator generator = effect.gameObject.AddComponent<WayPointsGenerator>(); // 궤적 생성기 추가
+                    generator.center = this.transform;               // 궤적 중심 설정
+                    generator.wayPointPrefab = whipWayPointPrefab;     // 궤적 프리팹 설정
+                    generator.count = 10;                              // 궤적 점 개수
+                    generator.radius = 2f;                             // 궤적 반지름
 
-                    List<Transform> wayPoints = generator.GenerateWayPoints();
+                    List<Transform> wayPoints = generator.GenerateWayPoints(); // 궤적 생성
 
-                    WhipAttack whipAttack = this.GetComponent<WhipAttack>();
-                    whipAttack.SetWayPoints(wayPoints);
+                    WhipAttack whipAttack = weaponHandler.GetComponent<WhipAttack>(); // 채찍 공격 스크립트 가져오기
+                    whipAttack.SetWayPoints(wayPoints);                      // 궤적 전달
                     break;
             }
 
-            Destroy(effect.gameObject, destroyTime);
+            Destroy(effect.gameObject, destroyTime); // 일정 시간 후 이펙트 삭제
         }
+        #endregion
     }
 }

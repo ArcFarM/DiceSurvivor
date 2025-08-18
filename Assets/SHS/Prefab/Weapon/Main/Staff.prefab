@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4533500236424997146}
   - component: {fileID: 3194980286135269485}
   - component: {fileID: 1450551446988739964}
-  - component: {fileID: 1490751845927227532}
   - component: {fileID: 1361981565660569192}
   m_Layer: 0
   m_Name: Staff
@@ -30,12 +29,13 @@ Transform:
   m_GameObject: {fileID: 2543301890157092858}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.636, y: 1.956, z: 0.328}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 150, y: 150, z: 150}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6797206515523561574}
   - {fileID: 3552725122605204844}
+  - {fileID: 6298716209565536737}
   m_Father: {fileID: 8203854579098323121}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!33 &4533500236424997146
@@ -114,23 +114,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1490751845927227532
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2543301890157092858}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67ede863dc97ba34b9b630bd0690cc85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weaponSocket: {fileID: 0}
-  attackEffect: {fileID: 8771972552311404798, guid: bbf9e36a48d6c5648a13889afab076fd, type: 3}
-  effectSpawnTransform: {fileID: 6797206515523561574}
-  defaultDestroyTime: 5
-  currentWeapon: 3
 --- !u!114 &1361981565660569192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,7 +159,7 @@ GameObject:
   - component: {fileID: 4647265626554002545}
   - component: {fileID: 5815586999189140687}
   m_Layer: 0
-  m_Name: StaffAttackCollider
+  m_Name: StaffAttackHandler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -230,7 +213,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a18e77f7e8f88a49a25c20de0f85b70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponData: {fileID: 1361981565660569192}
+  weapon:
+    id: 
+    name: 
+    type: 
+    level: 0
+    damage: 0
+    cooldown: 0
+    radius: 0
+    range: 0
+    projectileSize: 0
+    projectileSpeed: 0
+    projectileCount: 0
+    explosionRadius: 0
+    explosionDamage: 0
+    dotDamage: 0
+    duration: 0
+    isPiercing: 0
+    canReturn: 0
+    description: 
 --- !u!1 &5753544182472280001
 GameObject:
   m_ObjectHideFlags: 0
@@ -294,3 +295,53 @@ Transform:
   - {fileID: 2959169050705578625}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8457038706579589509
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6298716209565536737}
+  - component: {fileID: 6492639007241584096}
+  m_Layer: 0
+  m_Name: EffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6298716209565536737
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8457038706579589509}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2959169050705578625}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6492639007241584096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8457038706579589509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67ede863dc97ba34b9b630bd0690cc85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponHandler: {fileID: 4783074390387939481}
+  attackEffect: {fileID: 8771972552311404798, guid: bbf9e36a48d6c5648a13889afab076fd, type: 3}
+  effectSpawnTransform: {fileID: 6797206515523561574}
+  whipWayPointPrefab: {fileID: 0}
+  defaultDestroyTime: 5
+  currentWeapon: 3

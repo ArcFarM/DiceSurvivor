@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 8848151730521837207}
   - component: {fileID: 8487481388565722694}
   m_Layer: 0
-  m_Name: ScytheAttackCollider
+  m_Name: ScytheAttackHandler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -99,7 +99,75 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a18e77f7e8f88a49a25c20de0f85b70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponData: {fileID: 7747004815701433319}
+  weapon:
+    id: 
+    name: 
+    type: 
+    level: 0
+    damage: 0
+    cooldown: 0
+    radius: 0
+    range: 0
+    projectileSize: 0
+    projectileSpeed: 0
+    projectileCount: 0
+    explosionRadius: 0
+    explosionDamage: 0
+    dotDamage: 0
+    duration: 0
+    isPiercing: 0
+    canReturn: 0
+    description: 
+--- !u!1 &4925737453232061193
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3431704233990071623}
+  - component: {fileID: 4038706506013903248}
+  m_Layer: 0
+  m_Name: EffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3431704233990071623
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4925737453232061193}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8016508921003520503}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4038706506013903248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4925737453232061193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67ede863dc97ba34b9b630bd0690cc85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponHandler: {fileID: 4426686814134946065}
+  attackEffect: {fileID: 4290056422615982472, guid: 502af7a156b744a4088f8084c907be08, type: 3}
+  effectSpawnTransform: {fileID: 6071960459133216896}
+  whipWayPointPrefab: {fileID: 0}
+  defaultDestroyTime: 5
+  currentWeapon: 5
 --- !u!1 &5176784026083521446
 GameObject:
   m_ObjectHideFlags: 0
@@ -143,7 +211,6 @@ GameObject:
   - component: {fileID: 4610960232188872550}
   - component: {fileID: 6079005605547725206}
   - component: {fileID: 4517450603092327652}
-  - component: {fileID: 2658573619121785077}
   - component: {fileID: 7747004815701433319}
   m_Layer: 0
   m_Name: Scythe
@@ -161,11 +228,12 @@ Transform:
   m_GameObject: {fileID: 7171525237136095981}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0.7071068, w: 0}
-  m_LocalPosition: {x: -0, y: 0.6, z: 0.79}
+  m_LocalPosition: {x: -0, y: 0.6, z: 0}
   m_LocalScale: {x: 200.00008, y: 200.0001, z: 200.00009}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 453856930233776743}
+  - {fileID: 3431704233990071623}
   m_Father: {fileID: 352213645502524006}
   m_LocalEulerAnglesHint: {x: -180, y: -90, z: 0}
 --- !u!33 &4610960232188872550
@@ -244,23 +312,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &2658573619121785077
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7171525237136095981}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67ede863dc97ba34b9b630bd0690cc85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weaponSocket: {fileID: 0}
-  attackEffect: {fileID: 4290056422615982472, guid: 502af7a156b744a4088f8084c907be08, type: 3}
-  effectSpawnTransform: {fileID: 6071960459133216896}
-  defaultDestroyTime: 5
-  currentWeapon: 5
 --- !u!114 &7747004815701433319
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,8 +1,9 @@
+using DiceSurvivor.Weapon;
 using UnityEngine;
 
 namespace DiceSurvivor.Attack
 {
-    public class WeaponSplashAttack : WeaponAttack
+    public class WeaponSplashAttack : WeaponAttackBase
     {
         #region Variables
         #endregion
@@ -11,11 +12,11 @@ namespace DiceSurvivor.Attack
         #endregion
 
         #region Unity Event Methods
-        protected override void OnTriggerEnter(Collider other)
+        private void OnTriggerEnter(Collider other)
         {
             if (other.tag == "Enemy")
             {
-                Debug.Log($"적 피해 받음 : {weaponData.currentWeaponStats.explosionDamage}");
+                Debug.Log($"적 피해 받음 : {Weapon.explosionDamage}");
             }
         }
         #endregion
