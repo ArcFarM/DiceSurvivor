@@ -15,6 +15,9 @@ namespace DiceSurvivor.Enemy {
         //화면 이탈 시간 체크
         float outTimeCheck = 0f;
         [SerializeField] float outTimeThreshold = 2f;
+
+        //적 뭉치기 방지에 사용될 거리 임계점
+        [SerializeField] float clusterThreshold = 2f;
         #endregion
 
         #region Properties
@@ -40,8 +43,10 @@ namespace DiceSurvivor.Enemy {
         }
         private void Update()
         {
+
             if (enemyData.type == EnemyData.EnemyType.Normal || enemyData.type == EnemyData.EnemyType.Summoned)
             {
+                if (Repulse()) return;
                 NormalEnemyMove();
             }
             else if (enemyData.type == EnemyData.EnemyType.Elite)
@@ -144,9 +149,30 @@ namespace DiceSurvivor.Enemy {
                 {
                     Vector3 pushDir = (transform.position - other.transform.position).normalized;
                     pushDir = new Vector3(pushDir.x, 0, pushDir.z);
-                    transform.position += pushDir * Time.deltaTime;
+                    transform.position += pushDir * Time.deltaTime * enemyData.speed;
                 }
             }
+        }
+
+        //주기적인 적 분산
+        bool Repulse()
+        {
+            //플레이어와의 거리가 너무 멀어지면 현재 상황에 상관없이 false 반환
+            if (Vector3.Distance(transform.position, playerPos.position) > clusterThreshold) return false;
+            Collider[] nearby = Physics.OverlapSphere(transform.position, 0.75f);
+            int enemyCount = 0;
+
+            foreach (var collider in nearby)
+            {
+                if (collider.CompareTag("Enemy") && collider.transform != transform)
+                {
+                    enemyCount++;
+                }
+            }
+
+            // 3마리 이상 몰려있으면 다음 프레임은 멈춰있기
+            if (enemyCount >= 3) return true;
+            else return false;
         }
 
         //TODO : 무기 피격 시 체력 손실 및 넉백 처리
