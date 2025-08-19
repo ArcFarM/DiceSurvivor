@@ -2,39 +2,168 @@ using DiceSurvivor.Manager;
 using UnityEngine;
 
 namespace DiceSurvivor.Enemy {
-    public class EnemyActivity : MonoBehaviour {
+    public class EnemyActivity : MonoBehaviour
+    {
         #region Variables
-        EnemyData enemyData; 
+        [SerializeField] EnemyData enemyData;
         public Transform playerPos;
+        //엘리트 길막 방지
+        int blockedCounter = 0;
+        float blockRadius = 0.25f;
+        //화면 이탈 시 재진입을 위한 경계선 offset
+        [SerializeField] float border = 2f;
+        //화면 이탈 시간 체크
+        float outTimeCheck = 0f;
+        [SerializeField] float outTimeThreshold = 2f;
         #endregion
 
         #region Properties
-        public EnemyData EnemyData {
+        public EnemyData EnemyData
+        {
             get { return enemyData; }
             set { enemyData = value; }
         }
         #endregion
 
         #region Unity Event Methods
-        private void Start() {
+        private void Start()
+        {
+            border = EnemySpawnManager.Instance.spawnDistance;
             // 플레이어의 위치를 찾기
             playerPos = EnemySpawnManager.Instance.playerPos;
-            if (playerPos == null) {
+            if (playerPos == null)
+            {
                 Debug.LogError("Player position not found. Please ensure the player is tagged correctly.");
             }
+
+            //적의 타입에 따라서 다른 이동 방식을 설정
         }
-        private void Update() {
-            //playerPos를 향해 이동
-            if (playerPos != null) {
-                Vector3 direction = (playerPos.position - transform.position).normalized;
-                transform.position += direction * Time.deltaTime;
+        private void Update()
+        {
+            if (enemyData.type == EnemyData.EnemyType.Normal || enemyData.type == EnemyData.EnemyType.Summoned)
+            {
+                NormalEnemyMove();
             }
+            else if (enemyData.type == EnemyData.EnemyType.Elite)
+            {
+                //엘리트 타입은 충돌감지 추가
+                CheckCollision();
+                EliteEnemyMove();
+            }
+            //보스 타입은 전용 스크립트를 사용 (패턴의 존재)
         }
 
-        
         #endregion
 
         #region Custom Methods
+        void NormalEnemyMove()
+        {
+            if (checkBorderOut())
+            {
+                outTimeCheck += Time.deltaTime;
+                //화면을 벗어난 시간이 2초 이상이라면 풀에 다시 반환
+                if (outTimeCheck >= outTimeThreshold)
+                {
+                    EnemyPoolManager.Instance.ReturnEnemy(enemyData, this.gameObject);
+                }
+            }
+            Vector3 dir = (playerPos.position - transform.position).normalized;
+            dir = new Vector3(dir.x, 0, dir.z);
+            transform.position += dir * Time.deltaTime * enemyData.speed;
+
+            OnOverlapped();
+        }
+        void EliteEnemyMove()
+        {
+            Vector3 dir = (playerPos.position - transform.position).normalized;
+            dir = new Vector3(dir.x, 0, dir.z);
+            if (checkBorderOut())
+            {
+                //경계 이탈 시 재진입
+                ResetPosition();
+            }
+            transform.position += dir * Time.deltaTime * enemyData.speed;
+            OnOverlapped();
+            //TODO : 일정 시간 이상 (counter가 일정 횟수 이상) 막혀있다면 강제 재진입
+            if (blockedCounter > 100)
+            {
+                ResetPosition();
+            }
+        }
+        //화면 경계선을 벗어났는 지 판단하는 함수 - true면 화면 경계선을 이탈했음
+        bool checkBorderOut()
+        {
+            Vector3 minWorld = playerPos.position - new Vector3(border, 0, border);
+            Vector3 maxWorld = playerPos.position + new Vector3(border, 0, border);
+
+            Vector3 pos = transform.position;
+            bool xOutBorder = pos.x < minWorld.x - border || pos.x > maxWorld.x + border;
+            bool zOutBorder = pos.z < minWorld.z - border || pos.z > maxWorld.z + border;
+            return xOutBorder || zOutBorder;
+        }
+
+        //경계를 벗어난 위치를 재조정
+        void ResetPosition()
+        {
+            Vector3 minWorld = playerPos.position - new Vector3(border, 0, border);
+            Vector3 maxWorld = playerPos.position + new Vector3(border, 0, border);
+            Vector3 pos = transform.position;
+
+            if (pos.x < minWorld.x)
+                pos.x = maxWorld.x - border * 0.9f;
+            else if (pos.x > maxWorld.x)
+                pos.x = minWorld.x + border * 0.9f;
+            if (pos.z < minWorld.z)
+                pos.z = maxWorld.z - border * 0.9f;
+            else if (pos.z > maxWorld.z)
+                pos.z = minWorld.z + border * 0.9f;
+            transform.position = pos;
+        }
+
+        void CheckCollision()
+        {
+            Collider[] hits = Physics.OverlapSphere(transform.position, blockRadius);
+
+            foreach (var hit in hits)
+            {
+                // Doodad 태그 오브젝트와만 충돌 판정
+                if (hit.CompareTag("Doodad"))
+                {
+                    blockedCounter++;
+                    return;
+                }
+            }
+        }
+        //겹쳐 있는 적 해제하기
+        void OnOverlapped()
+        {
+            Collider[] overlaps = Physics.OverlapSphere(transform.position, blockRadius);
+            foreach (var other in overlaps)
+            {
+                if (other.transform != transform && other.CompareTag("Enemy"))
+                {
+                    Vector3 pushDir = (transform.position - other.transform.position).normalized;
+                    pushDir = new Vector3(pushDir.x, 0, pushDir.z);
+                    transform.position += pushDir * Time.deltaTime;
+                }
+            }
+        }
+
+        //TODO : 무기 피격 시 체력 손실 및 넉백 처리
+        public void TakeDamage(float damage)
+        {
+
+        }
+
+        public void Die()
+        {
+            // 적 사망 처리 : 비활성화 + 풀로 돌아가기
+        }
+
+        void GetKnockBack(float force)
+        {
+            //플레이어에게 가는 반대 방향으로 밀리기
+        }
         #endregion
     }
 

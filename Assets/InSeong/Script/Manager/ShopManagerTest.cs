@@ -81,12 +81,6 @@ namespace DiceSurvivor.Manager {
             FillItem();
             RefreshGold();
         }
-
-        void OnDisable()
-        {
-            //상점 닫힐 때 현재 보유한 무기들과 정보 동기화
-            //예) im.SyncItemData();
-        }
         
         #endregion
 
@@ -285,7 +279,7 @@ namespace DiceSurvivor.Manager {
         }
 
         //최대 레벨에 도달한 아이템 삭제
-        void VanishMaxLevelItem(TestItem item) {
+        public void VanishMaxLevelItem(TestItem item) {
             string itemName = item.itemName;
             int maxLevel = item.maxLevel;
 

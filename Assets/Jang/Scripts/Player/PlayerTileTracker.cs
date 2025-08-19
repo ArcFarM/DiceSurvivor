@@ -2,73 +2,73 @@ using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// ÇÃ·¹ÀÌ¾î ÁÖº¯¿¡ ÀÖ´Â Å¸ÀÏÀ» ÁÖ±âÀûÀ¸·Î È®ÀÎÇÏ¿©
-/// ÀÏÁ¤ °Å¸® ¾È¿¡ ÀÖ´Â Å¸ÀÏÀº È°¼ºÈ­ÇÏ°í, ¹ş¾î³­ Å¸ÀÏÀº ºñÈ°¼ºÈ­ÇÏ´Â Å¬·¡½º.
+/// í”Œë ˆì´ì–´ ì£¼ë³€ì— ìˆëŠ” íƒ€ì¼ì˜ ì£¼ê¸°ì ìœ¼ë¡œ í™•ì¸í•˜ì—¬
+/// ê·¼ì²˜ ê±°ë¦¬ ì•ˆì— ìˆëŠ” íƒ€ì¼ì„ í™œì„±í™”í•˜ê³ , ë¨¼ íƒ€ì¼ì„ ë¹„í™œì„±í™”í•˜ëŠ” í´ë˜ìŠ¤.
 /// </summary>
 public class PlayerTileTracker : MonoBehaviour
 {
     #region Variables
-    private Transform player;                 // ÇÃ·¹ÀÌ¾î Transform (ÀÚ±â ÀÚ½Å)
-    [SerializeField]private float checkInterval = 0.3f;       // Å¸ÀÏ °»½Å ÁÖ±â (ÃÊ ´ÜÀ§)
+    private Transform player;                 // í”Œë ˆì´ì–´ Transform (ìê¸° ìì‹ )
+    [SerializeField]private float checkInterval = 0.3f;       // íƒ€ì¼ ì²´í¬ ì£¼ê¸° (ì´ˆ ë‹¨ìœ„)
     #endregion
 
     #region Unity Event Method
     void Start()
     {
-        player = transform;                   // ÇÃ·¹ÀÌ¾î ÀÚ½ÅÀÇ Transform ÂüÁ¶
-        StartCoroutine(UpdateTilesRoutine()); // Å¸ÀÏ °»½Å ÄÚ·çÆ¾ ½ÃÀÛ
+        player = transform;                   // í”Œë ˆì´ì–´ ìì‹ ì˜ Transform í• ë‹¹
+        StartCoroutine(UpdateTilesRoutine()); // íƒ€ì¼ ì²´í¬ ì½”ë£¨í‹´ ì‹œì‘
     }
     #endregion
 
     #region Custom Method
 
     /// <summary>
-    /// ÀÏÁ¤ ½Ã°£ °£°İÀ¸·Î ÁÖº¯ Å¸ÀÏ »óÅÂ¸¦ °»½ÅÇÏ´Â ÄÚ·çÆ¾
+    /// ì¼ì • ì‹œê°„ ê°„ê²©ìœ¼ë¡œ ì£¼ë³€ íƒ€ì¼ ìƒíƒœë¥¼ ì—…ë°ì´íŠ¸í•˜ëŠ” ì½”ë£¨í‹´
     /// </summary>
     IEnumerator UpdateTilesRoutine()
     {
         while (true)
         {
-            UpdateNearbyTiles();                         // ÁÖº¯ Å¸ÀÏ °»½Å
-            yield return new WaitForSeconds(checkInterval); // ÀÏÁ¤ ½Ã°£ ´ë±â
+            UpdateNearbyTiles();                         // ì£¼ë³€ íƒ€ì¼ ì²´í¬
+            yield return new WaitForSeconds(checkInterval); // ëŒ€ê¸° ì‹œê°„ í›„
         }
     }
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾î ÁÖº¯ Å¸ÀÏÀ» È®ÀÎÇÏ°í °Å¸® ¾ÈÀÌ¸é È°¼ºÈ­, ¹Ù±ùÀÌ¸é ºñÈ°¼ºÈ­
+    /// í”Œë ˆì´ì–´ ì£¼ë³€ íƒ€ì¼ì„ í™•ì¸í•˜ê³  ê±°ë¦¬ ë©€ë©´ í™œì„±í™”, ê°€ê¹Œìš°ë©´ ë¹„í™œì„±í™”
     /// </summary>
     void UpdateNearbyTiles()
     {
-        int chunkSize = MapChunkManager.Instance.GetChunkSize();         // Å¸ÀÏ(Ã»Å©) Å©±â
-        float activationRange = MapChunkManager.Instance.GetActivationRange(); // Å¸ÀÏ È°¼ºÈ­ °Å¸® ¹üÀ§
+        int chunkSize = MapChunkManager.Instance.GetChunkSize();         // íƒ€ì¼(ì²­í¬) í¬ê¸°
+        float activationRange = MapChunkManager.Instance.GetActivationRange(); // íƒ€ì¼ í™œì„±í™” ê±°ë¦¬ ë²”ìœ„
 
-        // ÇÃ·¹ÀÌ¾î À§Ä¡¸¦ ±âÁØÀ¸·Î ÇöÀç ¾î¶² Ã»Å©(Å¸ÀÏ) À§¿¡ ÀÖ´ÂÁö ÁÂÇ¥ °è»ê
+        // í”Œë ˆì´ì–´ ìœ„ì¹˜ë¥¼ ê¸°ì¤€ìœ¼ë¡œ í˜„ì¬ ì–´ëŠ ì²­í¬(íƒ€ì¼) ì•ˆì— ìˆëŠ”ì§€ ì¢Œí‘œ ê³„ì‚°
         Vector2Int playerCoord = new(
             Mathf.FloorToInt(player.position.x / chunkSize),
             Mathf.FloorToInt(player.position.z / chunkSize)
         );
 
-        // È°¼ºÈ­ ¹üÀ§ ³»¿¡¼­ ¾ó¸¶³ª ¸¹Àº Ã»Å©¸¦ È®ÀÎÇÒÁö °è»ê
+        // í™œì„±í™” ë²”ìœ„ ê¸°ì¤€ìœ¼ë¡œ ì–¼ë§ˆë‚˜ ë§ì€ ì²­í¬ë¥¼ í™•ì¸í• ì§€ ê³„ì‚°
         int range = Mathf.CeilToInt(activationRange / chunkSize);
 
-        // range ¹üÀ§ ¾È¿¡ ÀÖ´Â Ã»Å©µéÀ» ¹İº¹ÇÏ¸ç È®ÀÎ
+        // range ë²”ìœ„ ì•ˆì— ìˆëŠ” ì²­í¬ë“¤ì„ ë°˜ë³µí•˜ë©° í™•ì¸
         for (int x = -range; x <= range; x++)
         {
             for (int z = -range; z <= range; z++)
             {
-                // ÁÖº¯ Ã»Å© ÁÂÇ¥ °è»ê
+                // ì£¼ë³€ ì²­í¬ ì¢Œí‘œ ê³„ì‚°
                 Vector2Int coord = new(playerCoord.x + x, playerCoord.y + z);
 
-                // ÇØ´ç Ã»Å©ÀÇ ¿ùµå À§Ä¡ °è»ê (Áß½ÉÁ¡ ±âÁØ)
+                // í•´ë‹¹ ì²­í¬ì˜ ì›”ë“œ ìœ„ì¹˜ ê³„ì‚° (ì¤‘ì‹¬ì  ê¸°ì¤€)
                 Vector3 tileWorldPos = new Vector3(coord.x * chunkSize, 0, coord.y * chunkSize);
 
-                // ÇÃ·¹ÀÌ¾î¿ÍÀÇ °Å¸® °è»ê
+                // í”Œë ˆì´ì–´ì™€ì˜ ê±°ë¦¬ ê³„ì‚°
                 float distance = Vector3.Distance(player.position, tileWorldPos);
 
                 if (distance <= activationRange)
-                    MapChunkManager.Instance.GetOrCreateTileAt(coord);   // ¹üÀ§ ¾ÈÀÌ¸é Å¸ÀÏ »ı¼º or È°¼ºÈ­
+                    MapChunkManager.Instance.GetOrCreateTileAt(coord);   // ê°€ê¹Œìš´ ê±°ë¦¬ë©´ íƒ€ì¼ ìƒì„± or í™œì„±í™”
                 else
-                    MapChunkManager.Instance.DeactivateTile(coord);     // ¹üÀ§ ¹ÛÀÌ¸é Å¸ÀÏ ºñÈ°¼ºÈ­
+                    MapChunkManager.Instance.DeactivateTile(coord);     // ë¨¼ ê±°ë¦¬ë©´ íƒ€ì¼ ë¹„í™œì„±í™”
             }
         }
     }

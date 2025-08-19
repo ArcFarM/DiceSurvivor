@@ -6,16 +6,17 @@ namespace DiceSurvivor.Enemy
     {
         #region Variables
         [SerializeField] private int maxHealth;
-        [SerializeField] private int currentHealth;
+        [SerializeField] private int currHealth;
         [SerializeField] private float moveSpeed;
         [SerializeField] private float damage;
-        
+
         #endregion
 
         #region Unity Event Methods
         #endregion
 
         #region Custom Methods
+        //
         #endregion
     }
 

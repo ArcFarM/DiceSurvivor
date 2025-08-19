@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3382238244315917998}
   - component: {fileID: 3717555704524197801}
   - component: {fileID: 3369913465642457241}
+  - component: {fileID: 7957958567329649205}
   m_Layer: 0
   m_Name: EnemyTest6
   m_TagString: Untagged
@@ -102,7 +103,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 983577228701aed4aa0b65808a44fa32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyData: {fileID: 0}
   playerPos: {fileID: 0}
+  borderMargin: 2
+  outTimeThreshold: 2
+--- !u!136 &7957958567329649205
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8209244736742389843}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1001 &3085232952396265042
 PrefabInstance:
   m_ObjectHideFlags: 0

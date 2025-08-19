@@ -14,8 +14,8 @@ namespace DiceSurvivor.Manager {
         // 플레이어 주변 위치에서 적 스폰해야 하므로 플레이어 위치 참조
         public Transform playerPos;
         [Header("적 스폰 관련 변수")]
-        public float minSpawnOffset = 5f; // 플레이어 주변에서 적 스폰할 반경 최소치
-        public float maxSpawnOffset = 10f; // 플레이어 주변에서 적 스폰할 반경 최대치
+        //TODO : 반드시 화면 가장자리에서 생성되게 변경
+        public float spawnDistance = 25f;
 
         public float spawnInterval = 0.2f; // 적 스폰 간격 (초)
         public float spawnTimer = 0f; // 스폰 타이머
@@ -61,6 +61,8 @@ namespace DiceSurvivor.Manager {
                 SpawnEnemy(epManager.enemyDataArray[currentWaveIndex]);
                 spawnTimer = 0f;
                 //TODO : 일정 조건을 만족했을 때 엘리트적/보스 적 소환 추가
+                //TODO : 엘리트는 일정 이상 적을 처치 or 시간 경과 시 소환
+                //TODO : 보스는 최종 웨이브 시간이 지났을 때 소환
             }
         }
         #endregion
@@ -98,9 +100,9 @@ namespace DiceSurvivor.Manager {
             GameObject enemyObj = epManager.SpawnEnemy(enemyData);
             if (enemyObj != null)
             {
-                // 플레이어 위치 기준 min ~ maxSpawnOffset 내에서 랜덤 위치 지정
-                GetOffset(out Vector3 offset);
-                enemyObj.transform.position = playerPos.position + offset;
+                // 플레이어 위치 기준으로 가장자리 무작위 위치로 소환 위치 결정
+                Vector3 spawnPos = GetSpawnPos();
+                enemyObj.transform.position = spawnPos;
 
                 // 적 타입에 맞춰서 부모 오브젝트 지정
                 switch (enemyData.type)
@@ -128,21 +130,42 @@ namespace DiceSurvivor.Manager {
             }
         }
 
-        void GetOffset(out Vector3 offset)
+    Vector3 GetSpawnPos()
+    {
+        Camera mainCam = Camera.main;
+
+        // 화면 경계
+        Vector3 bottomLeft = playerPos.position - new Vector3(spawnDistance, 0, spawnDistance);
+        Vector3 topRight = playerPos.position + new Vector3(spawnDistance, 0, spawnDistance);
+
+        // 화면 경계 좌표
+        float leftBound = bottomLeft.x;
+        float rightBound = topRight.x;
+        float topBound = topRight.z;
+        float bottomBound = bottomLeft.z;
+        
+        // 4개 변 중 하나 랜덤 선택
+        int side = Random.Range(0, 4);
+        Vector3 spawnPos = Vector3.zero;
+        
+        switch (side)
         {
-            float offSetX = Random.Range(-maxSpawnOffset, maxSpawnOffset);
-            float offSetZ = Random.Range(-maxSpawnOffset, maxSpawnOffset);
-            //최소치보다 큰 무작위 값으로 오프셋을 설정
-            while (Mathf.Abs(offSetX) < minSpawnOffset)
-            {
-                offSetX = Random.Range(-maxSpawnOffset, maxSpawnOffset);
-            }
-            while(Mathf.Abs(offSetZ) < minSpawnOffset)
-            {
-                offSetZ = Random.Range(-maxSpawnOffset, maxSpawnOffset);
-            }
-            offset = new Vector3(offSetX, 0f, offSetZ);
+            case 0: // 아래쪽 변
+                spawnPos = new Vector3(Random.Range(leftBound, rightBound), playerPos.position.y, bottomBound);
+                break;
+            case 1: // 위쪽 변
+                spawnPos = new Vector3(Random.Range(leftBound, rightBound), playerPos.position.y, topBound);
+                break;
+            case 2: // 왼쪽 변
+                spawnPos = new Vector3(leftBound, playerPos.position.y, Random.Range(bottomBound, topBound));
+                break;
+            case 3: // 오른쪽 변
+                spawnPos = new Vector3(rightBound, playerPos.position.y, Random.Range(bottomBound, topBound));
+                break;
         }
+        
+        return spawnPos;
+    }
 
         /// <summary>
         /// 웨이브 교체
