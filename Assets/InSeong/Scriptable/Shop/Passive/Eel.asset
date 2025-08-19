@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2f3dac689fc143245b95d65853cfc165, type: 3}
-  m_Name: Spear
+  m_Name: Eel
   m_EditorClassIdentifier: 
-  ID: 
-  itemName: Spear
-  type: 1
-  maxLevel: 8
+  ID: Ps_Eel
+  itemName: Eel
+  type: 8
+  maxLevel: 5
   canIBuy: 1
   itemImage: {fileID: 0}
   weapon:

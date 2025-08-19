@@ -1304,8 +1304,8 @@
       ],
       "Chakram": [
         {
-          "id": "Wp_Ra_Chakram",
-          "name": "Chakram",
+          "id": "Wp_Ra_Dagger",
+          "name": "Dagger",
           "type": "Wp_Ra",
           "level": 1,
           "damage": 5,
@@ -1324,8 +1324,8 @@
           "description": "가장 가까운 적에게 차크람을 던집니다"
         },
         {
-          "id": "Wp_Ra_Chakram",
-          "name": "Chakram",
+          "id": "Wp_Ra_Dagger",
+          "name": "Dagger",
           "type": "Wp_Ra",
           "level": 2,
           "damage": 5,
@@ -1344,8 +1344,8 @@
           "description": "투사체 갯수가 1개 증가된다"
         },
         {
-          "id": "Wp_Ra_Chakram",
-          "name": "Chakram",
+          "id": "Wp_Ra_Dagger",
+          "name": "Dagger",
           "type": "Wp_Ra",
           "level": 3,
           "damage": 7,
@@ -1364,8 +1364,8 @@
           "description": "데미지가 2 사거리가 2 증가된다"
         },
         {
-          "id": "Wp_Ra_Chakram",
-          "name": "Chakram",
+          "id": "Wp_Ra_Dagger",
+          "name": "Dagger",
           "type": "Wp_Ra",
           "level": 4,
           "damage": 7,
@@ -1384,8 +1384,8 @@
           "description": "투사체 갯수가 1개 증가된다"
         },
         {
-          "id": "Wp_Ra_Chakram",
-          "name": "Chakram",
+          "id": "Wp_Ra_Dagger",
+          "name": "Dagger",
           "type": "Wp_Ra",
           "level": 5,
           "damage": 9,
@@ -1404,8 +1404,8 @@
           "description": "데미지가 2 사거리가 3 증가되고 공격속도가 0.05 빨라진다"
         },
         {
-          "id": "Wp_Ra_Chakram",
-          "name": "Chakram",
+          "id": "Wp_Ra_Dagger",
+          "name": "Dagger",
           "type": "Wp_Ra",
           "level": 6,
           "damage": 9,
@@ -1424,8 +1424,8 @@
           "description": "투사체 갯수가 1개 증가된다"
         },
         {
-          "id": "Wp_Ra_Chakram",
-          "name": "Chakram",
+          "id": "Wp_Ra_Dagger",
+          "name": "Dagger",
           "type": "Wp_Ra",
           "level": 7,
           "damage": 10,
@@ -1444,8 +1444,8 @@
           "description": "데미지가 1 사거리가 2 증가되고 공격속도가 0.5 빨라집니다"
         },
         {
-          "id": "Wp_Ra_Chakram",
-          "name": "Chakram",
+          "id": "Wp_Ra_Dagger",
+          "name": "Dagger",
           "type": "Wp_Ra",
           "level": 8,
           "damage": 10,

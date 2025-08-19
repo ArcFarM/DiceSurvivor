@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f3dac689fc143245b95d65853cfc165, type: 3}
   m_Name: Scythe
   m_EditorClassIdentifier: 
-  ID: 
+  ID: Wp_Me_Scythe
   itemName: Scythe
   type: 1
   maxLevel: 8
   canIBuy: 1
-  itemImage: {fileID: 0}
+  itemImage: {fileID: 21300000, guid: 05679fbd46b509e4fa44ee0234067e46, type: 3}
   weapon:
     id: 
     name: 
