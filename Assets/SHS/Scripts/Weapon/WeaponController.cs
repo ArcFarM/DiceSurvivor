@@ -9,7 +9,7 @@ namespace DiceSurvivor.Weapon
         #region Variables
         //참조
         private Animator animator;
-        private AttackEffectSpawn attackEffect;
+        private AttackEffectSpawn attackEffect;        
 
         [Header("------Weapon-------")]
         [SerializeField]private string weaponName = "Hammer";
@@ -58,6 +58,11 @@ namespace DiceSurvivor.Weapon
         public void AttackEffectSpawn()
         {
             attackEffect.SpawnAttackEffect();
+        }
+
+        public void SpearAndStaffAttack()
+        {
+            this.GetComponentInChildren<SpearStaffAttack>().ExecuteAttack();
         }
         #endregion
     }
