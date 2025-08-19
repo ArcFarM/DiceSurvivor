@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace DiceSurvivor.Attack
 {
-    public class AttackEffectSpawn : MonoBehaviour
+    public class AttackEffectSpawn : WeaponAttackBase
     {
         #region Variables
         // 현재 생성된 공격 이펙트의 인스턴스
@@ -33,6 +33,11 @@ namespace DiceSurvivor.Attack
         #endregion
 
         #region Unity Event Method
+        protected override void Awake()
+        {
+            base.Awake();
+        }
+
         // 이펙트 위치 보정 (무기 소켓에 맞춰 위치 조정)
         private void LateUpdate()
         {
@@ -77,6 +82,13 @@ namespace DiceSurvivor.Attack
 
             switch (currentWeapon)
             {
+                case WeaponType.GreatSword:
+                    ParticleSystem particle = effect.GetComponent<ParticleSystem>();
+                    var main = particle.main;
+
+                    main.startSize = Weapon.range;
+                    break;
+
                 case WeaponType.Hammer:
                     WeaponController weaponController = this.GetComponentInParent<WeaponController>(); // 무기 정보 가져오기
 
@@ -91,13 +103,35 @@ namespace DiceSurvivor.Attack
 
                 case WeaponType.Whip:
                     effect.GetComponentInChildren<rotation>().topEnd = effectSpawnTransform; // 회전 이펙트의 끝 위치 설정
+                    particleAttractorMove particleRange = effect.GetComponentInChildren<particleAttractorMove>();
+                    particleRange.speed = Weapon.range;
 
                     // 채찍 궤적 생성기 설정
                     WayPointsGenerator generator = effect.gameObject.AddComponent<WayPointsGenerator>(); // 궤적 생성기 추가
                     generator.center = this.transform;               // 궤적 중심 설정
                     generator.wayPointPrefab = whipWayPointPrefab;     // 궤적 프리팹 설정
                     generator.count = 10;                              // 궤적 점 개수
-                    generator.radius = 2f;                             // 궤적 반지름
+                    if(Weapon.range == 12)
+                    {
+                        generator.radius = 1.8f;                             // 궤적 반지름
+                    }
+                    else if(Weapon.range == 13)
+                    {
+                        generator.radius = 2.4f;
+                    }
+                    else if(Weapon.range == 14)
+                    {
+                        generator.radius = 2.8f;
+                    }
+                    else if(Weapon.range == 15)
+                    {
+                        generator.radius = 3.4f;
+                    }
+                    else if(Weapon.range == 16)
+                    {
+                        generator.radius = 4f;
+                    }
+
 
                     List<Transform> wayPoints = generator.GenerateWayPoints(); // 궤적 생성
 
