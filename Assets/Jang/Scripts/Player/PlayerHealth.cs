@@ -23,6 +23,11 @@ public class PlayerHealth : MonoBehaviour
     [Tooltip("사망 시 일시정지할지 여부")]
     public bool pauseOnDeath = true;
 
+
+    [SerializeField] private Animator animator;              // <- 플레이어의 Animator
+    [SerializeField] private string deathTrigger = "Die";    // <- 트리거 이름
+    [SerializeField] private float deathSequenceDelay = 2f;  // <- 트리거 후 UI/정지까지 대기 시간
+
     // 상태
     public bool IsInvincible { get; private set; }
     public bool IsDead { get; private set; }
@@ -45,6 +50,7 @@ public class PlayerHealth : MonoBehaviour
             hpBarUI.MaxValue = maxHealth;
             hpBarUI.CurrentValue = currentHealth;
         }
+
     }
 
     private void Update()
@@ -190,11 +196,26 @@ public class PlayerHealth : MonoBehaviour
         StopBlinkImmediate();
         SetVisible(true);
         Debug.Log("[PlayerHealth] Player Died");
+        
+        if (animator != null && !string.IsNullOrEmpty(deathTrigger))
+            animator.SetTrigger(deathTrigger);
+
+        // 이후 흐름 코루틴
+        StartCoroutine(DeathFlow());
+    }
+
+    private IEnumerator DeathFlow()
+    {
+        // 애니메이션이 재생될 시간을 기다림
+        // (정확히 맞추고 싶으면 Animation Event로 이 코루틴의 다음 단계 호출)
+        float wait = Mathf.Max(0f, deathSequenceDelay);
+        if (wait > 0f) yield return new WaitForSeconds(wait);
 
         // 게임오버 UI
         GameOverUI gameOver = FindObjectOfType<GameOverUI>();
         if (gameOver != null) gameOver.ShowGameOverUI();
 
-        if (pauseOnDeath) Time.timeScale = 0f;
+        if (pauseOnDeath)
+            Time.timeScale = 0f; // 애니메이션 끝난 뒤에 멈춤
     }
 }
