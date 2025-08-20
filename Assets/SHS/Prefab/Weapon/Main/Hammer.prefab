@@ -15,7 +15,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5827254461320222767
 Transform:
   m_ObjectHideFlags: 0
@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 7175651518587428791}
   - component: {fileID: 6390731459474968633}
   - component: {fileID: 7745567304430828115}
-  - component: {fileID: 1230194774737333993}
+  - component: {fileID: 9009366573341101245}
   m_Layer: 0
   m_Name: HammerHeadHandler
   m_TagString: Untagged
@@ -145,7 +145,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1230194774737333993
+--- !u!114 &9009366573341101245
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -154,7 +154,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8247192067611101248}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a18e77f7e8f88a49a25c20de0f85b70, type: 3}
+  m_Script: {fileID: 11500000, guid: b8701f3f353c55b469f3ae1a5a30f5a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   weapon:
@@ -220,6 +220,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67ede863dc97ba34b9b630bd0690cc85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weapon:
+    id: 
+    name: 
+    type: 
+    level: 0
+    damage: 0
+    cooldown: 0
+    radius: 0
+    range: 0
+    projectileSize: 0
+    projectileSpeed: 0
+    projectileCount: 0
+    explosionRadius: 0
+    explosionDamage: 0
+    dotDamage: 0
+    duration: 0
+    isPiercing: 0
+    canReturn: 0
+    description: 
   weaponHandler: {fileID: 8247192067611101248}
   attackEffect: {fileID: 3366148730961472064, guid: 9d31ea9f626bbc44399e42f6e1efae34, type: 3}
   effectSpawnTransform: {fileID: 5216311998243403428}

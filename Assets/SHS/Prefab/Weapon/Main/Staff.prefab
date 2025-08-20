@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 2543301890157092858}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 150, y: 150, z: 150}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponName: Staff
-  weaponLevel: 1
+  weaponLevel: 8
   currentWeaponStats:
     id: 
     name: 
@@ -157,7 +157,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3552725122605204844}
   - component: {fileID: 4647265626554002545}
-  - component: {fileID: 5815586999189140687}
+  - component: {fileID: 8764542989130682720}
   m_Layer: 0
   m_Name: StaffAttackHandler
   m_TagString: Untagged
@@ -201,7 +201,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.13, y: 0.55, z: 0.15}
   m_Center: {x: -0.03, y: -0.02, z: -0.005}
---- !u!114 &5815586999189140687
+--- !u!114 &8764542989130682720
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -210,7 +210,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4783074390387939481}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a18e77f7e8f88a49a25c20de0f85b70, type: 3}
+  m_Script: {fileID: 11500000, guid: 38e823317b1701940b2c958663b32257, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   weapon:
@@ -232,6 +232,7 @@ MonoBehaviour:
     isPiercing: 0
     canReturn: 0
     description: 
+  spear: {fileID: 6646462373909999492}
 --- !u!1 &5753544182472280001
 GameObject:
   m_ObjectHideFlags: 0
@@ -278,7 +279,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8203854579098323121
 Transform:
   m_ObjectHideFlags: 0
@@ -339,6 +340,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67ede863dc97ba34b9b630bd0690cc85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weapon:
+    id: 
+    name: 
+    type: 
+    level: 0
+    damage: 0
+    cooldown: 0
+    radius: 0
+    range: 0
+    projectileSize: 0
+    projectileSpeed: 0
+    projectileCount: 0
+    explosionRadius: 0
+    explosionDamage: 0
+    dotDamage: 0
+    duration: 0
+    isPiercing: 0
+    canReturn: 0
+    description: 
   weaponHandler: {fileID: 4783074390387939481}
   attackEffect: {fileID: 8771972552311404798, guid: bbf9e36a48d6c5648a13889afab076fd, type: 3}
   effectSpawnTransform: {fileID: 6797206515523561574}

@@ -82,18 +82,29 @@ namespace DiceSurvivor.Attack
 
             switch (currentWeapon)
             {
-                case WeaponType.GreatSword:
-                    ParticleSystem particle = effect.GetComponent<ParticleSystem>();
-                    var main = particle.main;
+                case WeaponType.Scythe:
+                    ParticleSystem scytheParticle = effect.GetComponent<ParticleSystem>();
+                    var scytheMain = scytheParticle.main;
+                    var currentSize = scytheMain.startSize.constant;
 
-                    main.startSize = Weapon.range;
+                    scytheMain.startSize = new ParticleSystem.MinMaxCurve(currentSize + Weapon.range);
+                    break;
+
+                case WeaponType.GreatSword:
+                    ParticleSystem greatswordParticle = effect.GetComponent<ParticleSystem>();
+                    var greatswordMain = greatswordParticle.main;
+
+                    greatswordMain.startSize = Weapon.range;
                     break;
 
                 case WeaponType.Hammer:
-                    WeaponController weaponController = this.GetComponentInParent<WeaponController>(); // 무기 정보 가져오기
+                    WeaponController weaponController = this.GetComponentInParent<WeaponController>(); // 무기 정보 가져오기                    
 
                     WeaponSplashAttack aoe = effect.GetComponent<WeaponSplashAttack>(); // 해머 전용 이펙트 컴포넌트
                     aoe.Weapon = weaponController.currentWeaponStats; // 무기 스탯 전달
+
+                    effect.transform.localScale = new Vector3(Weapon.explosionRadius * 0.5f, Weapon.explosionRadius * 0.5f, Weapon.explosionRadius * 0.5f);
+                    
                     break;
 
                 case WeaponType.Staff:
@@ -104,7 +115,7 @@ namespace DiceSurvivor.Attack
                 case WeaponType.Whip:
                     effect.GetComponentInChildren<rotation>().topEnd = effectSpawnTransform; // 회전 이펙트의 끝 위치 설정
                     particleAttractorMove particleRange = effect.GetComponentInChildren<particleAttractorMove>();
-                    particleRange.speed = Weapon.range;
+                    particleRange.speed = Weapon.range * 2;
 
                     // 채찍 궤적 생성기 설정
                     WayPointsGenerator generator = effect.gameObject.AddComponent<WayPointsGenerator>(); // 궤적 생성기 추가
@@ -113,23 +124,23 @@ namespace DiceSurvivor.Attack
                     generator.count = 10;                              // 궤적 점 개수
                     if(Weapon.range == 12)
                     {
-                        generator.radius = 1.8f;                             // 궤적 반지름
+                        generator.radius = 7f;                             // 궤적 반지름
                     }
                     else if(Weapon.range == 13)
                     {
-                        generator.radius = 2.4f;
+                        generator.radius = 8f;
                     }
                     else if(Weapon.range == 14)
                     {
-                        generator.radius = 2.8f;
+                        generator.radius = 9f;
                     }
                     else if(Weapon.range == 15)
                     {
-                        generator.radius = 3.4f;
+                        generator.radius = 10f;
                     }
                     else if(Weapon.range == 16)
                     {
-                        generator.radius = 4f;
+                        generator.radius = 11f;
                     }
 
 

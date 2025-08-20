@@ -220,7 +220,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5934879523885356360}
   - component: {fileID: 8856984688110581158}
-  - component: {fileID: 3184399303931229876}
+  - component: {fileID: 8313340618105359876}
   m_Layer: 0
   m_Name: GreatswordAttackHandler
   m_TagString: Untagged
@@ -264,7 +264,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.6, y: 0.2, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3184399303931229876
+--- !u!114 &8313340618105359876
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -273,7 +273,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7670650994218265236}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a18e77f7e8f88a49a25c20de0f85b70, type: 3}
+  m_Script: {fileID: 11500000, guid: 22f069095a79dfe4d9e959c6a5c8f7e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   weapon:
