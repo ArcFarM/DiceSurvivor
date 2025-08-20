@@ -115,34 +115,14 @@ namespace DiceSurvivor.Attack
                 case WeaponType.Whip:
                     effect.GetComponentInChildren<rotation>().topEnd = effectSpawnTransform; // 회전 이펙트의 끝 위치 설정
                     particleAttractorMove particleRange = effect.GetComponentInChildren<particleAttractorMove>();
-                    particleRange.speed = Weapon.range * 2;
+                    particleRange.speed = Weapon.range * 3;
 
                     // 채찍 궤적 생성기 설정
                     WayPointsGenerator generator = effect.gameObject.AddComponent<WayPointsGenerator>(); // 궤적 생성기 추가
                     generator.center = this.transform;               // 궤적 중심 설정
                     generator.wayPointPrefab = whipWayPointPrefab;     // 궤적 프리팹 설정
                     generator.count = 10;                              // 궤적 점 개수
-                    if(Weapon.range == 12)
-                    {
-                        generator.radius = 7f;                             // 궤적 반지름
-                    }
-                    else if(Weapon.range == 13)
-                    {
-                        generator.radius = 8f;
-                    }
-                    else if(Weapon.range == 14)
-                    {
-                        generator.radius = 9f;
-                    }
-                    else if(Weapon.range == 15)
-                    {
-                        generator.radius = 10f;
-                    }
-                    else if(Weapon.range == 16)
-                    {
-                        generator.radius = 11f;
-                    }
-
+                    generator.radius = Weapon.range;
 
                     List<Transform> wayPoints = generator.GenerateWayPoints(); // 궤적 생성
 
