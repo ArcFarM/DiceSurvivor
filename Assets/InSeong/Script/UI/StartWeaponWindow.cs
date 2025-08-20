@@ -1,14 +1,17 @@
 using UnityEngine;
-using DiceSurvivor.Manager;
 using System.Collections.Generic;
-//StartWeaponPanel에 무작위로 근접 무기를 뽑아서 넘겨 주는 역할
 
 namespace DiceSurvivor.UI
 {
+    /// <summary>
+    // StartWeaponPanel에 무작위로 근접 무기를 뽑아서 넘겨 주는 역할
     public class StartWeaponWindow : MonoBehaviour
     {
         #region Variables
+        [SerializeField] TestItemArray meleeWeaponArray;
         StartWeaponPanel[] weaponSelections;
+
+
         #endregion
 
         #region Properties
@@ -18,32 +21,29 @@ namespace DiceSurvivor.UI
         void Start()
         {
             weaponSelections = GetComponentsInChildren<StartWeaponPanel>();
-            AddRandomWeapon();
+            AssignRandomWeapons();
         }
         #endregion
 
         #region Custom Methods
-        void AddRandomWeapon()
+        void AssignRandomWeapons()
         {
-            // 무작위 무기 추가
-            List<string> WeaponNames = DataTableManager.Instance.GetDT.MeleeWeapons.GetWeaponNames();
-            int size = WeaponNames.Count;
-            int[] randomIndex = new int[size];
-            for (int i = 0; i < size; i++)
-            {
-                randomIndex[i] = i;
-            }
+            var items = meleeWeaponArray.items;
+            var usedIndices = new HashSet<int>();
+            var rnd = new System.Random();
 
-            for (int i = size - 1; i >= 0; i--)
+            // 패널 수만큼 중복 없이 무작위로 뽑아서 할당
+            for (int i = 0; i < weaponSelections.Length && i < items.Count; i++)
             {
-                int j = Random.Range(0, i + 1);
-                (randomIndex[i], randomIndex[j]) = (randomIndex[j], randomIndex[i]);
-            }
+                int idx;
+                do
+                {
+                    idx = rnd.Next(items.Count);
+                } while (usedIndices.Contains(idx));
+                usedIndices.Add(idx);
 
-            for (int i = 0; i < weaponSelections.Length; i++)
-            {
-                string randomName = WeaponNames[randomIndex[i]];
-                //weaponSelections[i].AddRandomWeapon(DataTableManager.Instance.GetMeleeWeapon(randomName, 1));
+                items[idx].SetWeaponStats(1);
+                weaponSelections[i].SetRandomWeapon(items[idx]);
             }
         }
         #endregion

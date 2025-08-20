@@ -17,7 +17,7 @@ MonoBehaviour:
   type: 8
   maxLevel: 5
   canIBuy: 1
-  itemImage: {fileID: 0}
+  itemImage: {fileID: 21300000, guid: 51f55158c6623d840a41c5410805c157, type: 3}
   weapon:
     id: 
     name: 

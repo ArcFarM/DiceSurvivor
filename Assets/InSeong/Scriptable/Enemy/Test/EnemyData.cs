@@ -5,9 +5,11 @@ namespace DiceSurvivor.Enemy {
     /// EnemyData ScriptableObject + 기존 JSON 기반 EnemyStat 통합 버전 (구현 없이 메서드/필드와 주석만)
     /// </summary>
     [CreateAssetMenu(fileName = "EnemyData", menuName = "Scriptable Objects/EnemyData")]
-    public class EnemyData : ScriptableObject {
+    public class EnemyData : ScriptableObject
+    {
         // 1. 적 유형 Enum (Normal/Elite/Boss/Summoned)
-        public enum EnemyType {
+        public enum EnemyType
+        {
             Normal = 0,
             Elite = 1,
             Boss = 2,
@@ -46,13 +48,34 @@ namespace DiceSurvivor.Enemy {
         public float damagePerTimeMultiplier;
 
         // 3. 메서드: JSON 데이터 기반으로 EnemyData에 값 적용
-        public void ApplyJsonData(/*EnemyStat stat, EnemyStatMultiplier multiplier*/) {
+        public void ApplyJsonData(/*EnemyStat stat, EnemyStatMultiplier multiplier*/)
+        {
             // stat의 기본 값과 multiplier의 계수 값을 EnemyData 필드에 적용
         }
 
         // 4. 메서드: 플레이어 레벨/시간에 따라 동적으로 능력치 갱신
-        public void UpdateDynamicStats(/*int playerLevel, float elapsedTime*/) {
+        public void UpdateDynamicStats(/*int playerLevel, float elapsedTime*/)
+        {
             // health, damage 등 능력치에 계수 적용하여 동적으로 갱신
+        }
+
+        public EnemyData GetCopy()
+        {
+            try
+            {
+                EnemyData copy = Instantiate(this);
+                if (copy == null)
+                {
+                    Debug.LogError("Failed to create a copy of EnemyData.");
+                    return null;
+                }
+                return copy;
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError("Error occurred while copying EnemyData: " + e.Message);
+                return null;
+            }
         }
     }
 }

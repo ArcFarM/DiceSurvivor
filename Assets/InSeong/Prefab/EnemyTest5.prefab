@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -5212112545469443783}
   m_Layer: 0
   m_Name: EnemyTest5
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -106,8 +106,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyData: {fileID: 0}
   playerPos: {fileID: 0}
-  borderMargin: 2
+  border: 2
   outTimeThreshold: 2
+  clusterThreshold: 2
 --- !u!136 &-5212112545469443783
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -51,6 +51,12 @@ namespace DiceSurvivor.Manager {
             return itemLevelDict.TryGetValue(itemName, out int level) ? level : 0;
         }
 
+        public void SetItemInfo(TestItem item, WeaponStats weapon)
+        {
+            if (item == null || weapon == null) return;
+            item.SetWeaponStats(weapon.level);
+        }
+
         //아이템 구매/레벨업
         public bool BuyItem(TestItem item)
         {

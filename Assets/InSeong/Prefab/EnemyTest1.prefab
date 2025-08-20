@@ -102,12 +102,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 983577228701aed4aa0b65808a44fa32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyData: {fileID: 0}
+  enemyData: {fileID: 11400000, guid: 67057c2c88f91e340b39f65240ef50bd, type: 2}
   playerPos: {fileID: 0}
   border: 2
   outTimeThreshold: 2
-  scatterInterval: 1
-  scatterDistance: 0.5
+  clusterThreshold: 2
 --- !u!136 &2710821945658384183
 CapsuleCollider:
   m_ObjectHideFlags: 0

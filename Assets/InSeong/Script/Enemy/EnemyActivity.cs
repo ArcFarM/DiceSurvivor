@@ -5,7 +5,9 @@ namespace DiceSurvivor.Enemy {
     public class EnemyActivity : MonoBehaviour
     {
         #region Variables
+        //여깄는 건 기본값 - 모든 값 변경은 복사본에만 적용해야 함
         [SerializeField] EnemyData enemyData;
+        EnemyData copiedData;
         public Transform playerPos;
         //엘리트 길막 방지
         int blockedCounter = 0;
@@ -23,14 +25,15 @@ namespace DiceSurvivor.Enemy {
         #region Properties
         public EnemyData EnemyData
         {
-            get { return enemyData; }
-            set { enemyData = value; }
+            get { return copiedData; }
+            set { copiedData = value; }
         }
         #endregion
 
         #region Unity Event Methods
         private void Start()
         {
+            copiedData = enemyData.GetCopy();
             border = EnemySpawnManager.Instance.spawnDistance;
             // 플레이어의 위치를 찾기
             playerPos = EnemySpawnManager.Instance.playerPos;
@@ -43,13 +46,13 @@ namespace DiceSurvivor.Enemy {
         }
         private void Update()
         {
-
-            if (enemyData.type == EnemyData.EnemyType.Normal || enemyData.type == EnemyData.EnemyType.Summoned)
+            if (playerPos == null) return;
+            if (copiedData.type == EnemyData.EnemyType.Normal || copiedData.type == EnemyData.EnemyType.Summoned)
             {
                 if (Repulse()) return;
                 NormalEnemyMove();
             }
-            else if (enemyData.type == EnemyData.EnemyType.Elite)
+            else if (copiedData.type == EnemyData.EnemyType.Elite)
             {
                 //엘리트 타입은 충돌감지 추가
                 CheckCollision();
@@ -72,6 +75,7 @@ namespace DiceSurvivor.Enemy {
                     EnemyPoolManager.Instance.ReturnEnemy(enemyData, this.gameObject);
                 }
             }
+            else outTimeCheck = 0;
             Vector3 dir = (playerPos.position - transform.position).normalized;
             dir = new Vector3(dir.x, 0, dir.z);
             transform.position += dir * Time.deltaTime * enemyData.speed;
@@ -178,7 +182,7 @@ namespace DiceSurvivor.Enemy {
         //TODO : 무기 피격 시 체력 손실 및 넉백 처리
         public void TakeDamage(float damage)
         {
-
+            
         }
 
         public void Die()

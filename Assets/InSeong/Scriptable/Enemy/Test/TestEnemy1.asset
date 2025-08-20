@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: TestEnemy1
   m_EditorClassIdentifier: 
   enemyId: 
-  enemyName: 
+  enemyName: 123
   body: {fileID: 3932917540478267435, guid: 5cce2e91227b3de4292dafacb168f350, type: 3}
   type: 0
   health: 1
   damage: 0
-  speed: 1
+  speed: 5
   armor: 0
   exp: 0
   gold: 0

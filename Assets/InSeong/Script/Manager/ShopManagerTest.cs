@@ -74,6 +74,12 @@ namespace DiceSurvivor.Manager {
             dtm = DataTableManager.Instance;
             dt = DataTableManager.Instance.GetDataTable();
             RefreshGold();
+
+            //전체 아이템 정보 설정하기
+            foreach(var item in testItems.items)
+            {
+                item.SetWeaponStats(1);
+            }
         }
 
         private void OnEnable()

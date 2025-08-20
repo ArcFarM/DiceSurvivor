@@ -1302,7 +1302,7 @@
           "description": "데미지가 10 폭발데미지가 10 화상데미지가 1 만큼 증가되고 화상 지속시간이 1초 늘어난다"
         }
       ],
-      "Chakram": [
+      "Dagger": [
         {
           "id": "Wp_Ra_Dagger",
           "name": "Dagger",

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using DiceSurvivor.Manager;
+using TMPro;
 
 namespace DiceSurvivor.UI
 {
@@ -12,6 +13,8 @@ namespace DiceSurvivor.UI
         [SerializeField] Image weaponImage;
         [SerializeField] TestItem weapon;
         //TODO : weapon의 정보를 부착할 공간들 변수 추가하기
+        [SerializeField] TextMeshProUGUI weaponName;
+        [SerializeField] TextMeshProUGUI weaponDesc;
         #endregion
 
         #region Properties
@@ -30,6 +33,8 @@ namespace DiceSurvivor.UI
         {
             weapon = item;
             weaponImage.sprite = weapon.itemImage;
+            weaponName.text = weapon.name;
+            weaponDesc.text = weapon.weapon.description;
         }
         public void onButtonClicked()
         {

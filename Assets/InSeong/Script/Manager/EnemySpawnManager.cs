@@ -97,6 +97,8 @@ namespace DiceSurvivor.Manager {
         /// </summary>
         public void SpawnEnemy(EnemyData enemyData)
         {
+            if (epManager.poolInitWaiting) return;
+
             GameObject enemyObj = epManager.SpawnEnemy(enemyData);
             if (enemyObj != null)
             {
@@ -175,8 +177,8 @@ namespace DiceSurvivor.Manager {
             // 현재 웨이브 인덱스 갱신
             currentWaveIndex = waveIndex;
             // EnemyData 배열/리스트에서 다음 웨이브 적 구성 선택 및 스폰
-            epManager.ReturnAllEnemies();
-            //ReturnAllEnemies로 모든 비활성화 된 적을 풀에 반환하고, ReturnEnemy에서 현재 인덱스로 갱신
+            //epManager.ReturnAllEnemies();
+            //오브젝트 갱신은 모두 Return에서 개별적으로 수행
         }
         #endregion
     }

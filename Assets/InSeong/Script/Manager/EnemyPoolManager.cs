@@ -28,6 +28,9 @@ namespace DiceSurvivor.Manager {
 
         [Header("적 스폰 매니저 참조")]
         public EnemySpawnManager esManager;
+
+        //초기 풀 대기
+        public bool poolInitWaiting = true;
         #endregion
 
         #region Properties
@@ -48,6 +51,7 @@ namespace DiceSurvivor.Manager {
         /// </summary>
         public GameObject SpawnEnemy(EnemyData data)
         {
+
             // 해당 EnemyData의 풀에서 오브젝트 꺼내서 spawnmanager에 전달
             switch (data.type)
             {
@@ -73,14 +77,15 @@ namespace DiceSurvivor.Manager {
         /// </summary>
         void InitializeEnemyPools()
         {
+            int currentWaveIndex = esManager.currentWaveIndex;
             //각 풀에 정해진 최대 수량 만큼의 오브젝트를 미리 생성
             for (int i = 0; i < maxEnemyCount; i++)
             {
-                GameObject enemyObj = Instantiate(enemyDataArray[0].body);
+                GameObject enemyObj = Instantiate(enemyDataArray[currentWaveIndex].body);
                 //각 DataArray에 할당된 body는 EnemyActivity 컴포넌트를 갖고 있고, 여기에 EnemyData 할당
                 if (enemyObj.TryGetComponent<EnemyActivity>(out EnemyActivity ea))
                 {
-                    ea.EnemyData = enemyDataArray[0];
+                    ea.EnemyData = enemyDataArray[currentWaveIndex];
                 }
                 else
                 {
@@ -117,13 +122,62 @@ namespace DiceSurvivor.Manager {
                 bossEnemyObj.SetActive(false);
                 bossEnemyPool.Enqueue(bossEnemyObj);
             }
+            poolInitWaiting = false; //풀 초기화 완료
         }
 
 
         /// <summary>
         /// EnemyData 기준 적 반환(비활성화) 및 현재 웨이브 인덱스에 맞게 갱신
         /// </summary>
+
         public void ReturnEnemy(EnemyData data, GameObject obj)
+        {
+            obj.SetActive(false);
+            //검증을 위한 인덱스
+            int index = esManager.currentWaveIndex;
+            Debug.Log(index);
+
+            //현재 웨이브와 맞지 않는 오브젝트들은 파괴 후 재생성
+            //현재 웨이브와 맞는 오브젝트들은 풀에 반환
+            switch (data.type)
+            {
+                case EnemyData.EnemyType.Normal:
+                    if (index < enemyDataArray.Length && data.enemyName != enemyDataArray[index].enemyName)
+                    {
+                        Destroy(obj);
+                        //현재 웨이브에 맞는 오브젝트를 생성해서 큐에 집어넣기
+                        GameObject newobj = Instantiate(enemyDataArray[index].body);
+                        newobj.SetActive(false);
+                        enemyPool.Enqueue(newobj);
+                        return;
+                    }
+                    else enemyPool.Enqueue(obj);
+                    break;
+                case EnemyData.EnemyType.Elite:
+                    if (index < eliteEnemyDataArray.Length && data.enemyId != eliteEnemyDataArray[index].enemyId)
+                    {
+                        Destroy(obj);
+                        //현재 웨이브에 맞는 오브젝트를 생성해서 큐에 집어넣기
+                        esManager.SpawnEnemy(eliteEnemyDataArray[index]);
+                        eliteEnemyPool.Enqueue(obj);
+                        return;
+                    }
+                    else eliteEnemyPool.Enqueue(obj);
+                    break;
+                case EnemyData.EnemyType.Boss:
+                    if (index < bossEnemyDataArray.Length && data.enemyId != bossEnemyDataArray[index].enemyId)
+                    {
+                        Destroy(obj);
+                        //현재 웨이브에 맞는 오브젝트를 생성해서 큐에 집어넣기
+                        esManager.SpawnEnemy(bossEnemyDataArray[index]);
+                        bossEnemyPool.Enqueue(obj);
+                        return;
+                    }
+                    else bossEnemyPool.Enqueue(obj);
+                    break;
+            }
+        }
+        public void ReturnEnemy_old(EnemyData data, GameObject obj)
         {
             // 오브젝트 비활성화 후 EnemyData별 풀에 반환
             // 오브젝트가 갱신되지 않았다면 -> 현재 enemyData id와 오브젝트 enemyData id가 불일치하다면 갱신
@@ -165,14 +219,14 @@ namespace DiceSurvivor.Manager {
             {
                 Debug.LogError("Unknown enemy type: " + data.type);
             }
-            
-            
+
+
         }
 
         /// <summary>
         /// 모든 비활성화 된 적 반환
         /// </summary>
-        public void ReturnAllEnemies()
+        /*public void ReturnAllEnemies()
         {
             //EnemySpawnManager에 있는 적 오브젝트 모두 비활성화 후 풀에 반환
             //하이어라키 상 자식 오브젝트 << Transform 접근 필요
@@ -211,7 +265,7 @@ namespace DiceSurvivor.Manager {
                     }
                 }
             }
-        }
+        }*/
         #endregion
     }
 }

@@ -5,7 +5,7 @@ using DiceSurvivor.Manager;
 namespace DiceSurvivor.Player {
     public class PlayerTest : MonoBehaviour {
         #region Variables
-        //플레이어의 체력
+        //플레이어
         [SerializeField] private int health = 100;
 
         #endregion
