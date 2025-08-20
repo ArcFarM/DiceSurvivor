@@ -11,7 +11,7 @@ namespace DiceSurvivor.Weapon
     public class KillingAuraWeapon : SplashWeaponBase
     {
         [Header("KillingAura Specific")]
-        [SerializeField] private float dotInterval = 1f; // DoT 데미지 간격 (1초)
+        [SerializeField] private float dotInterval = 0.5f; // DoT 데미지 간격 (1초)
         [SerializeField] private bool showAuraVisual = true; // 시각화 옵션
 
         // DoT 관리용 딕셔너리 (적 -> 마지막 데미지 시간)
@@ -41,7 +41,7 @@ namespace DiceSurvivor.Weapon
             dotTimer += Time.deltaTime;
 
             // 1초마다 DoT 데미지 적용
-            if (dotTimer >= dotInterval)
+            if (dotTimer >= duration)
             {
                 ApplyDotToAllEnemiesInRange();
                 dotTimer = 0f; // 타이머 리셋

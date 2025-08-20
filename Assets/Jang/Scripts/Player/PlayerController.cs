@@ -23,8 +23,8 @@ public class PlayerController : MonoBehaviour
     private Camera mainCamera;
 
     [Header("버프/자석")]
-    [SerializeField] private float normalSpeed = 5f;
-    [SerializeField] private float buffedSpeed = 8f;
+    /*[SerializeField] private float normalSpeed = 5f;
+    [SerializeField] private float buffedSpeed = 8f;*/
     private float cachedSpeed;
     private Coroutine buffCoroutine;
     private Coroutine magnetCoroutine;

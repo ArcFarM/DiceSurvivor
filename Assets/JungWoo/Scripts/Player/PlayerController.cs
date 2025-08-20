@@ -24,7 +24,7 @@ namespace DiceSurvivor.PlayerStats
 
         [SerializeField] private float playerHP = 100f;
         [SerializeField] private float normalSpeed = 5f;
-        [SerializeField] private float buffedSpeed = 8f;
+        //[SerializeField] private float buffedSpeed = 8f;
         private float currentSpeed;
 
         private Coroutine buffCoroutine;
@@ -185,11 +185,11 @@ namespace DiceSurvivor.PlayerStats
             Debug.Log("플레이어 사망");
             Time.timeScale = 0f;
 
-            GameOverUI gameOver = FindObjectOfType<GameOverUI>();
+            /*GameOverUI gameOver = FindObjectOfType<GameOverUI>();
             if (gameOver != null)
             {
                 gameOver.ShowGameOverUI();
-            }
+            }*/
         }
         #endregion
     }

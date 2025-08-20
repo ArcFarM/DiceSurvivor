@@ -32,7 +32,7 @@ namespace DiceSurvivor.Weapon
             orbitRadius = radius;
             asteroidSize = size;
             damage = dmg;
-            orbitSpeed = speed * 50f; // 속도 조정 (도/초)
+            orbitSpeed = speed * 120f; // 속도 조정 (도/초)
             currentAngle = startAngle;
             orbitHeight = height;
 

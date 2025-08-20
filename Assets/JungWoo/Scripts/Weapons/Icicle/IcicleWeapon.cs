@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DiceSurvivor.Manager;
 using DiceSurvivor.Test;
+using UnityEngine.Android;
 
 namespace DiceSurvivor.Weapon
 {
@@ -321,6 +322,7 @@ namespace DiceSurvivor.Weapon
     /// </summary>
     public class DotZone : MonoBehaviour
     {
+        private IcicleWeapon icicleWeapon;
         private float radius;
         private float dotDamage;
         private float duration;
@@ -494,7 +496,7 @@ namespace DiceSurvivor.Weapon
         {
             // DoT 범위 표시
             Gizmos.color = new Color(0, 0.5f, 1f, 0.3f);
-            Gizmos.DrawWireSphere(transform.position, radius);
+            Gizmos.DrawWireSphere(transform.position, 15f);
         }
     }
 }
