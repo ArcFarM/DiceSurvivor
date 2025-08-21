@@ -155,6 +155,13 @@ namespace DiceSurvivor.Enemy {
                     pushDir = new Vector3(pushDir.x, 0, pushDir.z);
                     transform.position += pushDir * Time.deltaTime * enemyData.speed;
                 }
+                //지형지물에 막히게 하기
+                else if (other.transform != transform && other.CompareTag("Doodad"))
+                {
+                    Vector3 dir = (transform.position - other.transform.position).normalized;
+                    dir = new Vector3(dir.x, 0, dir.z);
+                    transform.position += dir * Time.deltaTime * enemyData.speed;
+                }
             }
         }
 

@@ -57,19 +57,39 @@ namespace DiceSurvivor.Manager {
             {
                 case EnemyData.EnemyType.Normal:
                     if (enemyPool.Count == 0) return null; // 풀에 오브젝트가 없으면 null 반환
-                    return enemyPool.Dequeue();
+                    return GetValidEnemy(enemyPool, data, enemyDataArray);
                 case EnemyData.EnemyType.Elite:
                     if (eliteEnemyPool.Count == 0) return null; // 풀에 오브젝트가 없으면 null 반환
-                    GameObject eliteEnemyObj = eliteEnemyPool.Dequeue();
-                    return eliteEnemyObj;
+                    return GetValidEnemy(eliteEnemyPool, data, eliteEnemyDataArray);
                 case EnemyData.EnemyType.Boss:
                     if (bossEnemyPool.Count == 0) return null; // 풀에 오브젝트가 없으면 null 반환
-                    GameObject bossEnemyObj = bossEnemyPool.Dequeue();
-                    return bossEnemyObj;
+                    return GetValidEnemy(bossEnemyPool, data, bossEnemyDataArray);
                 default:
                     Debug.LogError("Unknown enemy type: " + data.type);
                     return null;
             }
+        }
+
+        //현재 인덱스에 유효한 객체를 반환하기 위한 메서드
+        GameObject GetValidEnemy(Queue<GameObject> pool, EnemyData data, EnemyData[] dataArray) {
+            if (CheckValid(esManager.currentWaveIndex, dataArray, data))
+            {
+                return pool.Dequeue();
+            }
+            else
+            {
+                //유효한 객체가 아니라면 풀 내 오브젝트들을 순회하며 불일치하는 객체를 제거하고 새로 채움
+                while (pool.Count > 0)
+                {
+                    GameObject obj = pool.Dequeue();
+                    if (CheckValid(esManager.currentWaveIndex, dataArray, data))
+                    {
+                        return obj;
+                    }
+                    else ReturnEnemy(data, obj);
+                }
+            }
+            return null; // 유효한 오브젝트가 없으면 null 반환
         }
 
         /// <summary>
@@ -142,130 +162,50 @@ namespace DiceSurvivor.Manager {
             switch (data.type)
             {
                 case EnemyData.EnemyType.Normal:
-                    if (index < enemyDataArray.Length && data.enemyName != enemyDataArray[index].enemyName)
+                    if (!CheckValid(index, enemyDataArray, data))
                     {
                         Destroy(obj);
                         //현재 웨이브에 맞는 오브젝트를 생성해서 큐에 집어넣기
-                        GameObject newobj = Instantiate(enemyDataArray[index].body);
-                        newobj.SetActive(false);
-                        enemyPool.Enqueue(newobj);
+                        if (index < enemyDataArray.Length)
+                        {
+                            GameObject newobj = Instantiate(enemyDataArray[index].body);
+                            newobj.SetActive(false);
+                            enemyPool.Enqueue(newobj);
+                        }
                         return;
                     }
                     else enemyPool.Enqueue(obj);
                     break;
                 case EnemyData.EnemyType.Elite:
-                    if (index < eliteEnemyDataArray.Length && data.enemyId != eliteEnemyDataArray[index].enemyId)
+                    if (!CheckValid(index / 3, eliteEnemyDataArray, data))
                     {
                         Destroy(obj);
                         //현재 웨이브에 맞는 오브젝트를 생성해서 큐에 집어넣기
-                        esManager.SpawnEnemy(eliteEnemyDataArray[index]);
+                        if (index / 3 < eliteEnemyDataArray.Length)
+                        {
+                            GameObject newobj = Instantiate(eliteEnemyDataArray[index / 3].body);
+                            newobj.SetActive(false);
+                            eliteEnemyPool.Enqueue(newobj);
+                        }
                         eliteEnemyPool.Enqueue(obj);
                         return;
                     }
                     else eliteEnemyPool.Enqueue(obj);
                     break;
                 case EnemyData.EnemyType.Boss:
-                    if (index < bossEnemyDataArray.Length && data.enemyId != bossEnemyDataArray[index].enemyId)
-                    {
-                        Destroy(obj);
-                        //현재 웨이브에 맞는 오브젝트를 생성해서 큐에 집어넣기
-                        esManager.SpawnEnemy(bossEnemyDataArray[index]);
-                        bossEnemyPool.Enqueue(obj);
-                        return;
-                    }
-                    else bossEnemyPool.Enqueue(obj);
+                    bossEnemyPool.Enqueue(obj);
                     break;
             }
         }
-        /*public void ReturnEnemy_old(EnemyData data, GameObject obj)
-        {
-            // 오브젝트 비활성화 후 EnemyData별 풀에 반환
-            // 오브젝트가 갱신되지 않았다면 -> 현재 enemyData id와 오브젝트 enemyData id가 불일치하다면 갱신
-            obj.SetActive(false);
-            // 검증을 위한 인덱스
-            int index = EnemySpawnManager.Instance.currentWaveIndex;
 
-            if (data.type == EnemyData.EnemyType.Normal)
-            {
-                if (data.enemyId != enemyDataArray[index].enemyId
-                    && obj.TryGetComponent<EnemyActivity>(out EnemyActivity enemyActivity))
-                {
-                    // 현재 웨이브 인덱스에 맞는 EnemyData로 갱신
-                    enemyActivity.EnemyData = enemyDataArray[index];
-                }
-                enemyPool.Enqueue(obj);
-            }
-            else if (data.type == EnemyData.EnemyType.Elite)
-            {
-                if (data.enemyId != eliteEnemyDataArray[index].enemyId
-                    && obj.TryGetComponent<EnemyActivity>(out EnemyActivity enemyActivity))
-                {
-                    // 현재 웨이브 인덱스에 맞는 EnemyData로 갱신
-                    enemyActivity.EnemyData = eliteEnemyDataArray[index];
-                }
-                eliteEnemyPool.Enqueue(obj);
-            }
-            else if (data.type == EnemyData.EnemyType.Boss)
-            {
-                if (data.enemyId != bossEnemyDataArray[index].enemyId
-                    && obj.TryGetComponent<EnemyActivity>(out EnemyActivity enemyActivity))
-                {
-                    // 현재 웨이브 인덱스에 맞는 EnemyData로 갱신
-                    enemyActivity.EnemyData = bossEnemyDataArray[index];
-                }
-                bossEnemyPool.Enqueue(obj);
-            }
-            else
-            {
-                Debug.LogError("Unknown enemy type: " + data.type);
-            }
-
-
+        bool CheckValid(int index, EnemyData[] dataArray, EnemyData data)
+        {   
+            //조건 1 : 현재 웨이브 상태가 유효한 웨이브인가?
+            bool cond1 = index >= 0 && index < dataArray.Length;
+            //조건 2 : 반환해야 할 객체의 EnemyData가 현재 웨이브에 맞는 데이터인가?
+            bool cond2 = data != null && data.enemyName == dataArray[index].enemyName;
+            return cond1 && cond2;
         }
-
-        /// <summary>
-        /// 모든 비활성화 된 적 반환
-        /// </summary>
-        /*public void ReturnAllEnemies()
-        {
-            //EnemySpawnManager에 있는 적 오브젝트 모두 비활성화 후 풀에 반환
-            //하이어라키 상 자식 오브젝트 << Transform 접근 필요
-            foreach (var enemy in esManager.enemyPar.transform)
-            {
-                // 각 적 오브젝트에서 EnemyActivity 컴포넌트를 찾아 EnemyData를 통해 풀에 반환
-                // GameObject로 캐스팅 후 EnemyActivity 컴포넌트 접근 : 캐스팅 이유 - 설계상으로는 모두 GameObject 타입이지만, 만일을 대비
-                if (enemy is GameObject enemyObj)
-                {
-                    EnemyActivity ea = enemyObj.GetComponent<EnemyActivity>();
-                    if (ea != null && !enemyObj.activeSelf)
-                    {
-                        ReturnEnemy(ea.EnemyData, enemyObj);
-                    }
-                }
-            }
-            foreach (var eliteEnemy in esManager.eliteEnemyPar.transform)
-            {
-                if (eliteEnemy is GameObject eliteEnemyObj)
-                {
-                    EnemyActivity ea = eliteEnemyObj.GetComponent<EnemyActivity>();
-                    if (ea != null && !eliteEnemyObj.activeSelf)
-                    {
-                        ReturnEnemy(ea.EnemyData, eliteEnemyObj);
-                    }
-                }
-            }
-            foreach (var bossEnemy in esManager.bossEnemyPar.transform)
-            {
-                if (bossEnemy is GameObject bossEnemyObj)
-                {
-                    EnemyActivity ea = bossEnemyObj.GetComponent<EnemyActivity>();
-                    if (ea != null && !bossEnemyObj.activeSelf)
-                    {
-                        ReturnEnemy(ea.EnemyData, bossEnemyObj);
-                    }
-                }
-            }
-        }*/
         #endregion
     }
 }

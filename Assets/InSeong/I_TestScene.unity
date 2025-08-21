@@ -244,11 +244,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPos: {fileID: 0}
+  deadCounter: 0
+  eliteSpawnCounter: 0
+  eliteTimer: 0
+  eliteCooldown: 120
   spawnDistance: 25
   spawnInterval: 0.2
   spawnTimer: 0
-  currentWaveIndex: 1
-  waveDuration: 10
+  currentWaveIndex: 0
+  waveDuration: 1000
   timeSinceLastWave: 0
   enemyPar: {fileID: 1184784172}
   eliteEnemyPar: {fileID: 350097010}

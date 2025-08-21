@@ -14,7 +14,13 @@ namespace DiceSurvivor.Manager {
         // 플레이어 주변 위치에서 적 스폰해야 하므로 플레이어 위치 참조
         public Transform playerPos;
         [Header("적 스폰 관련 변수")]
-        //TODO : 반드시 화면 가장자리에서 생성되게 변경
+
+        //엘리트 적 출현 조건 : 일정 수 이상 적 사망 or 일정 시간 경과
+        public int deadCounter = 0;
+        public int eliteSpawnCounter = 0;
+        public float eliteTimer = 0f;
+        public float eliteCooldown = 120f;
+        //적이 생성되는 거리
         public float spawnDistance = 25f;
 
         public float spawnInterval = 0.2f; // 적 스폰 간격 (초)
