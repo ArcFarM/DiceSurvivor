@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace DiceSurvivor.Attack
+namespace DiceSurvivor.Weapon
 {
-    public class ScytheAttack : WeaponAttackBase
+    public class ScytheAttack : MeleeWeaponBase
     {
         #region Variables
         #endregion
@@ -31,12 +31,13 @@ namespace DiceSurvivor.Attack
                 parentTransform.localScale = new Vector3(parentTransform.localScale.x + 50 * 2, parentTransform.localScale.y + 50 * 2, parentTransform.localScale.z + 50 * 2);
             }
         }
-        private void OnTriggerEnter(Collider other)
+        protected override void Update()
         {
-            if (other.tag == "Enemy")
-            {
-                Debug.Log($"적 피해 받음 : {Weapon.damage}");
-            }
+            base.Update();
+        }
+        protected override void OnTriggerEnter(Collider other)
+        {
+            base.OnTriggerEnter(other);
         }
         #endregion
 

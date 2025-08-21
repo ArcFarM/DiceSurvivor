@@ -5,7 +5,7 @@ using DiceSurvivor.Weapon;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DiceSurvivor.Attack
+namespace DiceSurvivor.Weapon
 {
     public class AttackEffectSpawn : WeaponAttackBase
     {
@@ -71,6 +71,10 @@ namespace DiceSurvivor.Attack
         #endregion
 
         #region Custom Method
+        protected override void Attack()
+        {
+            //사용 안함
+        }
         // 공격 이펙트를 생성하는 함수 (애니메이션 이벤트에서 호출 가능)
         public void SpawnAttackEffect()
         {

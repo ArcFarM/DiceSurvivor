@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace DiceSurvivor.Attack
+namespace DiceSurvivor.Weapon
 {
-    public class GreatswordAttack : WeaponAttackBase
+    public class GreatswordAttack : MeleeWeaponBase
 {
         #region Variables
         #endregion
@@ -38,12 +38,13 @@ namespace DiceSurvivor.Attack
                 }
             }
         }
-        private void OnTriggerEnter(Collider other)
+        protected override void Update()
         {
-            if (other.tag == "Enemy")
-            {
-                Debug.Log($"적 피해 받음 : {Weapon.damage}");
-            }
+            base.Update();
+        }
+        protected override void OnTriggerEnter(Collider other)
+        {
+            base.OnTriggerEnter(other);
         }
         #endregion
 

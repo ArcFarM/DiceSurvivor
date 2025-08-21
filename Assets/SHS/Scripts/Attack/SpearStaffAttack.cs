@@ -1,14 +1,14 @@
 using System.Collections;
 using UnityEngine;
 
-namespace DiceSurvivor.Attack
+namespace DiceSurvivor.Weapon
 {
     /// <summary>
     /// 창 또는 스태프 무기의 공격 동작을 처리하는 클래스입니다.
     /// 무기를 일정 거리만큼 앞으로 찌른 후 되돌리는 애니메이션을 실행하며,
     /// 적과 충돌 시 데미지를 출력합니다.
     /// </summary>
-    public class SpearStaffAttack : WeaponAttackBase
+    public class SpearStaffAttack : MeleeWeaponBase
     {
         #region Variables
 
@@ -29,15 +29,16 @@ namespace DiceSurvivor.Attack
             base.Awake();
         }
 
+        protected override void Update()
+        {
+            base.Update();
+        }
+
         // 무기 콜라이더가 적과 충돌했을 때 호출됨
         // 적 태그가 있는 오브젝트와 충돌 시 데미지 로그 출력
-        private void OnTriggerEnter(Collider other)
+        protected override void OnTriggerEnter(Collider other)
         {
-            if (other.tag == "Enemy")
-            {
-                Debug.Log($"적 피해 받음 : {Weapon.damage}");
-                // 실제 데미지를 적용하려면 Health 컴포넌트 접근이 필요함
-            }
+            base.OnTriggerEnter(other);
         }
 
         #endregion

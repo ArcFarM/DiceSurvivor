@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-namespace DiceSurvivor.Attack
+namespace DiceSurvivor.Weapon
 {
-    public class WhipAttack : WeaponAttackBase
+    public class WhipAttack : MeleeWeaponBase
     {
         #region Variables
         // 채찍 궤적을 따라 생성된 웨이포인트 리스트
@@ -26,6 +26,11 @@ namespace DiceSurvivor.Attack
             weaponController = GetComponent<WeaponController>(); // WeaponController 컴포넌트 가져오기
 
             base.Awake(); // 부모 클래스 초기화
+        }
+
+        protected override void Update()
+        {
+            base.Update();
         }
         #endregion
 
