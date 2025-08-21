@@ -50,6 +50,23 @@ namespace DiceSurvivor.Weapon
 
         protected virtual void Awake()
         {
+            LoadWeaponData();
+        }
+
+        protected virtual void Update()
+        {
+            if (cooldown > 0)
+                cooldown -= Time.deltaTime;
+        }
+        #endregion
+
+        #region Custom Method
+        public virtual void LevelUp()
+        {
+            LoadWeaponData();
+        }
+        private void LoadWeaponData()
+        {
             if (GetComponentInParent<WeaponController>() != null)
                 weaponController = GetComponentInParent<WeaponController>();
             if (weaponController != null)
@@ -62,14 +79,6 @@ namespace DiceSurvivor.Weapon
             }
         }
 
-        protected virtual void Update()
-        {
-            if (cooldown > 0)
-                cooldown -= Time.deltaTime;
-        }
-        #endregion
-
-        #region Custom Method
         /// <summary>
         /// 자식 클래스에서 구현해야 하는 공격 로직
         /// </summary>

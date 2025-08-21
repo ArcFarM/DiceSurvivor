@@ -173,7 +173,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5958863706671866560, guid: b28dc699ab77d554f942634e614fcb9c, type: 3}
       propertyPath: weaponLevel
-      value: 8
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 9009366573341101245, guid: b28dc699ab77d554f942634e614fcb9c, type: 3}

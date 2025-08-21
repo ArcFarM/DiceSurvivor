@@ -28,6 +28,10 @@ namespace DiceSurvivor.Attack
                 parentTransform.localScale = new Vector3(parentTransform.localScale.x + 30 * 2, parentTransform.localScale.y + 30 * 2, parentTransform.localScale.z + 30 * 2);
             }
         }
+        protected override void Update()
+        {
+            base.Update();
+        }
         protected override void OnTriggerEnter(Collider other)
         {
             base.OnTriggerEnter(other);
@@ -35,6 +39,7 @@ namespace DiceSurvivor.Attack
         #endregion
 
         #region Custom Methods
+        
         #endregion
     }
 

@@ -81,7 +81,8 @@ namespace DiceSurvivor.Weapon
         /// <summary>
         /// 지속 공격 (쿨다운이 0인 무기용)
         /// </summary>
-        protected virtual void ContinuousAttack()
+        protected virtual void ContinuousAttack(
+           )
         {
             // 기본적으로는 PerformAttack 호출
             PerformAttack();

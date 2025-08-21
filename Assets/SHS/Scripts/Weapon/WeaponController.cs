@@ -1,6 +1,7 @@
 using DiceSurvivor.Attack;
 using DiceSurvivor.Manager;
 using UnityEngine;
+using UnityEngine.Android;
 
 namespace DiceSurvivor.Weapon
 {
@@ -14,6 +15,9 @@ namespace DiceSurvivor.Weapon
         [Header("------Weapon-------")]
         [SerializeField]private string weaponName = "Hammer";
         [SerializeField]private int weaponLevel = 1;
+        [SerializeField] private int maxLevel = 8;
+
+        private int currentLevel;
 
         [Header("------WeaponStat------")]
         [SerializeField]public WeaponStats currentWeaponStats;
@@ -34,6 +38,15 @@ namespace DiceSurvivor.Weapon
         private void Start()
         {
             LoadWeaponData();
+
+            currentLevel = weaponLevel;
+        }
+        private void Update()
+        {
+            if (weaponLevel != currentLevel)
+            {
+                LoadWeaponData();
+            }
         }
 
         private void OnEnable()
@@ -54,7 +67,7 @@ namespace DiceSurvivor.Weapon
             currentWeaponStats = DataTableManager.Instance.GetMeleeWeapon(weaponName, weaponLevel);
             OnWeaponLoaded?.Invoke(currentWeaponStats);     //Weapon 값 넘겨주기
         }
-
+         
         public void AttackEffectSpawn()
         {
             attackEffect.SpawnAttackEffect();
@@ -63,6 +76,22 @@ namespace DiceSurvivor.Weapon
         public void SpearAndStaffAttack()
         {
             this.GetComponentInChildren<SpearStaffAttack>().ExecuteAttack();
+        }
+        /// <summary>
+        /// 특정 레벨로 설정
+        /// </summary>
+        public void SetLevel(int level)
+        {
+            if (level < 1 || level > 8)
+            {
+                Debug.LogError($"[AsteroidController] 잘못된 레벨: {level} (1~{8} 범위)");
+                return;
+            }
+
+            currentWeaponStats.level = level;
+            LoadWeaponData();
+
+
         }
         #endregion
     }
