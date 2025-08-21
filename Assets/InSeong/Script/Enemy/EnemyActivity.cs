@@ -6,20 +6,20 @@ namespace DiceSurvivor.Enemy {
     {
         #region Variables
         //여깄는 건 기본값 - 모든 값 변경은 복사본에만 적용해야 함
-        [SerializeField] EnemyData enemyData;
-        EnemyData copiedData;
+        [SerializeField] protected EnemyData enemyData;
+        protected EnemyData copiedData;
         public Transform playerPos;
         //엘리트 길막 방지
-        int blockedCounter = 0;
-        float blockRadius = 0.25f;
+        protected int blockedCounter = 0;
+        protected float blockRadius = 0.25f;
         //화면 이탈 시 재진입을 위한 경계선 offset
-        [SerializeField] float border = 2f;
+        [SerializeField] protected float border = 2f;
         //화면 이탈 시간 체크
-        float outTimeCheck = 0f;
-        [SerializeField] float outTimeThreshold = 2f;
+        protected float outTimeCheck = 0f;
+        [SerializeField] protected float outTimeThreshold = 2f;
 
         //적 뭉치기 방지에 사용될 거리 임계점
-        [SerializeField] float clusterThreshold = 2f;
+        [SerializeField] protected float clusterThreshold = 2f;
         #endregion
 
         #region Properties
@@ -31,7 +31,7 @@ namespace DiceSurvivor.Enemy {
         #endregion
 
         #region Unity Event Methods
-        private void Start()
+        protected virtual void Start()
         {
             copiedData = enemyData.GetCopy();
             border = EnemySpawnManager.Instance.spawnDistance;
@@ -44,7 +44,7 @@ namespace DiceSurvivor.Enemy {
 
             //적의 타입에 따라서 다른 이동 방식을 설정
         }
-        private void Update()
+        protected virtual void Update()
         {
             if (playerPos == null) return;
             if (copiedData.type == EnemyData.EnemyType.Normal || copiedData.type == EnemyData.EnemyType.Summoned)
@@ -100,7 +100,7 @@ namespace DiceSurvivor.Enemy {
             }
         }
         //화면 경계선을 벗어났는 지 판단하는 함수 - true면 화면 경계선을 이탈했음
-        bool checkBorderOut()
+        protected virtual bool checkBorderOut()
         {
             Vector3 minWorld = playerPos.position - new Vector3(border, 0, border);
             Vector3 maxWorld = playerPos.position + new Vector3(border, 0, border);
@@ -112,7 +112,7 @@ namespace DiceSurvivor.Enemy {
         }
 
         //경계를 벗어난 위치를 재조정
-        void ResetPosition()
+        protected virtual void ResetPosition()
         {
             Vector3 minWorld = playerPos.position - new Vector3(border, 0, border);
             Vector3 maxWorld = playerPos.position + new Vector3(border, 0, border);
@@ -129,7 +129,7 @@ namespace DiceSurvivor.Enemy {
             transform.position = pos;
         }
 
-        void CheckCollision()
+        protected virtual void CheckCollision()
         {
             Collider[] hits = Physics.OverlapSphere(transform.position, blockRadius);
 

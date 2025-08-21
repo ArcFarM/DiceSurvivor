@@ -248,7 +248,7 @@ MonoBehaviour:
   spawnInterval: 0.2
   spawnTimer: 0
   currentWaveIndex: 1
-  waveDuration: 100000
+  waveDuration: 10
   timeSinceLastWave: 0
   enemyPar: {fileID: 1184784172}
   eliteEnemyPar: {fileID: 350097010}
@@ -276,6 +276,7 @@ MonoBehaviour:
   maxEliteEnemyCount: 15
   maxBossEnemyCount: 1
   esManager: {fileID: 149814599}
+  poolInitWaiting: 1
 --- !u!4 &149814601
 Transform:
   m_ObjectHideFlags: 0
@@ -8106,8 +8107,6 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 0
-  normalSpeed: 5
-  buffedSpeed: 8
 --- !u!143 &8774731986324399524
 CharacterController:
   m_ObjectHideFlags: 0

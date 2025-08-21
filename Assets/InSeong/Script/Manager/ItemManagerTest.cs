@@ -81,6 +81,7 @@ namespace DiceSurvivor.Manager {
                 AddNewItem(item);
                 itemLevelDict[itemName] = 1;
             }
+            SyncItemData();
             ShopManagerTest.Instance.VanishMaxLevelItem(item);
             return true;
         }

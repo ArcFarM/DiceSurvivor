@@ -51,7 +51,7 @@ namespace DiceSurvivor.Manager {
         /// </summary>
         public GameObject SpawnEnemy(EnemyData data)
         {
-
+            //인덱스 안 맞는 애들은 소환 전에 returnenemy를 실행
             // 해당 EnemyData의 풀에서 오브젝트 꺼내서 spawnmanager에 전달
             switch (data.type)
             {
@@ -177,7 +177,7 @@ namespace DiceSurvivor.Manager {
                     break;
             }
         }
-        public void ReturnEnemy_old(EnemyData data, GameObject obj)
+        /*public void ReturnEnemy_old(EnemyData data, GameObject obj)
         {
             // 오브젝트 비활성화 후 EnemyData별 풀에 반환
             // 오브젝트가 갱신되지 않았다면 -> 현재 enemyData id와 오브젝트 enemyData id가 불일치하다면 갱신
