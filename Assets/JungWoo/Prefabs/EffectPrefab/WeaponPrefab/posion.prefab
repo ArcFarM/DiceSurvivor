@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4600573206257556568}
   - component: {fileID: 1523397777307390446}
   m_Layer: 0
-  m_Name: potion
+  m_Name: posion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,13 +26,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1741087009979022220}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.6472706, y: 0.28467688, z: 0.2846769, w: 0.64727044}
+  m_LocalRotation: {x: -0.14867245, y: 0, z: 0, w: 0.9888865}
   m_LocalPosition: {x: 1.1630683, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -17.1, y: 0, z: 0}
 --- !u!33 &4600573206257556568
 MeshFilter:
   m_ObjectHideFlags: 0

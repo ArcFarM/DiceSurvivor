@@ -81,7 +81,7 @@ namespace DiceSurvivor.Weapon
             radius = stats.radius;
             range = stats.range;
             projectileSize = stats.projectileSize;
-            projectileSpeed = stats.projectileSpeed;
+            projectileSpeed = stats.projectileSpeed;                 // DataTable에서 projectileSpeed 값을 travelTime으로 할당
             projectileCount = stats.projectileCount;
             explosionRadius = stats.explosionRadius;
             explosionDamage = stats.explosionDamage;

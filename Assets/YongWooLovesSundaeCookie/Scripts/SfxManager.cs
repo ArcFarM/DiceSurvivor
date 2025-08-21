@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using DiceSurvivor.Common;
 
 namespace DiceSurvivor.Audio
 {

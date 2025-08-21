@@ -38,10 +38,10 @@ namespace DiceSurvivor.Weapon
             initialDirection = direction.normalized;
             damage = dmg;
             maxRange = range;
-            moveSpeed = speed;
             projectileSize = size;
             isPiercing = piercing;
             rotationSpeed = rotSpeed;
+            moveSpeed = speed;  
 
             startPosition = transform.position;
             traveledDistance = 0f;
@@ -97,7 +97,7 @@ namespace DiceSurvivor.Weapon
         private void MoveForward()
         {
             // 이동
-            Vector3 movement = initialDirection * moveSpeed * Time.deltaTime;
+            Vector3 movement = initialDirection * moveSpeed  * Time.deltaTime;
             transform.position += movement;
 
             // 이동 거리 계산
@@ -124,7 +124,7 @@ namespace DiceSurvivor.Weapon
 
             // 플레이어의 현재 위치로 이동
             Vector3 directionToOwner = (owner.position - transform.position).normalized;
-            Vector3 movement = directionToOwner * moveSpeed * 1.5f * Time.deltaTime;
+            Vector3 movement = directionToOwner * moveSpeed * 2f * Time.deltaTime;
             transform.position += movement;
 
             // 소유자에게 도달했는지 체크

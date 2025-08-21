@@ -140,7 +140,7 @@ namespace DiceSurvivor.Weapon
                 initialDirection,       // 발사 방향
                 damage,                 // 데미지
                 range,                  // 최대 거리
-                projectileSpeed,        // 이동 속도
+                projectileSpeed,             // 이동 속도
                 projectileSize,         // 크기
                 isPiercing,             // 관통 여부
                 rotationSpeed          // 회전 속도
