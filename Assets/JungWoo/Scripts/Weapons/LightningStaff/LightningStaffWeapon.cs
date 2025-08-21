@@ -9,7 +9,7 @@ namespace DiceSurvivor.Weapon
     /// <summary>
     /// LightningStaff 무기 - 범위 내 가장 먼 적에게 번개 공격
     /// </summary>
-    public class LightningStaffWeapon : SplashWeaponBase
+    public class LightningStaffWeapon : SplashWeaponBases
     {
         [Header("LightningStaff Specific")]
         [SerializeField] private float targetRandomOffset = 0.5f;        // 타겟 주변 랜덤 오프셋

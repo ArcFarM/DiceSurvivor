@@ -1,8 +1,9 @@
+using DiceSurvivor.Weapon;
 using UnityEngine;
 
 namespace DiceSurvivor.Attack
 {
-    public class HammerAttack : WeaponAttackBase
+    public class HammerAttack : MeleeWeaponBase
     {
         #region Variables
         #endregion
@@ -27,12 +28,9 @@ namespace DiceSurvivor.Attack
                 parentTransform.localScale = new Vector3(parentTransform.localScale.x + 30 * 2, parentTransform.localScale.y + 30 * 2, parentTransform.localScale.z + 30 * 2);
             }
         }
-        private void OnTriggerEnter(Collider other)
+        protected override void OnTriggerEnter(Collider other)
         {
-            if (other.tag == "Enemy")
-            {
-                Debug.Log($"적 피해 받음 : {Weapon.damage}");
-            }
+            base.OnTriggerEnter(other);
         }
         #endregion
 

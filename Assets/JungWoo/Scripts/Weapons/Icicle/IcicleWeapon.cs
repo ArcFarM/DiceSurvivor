@@ -9,7 +9,7 @@ namespace DiceSurvivor.Weapon
     /// <summary>
     /// Icicle 무기 - 원거리 투척 + 폭발 + 도트 데미지
     /// </summary>
-    public class IcicleWeapon : SplashWeaponBase
+    public class IcicleWeapon : SplashWeaponBases
     {
         [Header("Icicle Range Settings")]
         [SerializeField] private float minDistance = 5f;           // 최소 투척 거리

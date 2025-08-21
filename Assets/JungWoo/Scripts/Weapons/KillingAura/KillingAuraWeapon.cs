@@ -8,7 +8,7 @@ namespace DiceSurvivor.Weapon
     /// <summary>
     /// KillingAura 무기 - 자기 주변 원형 범위에 지속적으로 DoT 데미지를 주는 무기
     /// </summary>
-    public class KillingAuraWeapon : SplashWeaponBase
+    public class KillingAuraWeapon : SplashWeaponBases
     {
         [Header("KillingAura Specific")]
         [SerializeField] private float dotInterval = 0.5f; // DoT 데미지 간격 (1초)

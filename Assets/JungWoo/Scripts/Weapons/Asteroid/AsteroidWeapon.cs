@@ -9,7 +9,7 @@ namespace DiceSurvivor.Weapon
     /// <summary>
     /// Asteroid 무기 - 플레이어 주위를 공전하는 소행성
     /// </summary>
-    public class AsteroidWeapon : SplashWeaponBase
+    public class AsteroidWeapon : SplashWeaponBases
     {
         [Header("Asteroid Specific")]
         [SerializeField] private GameObject asteroidPrefab;            // 소행성 프리팹
