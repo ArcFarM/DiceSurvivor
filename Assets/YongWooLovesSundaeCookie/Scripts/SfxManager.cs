@@ -30,6 +30,12 @@ namespace DiceSurvivor.Audio
         BoomerangHit,
         ChakramHit,
 
+        // Splash
+        KillingAura,
+        Icicle,
+        LightningStaff,
+        Asteroid,
+
         // 기타 SFX
         StageClear,
         Defeat,
