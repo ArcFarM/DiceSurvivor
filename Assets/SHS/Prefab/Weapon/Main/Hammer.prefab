@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 7175651518587428791}
   - component: {fileID: 6390731459474968633}
   - component: {fileID: 7745567304430828115}
-  - component: {fileID: 9009366573341101245}
+  - component: {fileID: 6919580803571013718}
   m_Layer: 0
   m_Name: HammerHeadHandler
   m_TagString: Untagged
@@ -145,7 +145,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &9009366573341101245
+--- !u!114 &6919580803571013718
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -373,6 +373,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Hammer
   weaponLevel: 1
+  maxLevel: 8
   currentWeaponStats:
     id: 
     name: 

@@ -126,7 +126,7 @@ namespace DiceSurvivor.Weapon
                     generator.center = this.transform;               // 궤적 중심 설정
                     generator.wayPointPrefab = whipWayPointPrefab;     // 궤적 프리팹 설정
                     generator.count = 10;                              // 궤적 점 개수
-                    generator.radius = Weapon.range;
+                    generator.radius = 0.5f;
 
                     List<Transform> wayPoints = generator.GenerateWayPoints(); // 궤적 생성
 

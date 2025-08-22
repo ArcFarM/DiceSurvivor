@@ -46,6 +46,7 @@ namespace DiceSurvivor.Weapon
             if (weaponLevel != currentLevel)
             {
                 LoadWeaponData();
+                currentLevel = weaponLevel;
             }
         }
 

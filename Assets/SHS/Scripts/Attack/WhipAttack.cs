@@ -10,9 +10,6 @@ namespace DiceSurvivor.Weapon
         #region Variables
         // 채찍 궤적을 따라 생성된 웨이포인트 리스트
         public List<Transform> wayPoints = new List<Transform>();
-
-        // Raycast 길이 (적 탐지 거리)
-        public float rayLength = 2f;
         #endregion
 
         #region Properties
@@ -23,8 +20,6 @@ namespace DiceSurvivor.Weapon
         // 무기 컨트롤러 초기화
         protected override void Awake()
         {
-            weaponController = GetComponent<WeaponController>(); // WeaponController 컴포넌트 가져오기
-
             base.Awake(); // 부모 클래스 초기화
         }
 
@@ -42,25 +37,32 @@ namespace DiceSurvivor.Weapon
         /// <param name="points">웨이포인트 리스트</param>
         public void SetWayPoints(List<Transform> points)
         {
-            wayPoints = points; // 웨이포인트 저장
+            wayPoints = points;
+
+            // ✅ 이미 데미지를 준 적을 추적할 HashSet
+            HashSet<GameObject> damagedEnemies = new HashSet<GameObject>();
 
             if (wayPoints != null && wayPoints.Count > 0)
             {
                 foreach (Transform wp in wayPoints)
                 {
-                    Vector3 direction = wp.forward; // 웨이포인트의 전방 방향
-                    Ray ray = new Ray(wp.position, direction); // Ray 생성
+                    Vector3 direction = wp.forward;
+                    Ray ray = new Ray(wp.position, direction);
 
-                    // 디버그용 Ray 시각화 (Scene 뷰에서 빨간 선으로 표시됨)
-                    Debug.DrawRay(wp.position, direction * rayLength, Color.red, 1f);
+                    Debug.DrawRay(wp.position, direction * Weapon.range, Color.red, 1f);
 
-                    // Raycast로 적 감지
-                    if (Physics.Raycast(ray, out RaycastHit hit, rayLength))
+                    if (Physics.Raycast(ray, out RaycastHit hit, Weapon.range))
                     {
-                        if (hit.transform.CompareTag("Enemy")) // 적 태그 확인
+                        if (hit.transform.CompareTag("Enemy"))
                         {
-                            Debug.Log($"적 피해 받음 : {Weapon.damage}"); // 피해 로그 출력
-                            // 실제 피해 처리 로직은 Weapon.damage를 기반으로 추가 가능
+                            GameObject enemy = hit.transform.gameObject;
+
+                            // ✅ 이미 데미지를 준 적이면 건너뜀
+                            if (!damagedEnemies.Contains(enemy))
+                            {
+                                ApplyDamage(enemy, Weapon.damage);
+                                damagedEnemies.Add(enemy); // ✅ 데미지 준 적으로 등록
+                            }
                         }
                     }
                 }
