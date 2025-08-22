@@ -11,11 +11,35 @@ namespace DiceSurvivor.Type
 
     public enum WeaponType
     {
+        MeleeWeapon,
+        RangedWeapon,
+        SplashWeapon
+    }
+
+    public enum MeleeWeaponType
+    {
         Hammer,
         GreatSword,
         Spear,
         Staff,
         Whip,
         Scythe
+    }
+
+    public enum RangedWeaponType
+    {
+        Boomerang,
+        Fireball,
+        Dagger,
+        PoisonFlask,
+        Laser
+    }
+
+    public enum SplashWeaponType
+    {
+        KillingAura,
+        Icicle,
+        LightningStaff,
+        Asteroid
     }
 }

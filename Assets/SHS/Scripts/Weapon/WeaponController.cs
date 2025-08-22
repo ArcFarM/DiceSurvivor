@@ -1,6 +1,7 @@
 using DiceSurvivor.Attack;
 using DiceSurvivor.Audio;
 using DiceSurvivor.Manager;
+using DiceSurvivor.Type;
 using UnityEngine;
 using UnityEngine.Android;
 
@@ -18,6 +19,7 @@ namespace DiceSurvivor.Weapon
         [SerializeField]private int weaponLevel = 1;
         [SerializeField] private int maxLevel = 8;
         [SerializeField] private SfxType sfxType;
+        [SerializeField] private WeaponType weaponType;
 
         private int currentLevel;
 
@@ -39,7 +41,18 @@ namespace DiceSurvivor.Weapon
 
         private void Start()
         {
-            LoadWeaponData();
+            if (weaponType == WeaponType.MeleeWeapon)
+            {
+                LoadMeleeWeaponData();
+            }
+            else if(weaponType == WeaponType.RangedWeapon)
+            {
+                LoadRangedWeaponData();
+            }
+            else if(weaponType == WeaponType.SplashWeapon)
+            {
+                LoadSplashWeaponData();
+            }
 
             currentLevel = weaponLevel;
         }
@@ -47,30 +60,57 @@ namespace DiceSurvivor.Weapon
         {
             if (weaponLevel != currentLevel)
             {
-                LoadWeaponData();
+                if (currentWeaponStats.type == "Wp_Me")
+                {
+                    LoadMeleeWeaponData();
+                }
+                else if (currentWeaponStats.type == "Wp_Ra")
+                {
+                    LoadRangedWeaponData();
+                }
+                else if (currentWeaponStats.type == "Wp_Sp")
+                {
+                    LoadSplashWeaponData();
+                }
                 currentLevel = weaponLevel;
             }
         }
 
         private void OnEnable()
         {
-            int dictLevel = ItemManager.Instance.GetItemLevel(weaponName);
-            if (weaponLevel < dictLevel) weaponLevel = dictLevel;
-            animator.SetBool("IsAttack",true); // 공격 애니메이션 트리거 실행
+            if(animator != null)
+            {
+                int dictLevel = ItemManager.Instance.GetItemLevel(weaponName);
+                if (weaponLevel < dictLevel) weaponLevel = dictLevel;
+                animator.SetBool("IsAttack", true); // 공격 애니메이션 트리거 실행
+            }            
         }
         private void OnDisable()
         {
-            animator.SetBool("IsAttack", false);
+            if(animator != null)
+            {
+                animator.SetBool("IsAttack", false);
+            }            
         }
         #endregion
 
         #region Custom Methods
-        public void LoadWeaponData()
+        public void LoadMeleeWeaponData()
         {
             currentWeaponStats = DataTableManager.Instance.GetMeleeWeapon(weaponName, weaponLevel);
             OnWeaponLoaded?.Invoke(currentWeaponStats);     //Weapon 값 넘겨주기
         }
-         
+        public void LoadRangedWeaponData()
+        {
+            currentWeaponStats = DataTableManager.Instance.GetRangedWeapon(weaponName, weaponLevel);
+            OnWeaponLoaded?.Invoke(currentWeaponStats);     //Weapon 값 넘겨주기
+        }
+        public void LoadSplashWeaponData()
+        {
+            currentWeaponStats = DataTableManager.Instance.GetSplashWeapon(weaponName, weaponLevel);
+            OnWeaponLoaded?.Invoke(currentWeaponStats);     //Weapon 값 넘겨주기
+        }
+
         public void AttackEffectSpawn()
         {
             attackEffect.SpawnAttackEffect();
