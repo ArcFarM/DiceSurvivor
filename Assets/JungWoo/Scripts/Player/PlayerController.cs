@@ -23,7 +23,7 @@ namespace DiceSurvivor.PlayerStats
         private Camera mainCamera;
 
         [SerializeField] private float playerHP = 100f;
-        [SerializeField] private float normalSpeed = 5f;
+        //[SerializeField] private float normalSpeed = 5f;
         //[SerializeField] private float buffedSpeed = 8f;
         private float currentSpeed;
 
