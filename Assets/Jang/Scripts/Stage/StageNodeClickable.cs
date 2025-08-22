@@ -5,13 +5,11 @@ using UnityEngine.EventSystems;
 public class StageNodeClickable : MonoBehaviour, IPointerClickHandler
 {
     public StageNode node;
-    Animator lockAnimator;
 
     void Awake()
     {
         if (node == null) node = GetComponent<StageNode>();
-        if (node != null && node.LockIcon != null)
-            lockAnimator = node.LockIcon.GetComponentInChildren<Animator>();
+        // (Animator 직접 캐싱 불필요) node.TriggerLockShake()가 내부에서 알아서 찾음
     }
 
     public void OnPointerClick(PointerEventData eventData) => HandleClick();
@@ -23,12 +21,8 @@ public class StageNodeClickable : MonoBehaviour, IPointerClickHandler
 
         if (!node.IsUnlocked())
         {
-            // 잠긴 상태면 애니메이터 트리거만 쏨
-            if (lockAnimator != null)
-            {
-                lockAnimator.ResetTrigger("Shake");
-                lockAnimator.SetTrigger("Shake");
-            }
+            // 잠금이면 즉시 흔들림
+            node.TriggerLockShake();
 
             // 이동은 허용 (입장은 StageSelector에서 막힘)
             StageSelector.Instance?.OnNodeClicked(node);

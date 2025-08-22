@@ -43,7 +43,7 @@ public class StageSelector : MonoBehaviour
                 n.SetLocked(false);
         }
 
-        // 3) (선택) 기존 문자열 기반 화이트리스트도 병행 지원
+        // 3) 문자열 화이트리스트도 병행 지원
         if (defaultUnlockedSceneNames != null && defaultUnlockedSceneNames.Length > 0)
         {
             foreach (var n in nodes)
@@ -59,7 +59,7 @@ public class StageSelector : MonoBehaviour
             }
         }
 
-        // 4) (유지) 개별 UNLOCK_<sceneName>=1 키도 존중
+        // 4) 개별 UNLOCK_<sceneName>=1 키도 존중
         foreach (var n in nodes)
         {
             if (PlayerPrefs.GetInt($"UNLOCK_{n.sceneName}", 0) == 1)
@@ -109,15 +109,22 @@ public class StageSelector : MonoBehaviour
         }
     }
 
-    // 마우스 클릭으로 호출됨(잠금이어도 이동은 허용; 입장은 아래에서 가드)
+    // 마우스 클릭(잠금이어도 이동은 허용; 입장은 아래에서 가드)
     public void OnNodeClicked(StageNode node)
     {
         if (!node) return;
 
         if (node == currentNode && player.IsAtTarget())
         {
-            if (node.IsUnlocked()) Enter(node.sceneName, node);
-            // 잠겨있으면 조용히 무시 (StageNodeClickable에서 흔들림 처리)
+            if (node.IsUnlocked())
+            {
+                Enter(node.sceneName, node);
+            }
+            else
+            {
+                // 현재 노드가 잠금 상태에서 재입장 시도 → 흔들림
+                node.TriggerLockShake();
+            }
         }
         else
         {
@@ -130,12 +137,15 @@ public class StageSelector : MonoBehaviour
     {
         if (currentNode && player.IsAtTarget() && currentNode.IsUnlocked())
             Enter(currentNode.sceneName, currentNode);
+        else if (currentNode && player.IsAtTarget() && !currentNode.IsUnlocked())
+            currentNode.TriggerLockShake(); // 키보드로 잠금 입장 시도 시에도 흔들림
     }
 
     void Enter(string sceneName, StageNode node)
     {
         if (node != null && !node.IsUnlocked())
         {
+            node.TriggerLockShake(); // 잠김: 흔들리고 종료
             Debug.Log("[Enter] 잠금 상태라 입장 불가");
             return;
         }
@@ -151,7 +161,7 @@ public class StageSelector : MonoBehaviour
         else SceneManager.LoadScene(sceneName);
     }
 
-    // ★ 변경: 잠금 여부와 무관하게 '방향'이 가장 잘 맞는 이웃으로 이동
+    // 잠금 여부와 무관하게 '방향'이 가장 잘 맞는 이웃으로 이동
     void TryMoveByInput(Vector2 input)
     {
         if (!selectedNode) return;
@@ -166,7 +176,7 @@ public class StageSelector : MonoBehaviour
 
         foreach (var node in selectedNode.connectedNodes)
         {
-            if (!node) continue;               // ← IsUnlocked() 체크 제거
+            if (!node) continue;
 
             Vector3 d = node.transform.position - cur; d.y = 0f;
             if (d.sqrMagnitude < 1e-4f) continue;
