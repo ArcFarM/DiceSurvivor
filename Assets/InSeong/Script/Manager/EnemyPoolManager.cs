@@ -60,7 +60,9 @@ namespace DiceSurvivor.Manager {
                     return GetValidEnemy(enemyPool, data, enemyDataArray);
                 case EnemyData.EnemyType.Elite:
                     if (eliteEnemyPool.Count == 0) return null; // 풀에 오브젝트가 없으면 null 반환
-                    return GetValidEnemy(eliteEnemyPool, data, eliteEnemyDataArray);
+                    if (esManager.EliteSpawnCond())
+                        return GetValidEnemy(eliteEnemyPool, data, eliteEnemyDataArray);
+                    else return null;
                 case EnemyData.EnemyType.Boss:
                     if (bossEnemyPool.Count == 0) return null; // 풀에 오브젝트가 없으면 null 반환
                     return GetValidEnemy(bossEnemyPool, data, bossEnemyDataArray);
@@ -68,6 +70,8 @@ namespace DiceSurvivor.Manager {
                     Debug.LogError("Unknown enemy type: " + data.type);
                     return null;
             }
+
+            return null; // 기본적으로 null 반환 (예외 처리)
         }
 
         //현재 인덱스에 유효한 객체를 반환하기 위한 메서드
