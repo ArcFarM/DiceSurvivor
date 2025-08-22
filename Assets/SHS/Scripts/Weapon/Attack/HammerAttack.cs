@@ -1,3 +1,4 @@
+using DiceSurvivor.Audio;
 using DiceSurvivor.Weapon;
 using UnityEngine;
 
@@ -39,7 +40,6 @@ namespace DiceSurvivor.Attack
         #endregion
 
         #region Custom Methods
-        
         #endregion
     }
 

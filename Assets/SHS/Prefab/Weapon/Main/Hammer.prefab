@@ -374,6 +374,7 @@ MonoBehaviour:
   weaponName: Hammer
   weaponLevel: 1
   maxLevel: 8
+  sfxType: 4
   currentWeaponStats:
     id: 
     name: 

@@ -1,4 +1,5 @@
 using DiceSurvivor.Attack;
+using DiceSurvivor.Audio;
 using DiceSurvivor.Manager;
 using UnityEngine;
 using UnityEngine.Android;
@@ -16,6 +17,7 @@ namespace DiceSurvivor.Weapon
         [SerializeField]private string weaponName = "Hammer";
         [SerializeField]private int weaponLevel = 1;
         [SerializeField] private int maxLevel = 8;
+        [SerializeField] private SfxType sfxType;
 
         private int currentLevel;
 
@@ -78,21 +80,9 @@ namespace DiceSurvivor.Weapon
         {
             this.GetComponentInChildren<SpearStaffAttack>().ExecuteAttack();
         }
-        /// <summary>
-        /// 특정 레벨로 설정
-        /// </summary>
-        public void SetLevel(int level)
+        public void PlaySfx()
         {
-            if (level < 1 || level > 8)
-            {
-                Debug.LogError($"[AsteroidController] 잘못된 레벨: {level} (1~{8} 범위)");
-                return;
-            }
-
-            currentWeaponStats.level = level;
-            LoadWeaponData();
-
-
+            SfxManager.Instance.PlaySfx(sfxType);
         }
         #endregion
     }

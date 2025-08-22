@@ -278,6 +278,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Spear
   weaponLevel: 1
+  maxLevel: 8
+  sfxType: 2
   currentWeaponStats:
     id: 
     name: 

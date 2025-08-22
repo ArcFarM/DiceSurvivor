@@ -1,3 +1,4 @@
+using DiceSurvivor.Audio;
 using DiceSurvivor.Manager;
 using DiceSurvivor.Test;
 using DiceSurvivor.Weapon;
@@ -113,9 +114,7 @@ namespace DiceSurvivor.Weapon
                 }
             }
         }
-
         #endregion
-
     }
 
     // ───────────────────────────────────────────────

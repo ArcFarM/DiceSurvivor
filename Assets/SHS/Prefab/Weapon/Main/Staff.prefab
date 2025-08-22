@@ -127,7 +127,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponName: Staff
-  weaponLevel: 8
+  weaponLevel: 1
+  maxLevel: 8
+  sfxType: 1
   currentWeaponStats:
     id: 
     name: 

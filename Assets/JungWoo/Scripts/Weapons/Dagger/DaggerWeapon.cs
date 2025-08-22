@@ -12,11 +12,11 @@ namespace DiceSurvivor.Weapon
     public class DaggerWeapon : RangedWeapon
     {
         [Header("Dagger Specific")]
-        [SerializeField] private GameObject DaggerPrefab;             // 차크람 프리팹
+        [SerializeField] private GameObject DaggerPrefab;             // Dagger 프리팹
         [SerializeField] private float spawnHeightOffset = 0.5f;       // 투사체 발사 높이
 
         [Header("Runtime")]
-        private List<DaggerProjectile> activeDaggers;                // 활성 차크람 목록
+        private List<DaggerProjectile> activeDaggers;                // 활성 Dagger 목록
         private float attackTimer = 0f;                                // 공격 타이머
 
         protected override void Start()

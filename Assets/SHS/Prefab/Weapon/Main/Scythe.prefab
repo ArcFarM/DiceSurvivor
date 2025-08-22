@@ -344,7 +344,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponName: Scythe
-  weaponLevel: 8
+  weaponLevel: 1
+  maxLevel: 8
+  sfxType: 0
   currentWeaponStats:
     id: 
     name: 

@@ -191,6 +191,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Greatsword
   weaponLevel: 1
+  maxLevel: 8
+  sfxType: 3
   currentWeaponStats:
     id: 
     name: 
