@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DiceSurvivor.Manager;
-using DiceSurvivor.Test;
+using DiceSurvivor.Enemy;
 
 namespace DiceSurvivor.Weapon
 {

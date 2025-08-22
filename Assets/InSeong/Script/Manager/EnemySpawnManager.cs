@@ -17,7 +17,7 @@ namespace DiceSurvivor.Manager {
 
         //엘리트 적 출현 조건 : 일정 수 이상 적 사망 or 일정 시간 경과
         public int deadCounter = 0;
-        public int eliteSpawnCounter = 0;
+        public int eliteSpawnCounter = 200;
         public float eliteTimer = 0f;
         public float eliteCooldown = 120f;
         //적이 생성되는 거리
@@ -95,6 +95,17 @@ namespace DiceSurvivor.Manager {
                     } break;
             }
 
+            return false;
+        }
+
+        public bool EliteSpawnCond()
+        {
+            if (deadCounter >= eliteSpawnCounter || timeSinceLastWave >= eliteCooldown)
+            {
+                deadCounter = 0;
+                timeSinceLastWave = 0f;
+                return true;
+            }
             return false;
         }
 

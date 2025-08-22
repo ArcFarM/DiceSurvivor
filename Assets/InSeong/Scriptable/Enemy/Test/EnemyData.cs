@@ -23,7 +23,8 @@ namespace DiceSurvivor.Enemy {
 
         [Header("적 능력치")]
         public EnemyType type;      // 적 유형(일반/엘리트/보스/소환수)
-        public float health;        // 체력
+        public float currHealth;    // 현재 체력
+        public float maxHealth;     // 기본 체력
         public float damage;        // 공격력
         public float speed;         // 이동속도
         public float armor;         // 방어력

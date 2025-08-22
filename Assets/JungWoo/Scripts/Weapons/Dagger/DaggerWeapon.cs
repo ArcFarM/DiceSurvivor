@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DiceSurvivor.Manager;
-using DiceSurvivor.Test;
+using DiceSurvivor.Enemy;
 
 namespace DiceSurvivor.Weapon
 {
@@ -12,11 +12,11 @@ namespace DiceSurvivor.Weapon
     public class DaggerWeapon : RangedWeapon
     {
         [Header("Dagger Specific")]
-        [SerializeField] private GameObject DaggerPrefab;             // Dagger 프리팹
+        [SerializeField] private GameObject DaggerPrefab;             // 차크람 프리팹
         [SerializeField] private float spawnHeightOffset = 0.5f;       // 투사체 발사 높이
 
         [Header("Runtime")]
-        private List<DaggerProjectile> activeDaggers;                // 활성 Dagger 목록
+        private List<DaggerProjectile> activeDaggers;                // 활성 차크람 목록
         private float attackTimer = 0f;                                // 공격 타이머
 
         protected override void Start()
@@ -168,7 +168,7 @@ namespace DiceSurvivor.Weapon
 
         private Vector3 startPosition;         // 시작 위치
         private float traveledDistance;        // 이동한 거리
-        private bool hasHitEnemy;              // 적 타격 여부
+        //private bool hasHitEnemy;              // 적 타격 여부
 
         public bool IsActive { get; private set; }
 
@@ -185,7 +185,7 @@ namespace DiceSurvivor.Weapon
 
             startPosition = transform.position;
             traveledDistance = 0f;
-            hasHitEnemy = false;
+            //hasHitEnemy = false;
             IsActive = true;
 
             // 크기 설정
@@ -230,7 +230,7 @@ namespace DiceSurvivor.Weapon
                 if (enemy != null)
                 {
                     enemy.TakeDamage(damage);
-                    hasHitEnemy = true;
+                    //hasHitEnemy = true;
 
                     Debug.Log($"[DaggerProjectile] {other.name}에게 데미지 {damage} 적용");
 

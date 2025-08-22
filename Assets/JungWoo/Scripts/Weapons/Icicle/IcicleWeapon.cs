@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DiceSurvivor.Manager;
-using DiceSurvivor.Test;
-using UnityEngine.Android;
+using DiceSurvivor.Enemy;
 
 namespace DiceSurvivor.Weapon
 {
@@ -387,35 +386,6 @@ namespace DiceSurvivor.Weapon
 
                     //Debug.Log($"[DotZone] 프리팹 파티클 설정 - startLifetime: {duration}초");
                 }
-            }
-            else
-            {
-                /*// 기본 파티클 생성
-                effectObject = new GameObject("DotEffect");
-                effectObject.transform.SetParent(transform);
-                effectObject.transform.localPosition = Vector3.zero;
-
-                particleEffect = effectObject.AddComponent<ParticleSystem>();
-
-                // 파티클 메인 설정 (생성 직후라 Stop 불필요)
-                var main = particleEffect.main;
-                main.duration = duration;
-                main.startLifetime = duration;  // startLifetime을 duration과 연동
-                main.loop = false;
-                main.startSpeed = 0.5f;
-                main.startSize = 0.2f;
-                main.startColor = new Color(0.5f, 0.8f, 1f, 0.5f); // 반투명 하늘색
-
-                // 파티클 모양 설정
-                var shape = particleEffect.shape;
-                shape.shapeType = ParticleSystemShapeType.Circle;
-                shape.radius = radius;
-
-                // 이미션 설정
-                var emission = particleEffect.emission;
-                emission.rateOverTime = 10f;
-
-                Debug.Log($"[DotZone] 기본 파티클 생성 - startLifetime: {duration}초");*/
             }
 
             // 이펙트 크기를 explosionRadius와 연동

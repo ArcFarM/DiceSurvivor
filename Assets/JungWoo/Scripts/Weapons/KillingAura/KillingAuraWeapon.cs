@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DiceSurvivor.Manager;
-using DiceSurvivor.Test;
+using DiceSurvivor.Enemy;
 
 namespace DiceSurvivor.Weapon
 {
@@ -11,8 +11,7 @@ namespace DiceSurvivor.Weapon
     public class KillingAuraWeapon : SplashWeaponBases
     {
         [Header("KillingAura Specific")]
-        [SerializeField] private float dotInterval = 0.5f; // DoT 데미지 간격 (1초)
-        [SerializeField] private bool showAuraVisual = true; // 시각화 옵션
+        //[SerializeField] private float dotInterval = 0.5f; // DoT 데미지 간격 (1초)
 
         // DoT 관리용 딕셔너리 (적 -> 마지막 데미지 시간)
         private Dictionary<GameObject, float> lastDotTime = new Dictionary<GameObject, float>();

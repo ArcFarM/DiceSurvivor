@@ -1,8 +1,7 @@
-using DiceSurvivor.Test;
+using DiceSurvivor.Enemy;
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
-using DiceSurvivor.Enemy;
 
 namespace DiceSurvivor.Weapon
 {
@@ -106,7 +105,7 @@ namespace DiceSurvivor.Weapon
                 if (!hitEnemies.Contains(other.gameObject))
                 {
                     // 데미지 적용
-                    var enemy = other.GetComponent<EnemyActivity>();
+                    var enemy = other.GetComponent<WJEnemy>();
                     if (enemy != null)
                     {
                         enemy.TakeDamage(damage);
@@ -114,42 +113,10 @@ namespace DiceSurvivor.Weapon
 
                         Debug.Log($"[AsteroidOrbit] {other.name}에게 데미지 {damage} 적용");
 
-                        /*// 타격 이펙트
-                        CreateHitEffect(other.transform.position);*/
                     }
                 }
             }
         }
-
-        /// <summary>
-        /// 타격 이펙트 생성
-        /// </summary>
-        /*private void CreateHitEffect(Vector3 position)
-        {
-            // 간단한 이펙트
-            GameObject effect = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            effect.transform.position = position;
-            effect.transform.localScale = Vector3.one * 0.5f;
-
-            // 콜라이더 제거
-            Destroy(effect.GetComponent<Collider>());
-
-            // 노란색 반투명
-            Renderer renderer = effect.GetComponent<Renderer>();
-            Material mat = new Material(Shader.Find("Standard"));
-            mat.color = new Color(1f, 1f, 0f, 0.5f);
-            mat.SetFloat("_Mode", 3);
-            mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
-            mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
-            mat.SetInt("_ZWrite", 0);
-            mat.DisableKeyword("_ALPHATEST_ON");
-            mat.EnableKeyword("_ALPHABLEND_ON");
-            mat.renderQueue = 3000;
-            renderer.material = mat;
-
-            // 0.2초 후 제거
-            Destroy(effect, 0.2f);
-        }*/
 
         /// <summary>
         /// 소행성 비활성화
