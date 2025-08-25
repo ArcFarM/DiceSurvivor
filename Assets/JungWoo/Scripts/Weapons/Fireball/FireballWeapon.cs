@@ -31,14 +31,7 @@ namespace DiceSurvivor.Weapon
 
         protected override void Update()
         {
-            // 쿨다운 체크
-            attackTimer += Time.deltaTime;
-
-            if (attackTimer >= cooldown)
-            {
-                Attack();
-                attackTimer = 0f;
-            }
+            base.Update();
 
             // 비활성 파이어볼 정리
             CleanupInactiveFireballs();
@@ -49,6 +42,7 @@ namespace DiceSurvivor.Weapon
         /// </summary>
         protected override void ShootProjectile(GameObject target, int projectileCount)
         {
+            Debug.Log("123123213");
             for (int i = 0; i < projectileCount; i++)
             {
                 LaunchFireball();
@@ -214,7 +208,7 @@ namespace DiceSurvivor.Weapon
 
             foreach (var enemyCollider in enemies)
             {
-                var enemy = enemyCollider.GetComponent<WJEnemy>();
+                var enemy = enemyCollider.GetComponent<EnemyFinal>();
                 if (enemy != null)
                 {
                     // 폭발 데미지
@@ -312,7 +306,7 @@ namespace DiceSurvivor.Weapon
 
             foreach (var enemyCollider in enemies)
             {
-                var enemy = enemyCollider.GetComponent<WJEnemy>();
+                var enemy = enemyCollider.GetComponent<EnemyFinal>();
                 if (enemy != null)
                 {
                     enemy.TakeDamage(dotDamage);

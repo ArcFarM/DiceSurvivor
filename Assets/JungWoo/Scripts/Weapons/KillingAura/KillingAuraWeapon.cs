@@ -32,15 +32,7 @@ namespace DiceSurvivor.Weapon
 
         protected override void Update()
         {
-            // DoT 타이머 업데이트 (상시 작동)
-            dotTimer += Time.deltaTime;
-
-            // 1초마다 DoT 데미지 적용
-            if (dotTimer >= Weapon.duration)
-            {
-                ApplyDotToAllEnemiesInRange();
-                dotTimer = 0f; // 타이머 리셋
-            }
+            base.Update();
 
             // 범위를 벗어난 적 정리
             CleanupNullEnemies();
