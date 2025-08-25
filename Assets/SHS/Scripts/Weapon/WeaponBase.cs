@@ -225,6 +225,11 @@ namespace DiceSurvivor.Weapon
 
             cooldown = Weapon.cooldown;
         }
+
+        protected virtual void InitializeWeapon()
+        {
+
+        }
         #endregion
 
     }

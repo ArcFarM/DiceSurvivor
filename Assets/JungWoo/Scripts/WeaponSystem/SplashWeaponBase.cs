@@ -178,16 +178,7 @@ namespace DiceSurvivor.Weapon
         /// <summary>
         /// 감속 효과 적용
         /// </summary>
-        protected virtual void ApplySlow(GameObject enemy, float slowDuration)
-        {
-            if (enemy == null || slowDuration <= 0) return;
-
-            var movement = enemy.GetComponent<IMovement>();
-            if (movement != null)
-            {
-                movement.ApplySlow(0.5f, slowDuration); // 50% 감속
-            }
-        }
+        
 
         protected virtual void OnDrawGizmosSelected()
         {
