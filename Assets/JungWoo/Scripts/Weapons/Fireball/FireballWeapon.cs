@@ -9,7 +9,7 @@ namespace DiceSurvivor.Weapon
     /// <summary>
     /// Fireball 무기 - 무작위 방향으로 폭발 투사체 발사
     /// </summary>
-    public class FireballWeapon : RangedWeapon
+    public class FireballWeapon : RangedWeaponBase
     {
         [Header("Fireball Specific")]
         [SerializeField] private GameObject fireballPrefab;            // 파이어볼 프리팹
@@ -19,27 +19,24 @@ namespace DiceSurvivor.Weapon
         private List<FireballProjectile> activeFireballs;              // 활성 파이어볼 목록
         private float attackTimer = 0f;                                // 공격 타이머
 
-        protected override void Start()
+        protected override void Awake()
         {
-            weaponName = "Fireball";
-            base.Start();
+            base.Awake();
+        }
 
-            // 리스트 초기화
+        private void Start()
+        {
             activeFireballs = new List<FireballProjectile>();
-
-            
         }
 
         protected override void Update()
         {
-            if (player == null) return;
-
             // 쿨다운 체크
             attackTimer += Time.deltaTime;
 
             if (attackTimer >= cooldown)
             {
-                PerformAttack();
+                Attack();
                 attackTimer = 0f;
             }
 
@@ -48,43 +45,10 @@ namespace DiceSurvivor.Weapon
         }
 
         /// <summary>
-        /// 무기 초기화
-        /// </summary>
-        protected override void InitializeWeapon()
-        {
-            LoadWeaponData();
-        }
-
-        /// <summary>
-        /// 무기 데이터 로드
-        /// </summary>
-        protected override void LoadWeaponData()
-        {
-            var dataManager = DataTableManager.Instance;
-            if (dataManager == null)
-            {
-                Debug.LogError("[Fireball] DataTableManager를 찾을 수 없습니다!");
-                return;
-            }
-
-            var weaponStats = dataManager.GetRangedWeapon("Fireball", currentLevel);
-            if (weaponStats != null)
-            {
-                UpdateWeaponStats(weaponStats);
-                Debug.Log($"[Fireball] Lv.{currentLevel} 로드 - Damage: {damage}, ExplosionDamage: {explosionDamage}, DoT: {dotDamage}");
-            }
-            else
-            {
-                Debug.LogError($"[Fireball] Lv.{currentLevel} 데이터를 찾을 수 없습니다!");
-            }
-        }
-
-        /// <summary>
         /// 공격 수행
         /// </summary>
-        protected override void PerformAttack()
+        protected override void ShootProjectile(GameObject target, int projectileCount)
         {
-            // projectileCount 만큼 파이어볼 발사
             for (int i = 0; i < projectileCount; i++)
             {
                 LaunchFireball();
@@ -114,14 +78,14 @@ namespace DiceSurvivor.Weapon
             // 파이어볼 초기화
             projectile.Initialize(
                 randomDirection,        // 발사 방향
-                damage,                 // 직접 데미지
-                explosionDamage,        // 폭발 데미지
-                explosionRadius,        // 폭발 범위
-                dotDamage,              // DoT 데미지 (레벨 3부터)
-                duration,               // DoT 지속시간
-                range,                  // 최대 거리
-                projectileSpeed,        // 이동 속도
-                projectileSize,         // 투사체 크기
+                Weapon.damage,                 // 직접 데미지
+                Weapon.explosionDamage,        // 폭발 데미지
+                Weapon.explosionRadius,        // 폭발 범위
+                Weapon.dotDamage,              // DoT 데미지 (레벨 3부터)
+                Weapon.duration,               // DoT 지속시간
+                Weapon.range,                  // 최대 거리
+                Weapon.projectileSpeed,        // 이동 속도
+                Weapon.projectileSize,         // 투사체 크기
                 explosionEffectPrefab   // 폭발 이펙트
             );
 
@@ -138,12 +102,6 @@ namespace DiceSurvivor.Weapon
         private void CleanupInactiveFireballs()
         {
             activeFireballs.RemoveAll(fireball => fireball == null || !fireball.IsActive);
-        }
-
-        public override void LevelUp()
-        {
-            base.LevelUp();
-            Debug.Log($"[Fireball] 레벨업! 현재 레벨: {currentLevel}");
         }
     }
 

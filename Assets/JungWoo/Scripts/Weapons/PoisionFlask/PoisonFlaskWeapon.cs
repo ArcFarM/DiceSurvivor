@@ -9,7 +9,7 @@ namespace DiceSurvivor.Weapon
     /// <summary>
     /// PoisonFlask 무기 - 곡선 투척 DoT 투사체
     /// </summary>
-    public class PoisonFlaskWeapon : RangedWeapon
+    public class PoisonFlaskWeapon : RangedWeaponBase
     {
         [Header("PoisonFlask Specific")]
         [SerializeField] private GameObject potionPrefab;              // 포션 프리팹
@@ -21,25 +21,24 @@ namespace DiceSurvivor.Weapon
         private List<PoisonFlaskProjectile> activeFlasks;              // 활성 플라스크 목록
         private float attackTimer = 0f;                                // 공격 타이머
 
-        protected override void Start()
+        protected override void Awake()
         {
-            weaponName = "PoisonFlask";
-            base.Start();
+            base.Awake(); 
+        }
 
-            // 리스트 초기화
+        private void Start()
+        {
             activeFlasks = new List<PoisonFlaskProjectile>();
         }
 
         protected override void Update()
         {
-            if (player == null) return;
-
             // 쿨다운 체크
             attackTimer += Time.deltaTime;
 
             if (attackTimer >= cooldown)
             {
-                PerformAttack();
+                Attack();
                 attackTimer = 0f;
             }
 
@@ -47,42 +46,7 @@ namespace DiceSurvivor.Weapon
             CleanupInactiveFlasks();
         }
 
-        /// <summary>
-        /// 무기 초기화
-        /// </summary>
-        protected override void InitializeWeapon()
-        {
-            LoadWeaponData();
-        }
-
-        /// <summary>
-        /// 무기 데이터 로드
-        /// </summary>
-        protected override void LoadWeaponData()
-        {
-            var dataManager = DataTableManager.Instance;
-            if (dataManager == null)
-            {
-                Debug.LogError("[PoisonFlask] DataTableManager를 찾을 수 없습니다!");
-                return;
-            }
-
-            var weaponStats = dataManager.GetRangedWeapon("PoisonFlask", currentLevel);
-            if (weaponStats != null)
-            {
-                UpdateWeaponStats(weaponStats);
-                Debug.Log($"[PoisonFlask] Lv.{currentLevel} 로드 - ExplosionDamage: {explosionDamage}, DoT: {dotDamage}");
-            }
-            else
-            {
-                Debug.LogError($"[PoisonFlask] Lv.{currentLevel} 데이터를 찾을 수 없습니다!");
-            }
-        }
-
-        /// <summary>
-        /// 공격 수행
-        /// </summary>
-        protected override void PerformAttack()
+        protected override void ShootProjectile(GameObject target, int projectileCount)
         {
             // 가장 가까운 적들 찾기
             List<GameObject> closestEnemies = FindClosestEnemies(projectileCount);
@@ -90,7 +54,6 @@ namespace DiceSurvivor.Weapon
             // 각 타겟에게 플라스크 투척
             for (int i = 0; i < projectileCount; i++)
             {
-                GameObject target = null;
                 if (i < closestEnemies.Count)
                 {
                     target = closestEnemies[i];
@@ -143,7 +106,7 @@ namespace DiceSurvivor.Weapon
                 // 타겟이 없으면 전방 랜덤 위치
                 float randomAngle = Random.Range(-30f, 30f);
                 Vector3 direction = Quaternion.Euler(0, randomAngle, 0) * transform.forward;
-                targetPosition = transform.position + direction * range;
+                targetPosition = transform.position + direction * Weapon.range;
             }
 
             // 플라스크 생성
@@ -163,11 +126,11 @@ namespace DiceSurvivor.Weapon
                 targetPosition,         // 목표 위치
                 arcHeight,              // 포물선 높이
                 throwDuration,          // 투척 시간
-                explosionDamage,        // 폭발 데미지
-                explosionRadius,        // 폭발 범위
-                dotDamage,              // DoT 데미지
-                duration,               // DoT 지속시간
-                projectileSize,         // 크기
+                Weapon.explosionDamage,        // 폭발 데미지
+                Weapon.explosionRadius,        // 폭발 범위
+                Weapon.dotDamage,              // DoT 데미지
+                Weapon.duration,               // DoT 지속시간
+                Weapon.projectileSize,         // 크기
                 poisonGasPrefab        // 독가스 프리팹
             );
 
@@ -182,12 +145,6 @@ namespace DiceSurvivor.Weapon
         private void CleanupInactiveFlasks()
         {
             activeFlasks.RemoveAll(flask => flask == null || !flask.IsActive);
-        }
-
-        public override void LevelUp()
-        {
-            base.LevelUp();
-            Debug.Log($"[PoisonFlask] 레벨업! 현재 레벨: {currentLevel}");
         }
     }
 

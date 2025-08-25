@@ -360,10 +360,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GreatSword
       objectReference: {fileID: 0}
-    - target: {fileID: 305101255062719726, guid: d2f7749e402086b49b0903604a841082, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7770702973893158601, guid: d2f7749e402086b49b0903604a841082, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

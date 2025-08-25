@@ -9,7 +9,7 @@ namespace DiceSurvivor.Weapon
     /// <summary>
     /// Dagger 무기 - 연속 발사형
     /// </summary>
-    public class DaggerWeapon : RangedWeapon
+    public class DaggerWeapon : RangedWeaponBase
     {
         [Header("Dagger Specific")]
         [SerializeField] private GameObject DaggerPrefab;             // 차크람 프리팹
@@ -19,27 +19,24 @@ namespace DiceSurvivor.Weapon
         private List<DaggerProjectile> activeDaggers;                // 활성 차크람 목록
         private float attackTimer = 0f;                                // 공격 타이머
 
-        protected override void Start()
+        protected override void Awake()
         {
-            weaponName = "Dagger";
-            base.Start();
+            base.Awake();
+        }
 
-            // 리스트 초기화
+        private void Start()
+        {
             activeDaggers = new List<DaggerProjectile>();
-
-            
         }
 
         protected override void Update()
         {
-            if (player == null) return;
-
             // 쿨다운 체크
             attackTimer += Time.deltaTime;
 
             if (attackTimer >= cooldown)
             {
-                PerformAttack();
+                Attack();
                 attackTimer = 0f;
             }
 
@@ -47,50 +44,12 @@ namespace DiceSurvivor.Weapon
             CleanupInactiveDaggers();
         }
 
-        /// <summary>
-        /// 무기 초기화
-        /// </summary>
-        protected override void InitializeWeapon()
+        protected override void ShootProjectile(GameObject target, int projectileCount)
         {
-            LoadWeaponData();
-        }
-
-        /// <summary>
-        /// 무기 데이터 로드
-        /// </summary>
-        protected override void LoadWeaponData()
-        {
-            var dataManager = DataTableManager.Instance;
-            if (dataManager == null)
-            {
-                Debug.LogError("[Dagger] DataTableManager를 찾을 수 없습니다!");
-                return;
-            }
-
-            var weaponStats = dataManager.GetRangedWeapon("Dagger", currentLevel);
-            if (weaponStats != null)
-            {
-                UpdateWeaponStats(weaponStats);
-                Debug.Log($"[Dagger] Lv.{currentLevel} 로드 - Damage: {damage}, Count: {projectileCount}");
-            }
-            else
-            {
-                Debug.LogError($"[Dagger] Lv.{currentLevel} 데이터를 찾을 수 없습니다!");
-            }
-        }
-
-        /// <summary>
-        /// 공격 수행
-        /// </summary>
-        protected override void PerformAttack()
-        {
-            // 가장 가까운 적 찾기
-            GameObject closestEnemy = FindClosestEnemy();
-
             Vector3 targetDirection;
-            if (closestEnemy != null)
+            if (target != null)
             {
-                targetDirection = (closestEnemy.transform.position - transform.position).normalized;
+                targetDirection = (target.transform.position - transform.position).normalized;
             }
             else
             {
@@ -107,8 +66,6 @@ namespace DiceSurvivor.Weapon
                 Vector3 currentOffset = startOffset + perpDirection * (i * 0.2f);
                 LaunchDagger(targetDirection, currentOffset);
             }
-            //LaunchDagger(targetDirection);
-            
         }
 
         /// <summary>
@@ -129,10 +86,10 @@ namespace DiceSurvivor.Weapon
             // 차크람 초기화
             projectile.Initialize(
                 direction,              // 발사 방향
-                damage,                 // 데미지
-                range,                  // 최대 거리
-                projectileSpeed,        // 이동 속도
-                projectileSize         // 크기
+                Weapon.damage,                 // 데미지
+                Weapon.range,                  // 최대 거리
+                Weapon.projectileSpeed,        // 이동 속도
+                Weapon.projectileSize         // 크기
             );
 
             activeDaggers.Add(projectile);
@@ -146,12 +103,6 @@ namespace DiceSurvivor.Weapon
         private void CleanupInactiveDaggers()
         {
             activeDaggers.RemoveAll(Dagger => Dagger == null || !Dagger.IsActive);
-        }
-
-        public override void LevelUp()
-        {
-            base.LevelUp();
-            Debug.Log($"[Dagger] 레벨업! 현재 레벨: {currentLevel}");
         }
     }
 

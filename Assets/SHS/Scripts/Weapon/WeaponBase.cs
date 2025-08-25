@@ -162,12 +162,12 @@ namespace DiceSurvivor.Weapon
             GameObject target = FindEnemy();
             if (target != null)
             {
-                ShootProjectile(target);
+                ShootProjectile(target, Weapon.projectileCount);
                 cooldown = Weapon.cooldown;
             }
         }
 
-        protected abstract void ShootProjectile(GameObject target);
+        protected abstract void ShootProjectile(GameObject target, int projectileCount);
 
         protected GameObject FindEnemy()
         {

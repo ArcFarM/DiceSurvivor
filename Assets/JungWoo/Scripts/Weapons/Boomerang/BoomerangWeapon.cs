@@ -45,9 +45,12 @@ namespace DiceSurvivor.Weapon
             CleanupInactiveBoomerangs();
         }
 
-        protected override void ShootProjectile(GameObject target)
+        protected override void ShootProjectile(GameObject target, int projectileCount)
         {
-            LaunchBoomerang(target, Weapon.cooldown);
+            for (int i = 0; i < projectileCount; i++)
+            {
+                LaunchBoomerang(target, Weapon.cooldown);
+            }            
         }
 
         /// <summary>
