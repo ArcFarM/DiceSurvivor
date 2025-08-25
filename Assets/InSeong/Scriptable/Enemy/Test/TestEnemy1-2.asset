@@ -16,14 +16,15 @@ MonoBehaviour:
   enemyName: 456
   body: {fileID: 8209244736742389843, guid: 2770322b6562e6c4a8d6285a60c3ff42, type: 3}
   type: 0
-  health: 1
+  currHealth: 0
+  maxHealth: 0
   damage: 0
   speed: 5
   armor: 0
-  exp: 0
-  gold: 0
-  expDropRate: 0
-  goldDropRate: 0
+  exp: 15
+  gold: 15
+  expDropRate: 100
+  goldDropRate: 0.25
   boxDropSwitch: 0
   eliteBuff: 
   extraReward: 

@@ -105,7 +105,7 @@ namespace DiceSurvivor.Weapon
                 if (!hitEnemies.Contains(other.gameObject))
                 {
                     // 데미지 적용
-                    var enemy = other.GetComponent<WJEnemy>();
+                    var enemy = other.GetComponent<EnemyFinal>();
                     if (enemy != null)
                     {
                         enemy.TakeDamage(damage);

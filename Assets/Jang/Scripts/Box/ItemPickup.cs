@@ -1,3 +1,4 @@
+using DiceSurvivor.Player;
 using UnityEngine;
 
 public class ItemPickup : MonoBehaviour
