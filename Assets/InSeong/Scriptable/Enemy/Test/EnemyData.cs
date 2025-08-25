@@ -31,7 +31,7 @@ namespace DiceSurvivor.Enemy {
 
         [Header("처치 시 보상")]
         public float exp;           // 경험치 보상
-        public float gold;          // 골드 보상
+        public int gold;          // 골드 보상
         public float expDropRate;   // 경험치 드랍 확률 (ex: 0.2 = 20%)
         public float goldDropRate;  // 골드 드랍 확률 (ex: 0.1 = 10%)
         public bool boxDropSwitch;  // 보상 상자 출현 여부

@@ -213,7 +213,7 @@ namespace aurw
         {
             int newStatus = currentStatus + 1;
 
-            // Usamos el mínimo entre los dos arrays para asegurar compatibilidad
+            // Usamos el m?imo entre los dos arrays para asegurar compatibilidad
             int maxIndex = Mathf.Min(textures.Length, textureSprites.Length) - 1;
 
             if (newStatus > maxIndex)

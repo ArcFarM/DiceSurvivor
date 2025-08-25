@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DiceSurvivor.Manager;
-using DiceSurvivor.Test;
+using DiceSurvivor.Enemy;
 
 namespace DiceSurvivor.Weapon
 {
     /// <summary>
     /// PoisonFlask 무기 - 곡선 투척 DoT 투사체
     /// </summary>
-    public class PoisonFlaskWeapon : RangedWeapon
+    public class PoisonFlaskWeapon : RangedWeaponBase
     {
         [Header("PoisonFlask Specific")]
         [SerializeField] private GameObject potionPrefab;              // 포션 프리팹
+        [SerializeField] private GameObject poisonGasPrefab;           // 독가스 DoT 프리팹
         [SerializeField] private float arcHeight = 3f;                 // 포물선 높이
         [SerializeField] private float throwDuration = 1f;             // 투척 시간
 
@@ -20,31 +21,24 @@ namespace DiceSurvivor.Weapon
         private List<PoisonFlaskProjectile> activeFlasks;              // 활성 플라스크 목록
         private float attackTimer = 0f;                                // 공격 타이머
 
-        protected override void Start()
+        protected override void Awake()
         {
-            weaponName = "PoisonFlask";
-            base.Start();
+            base.Awake(); 
+        }
 
-            // 리스트 초기화
+        private void Start()
+        {
             activeFlasks = new List<PoisonFlaskProjectile>();
-
-            // 프리팹이 없으면 기본 생성
-            if (potionPrefab == null)
-            {
-                CreateDefaultPotionPrefab();
-            }
         }
 
         protected override void Update()
         {
-            if (player == null) return;
-
             // 쿨다운 체크
             attackTimer += Time.deltaTime;
 
             if (attackTimer >= cooldown)
             {
-                PerformAttack();
+                Attack();
                 attackTimer = 0f;
             }
 
@@ -52,42 +46,7 @@ namespace DiceSurvivor.Weapon
             CleanupInactiveFlasks();
         }
 
-        /// <summary>
-        /// 무기 초기화
-        /// </summary>
-        protected override void InitializeWeapon()
-        {
-            LoadWeaponData();
-        }
-
-        /// <summary>
-        /// 무기 데이터 로드
-        /// </summary>
-        protected override void LoadWeaponData()
-        {
-            var dataManager = DataTableManager.Instance;
-            if (dataManager == null)
-            {
-                Debug.LogError("[PoisonFlask] DataTableManager를 찾을 수 없습니다!");
-                return;
-            }
-
-            var weaponStats = dataManager.GetRangedWeapon("PoisonFlask", currentLevel);
-            if (weaponStats != null)
-            {
-                UpdateWeaponStats(weaponStats);
-                Debug.Log($"[PoisonFlask] Lv.{currentLevel} 로드 - ExplosionDamage: {explosionDamage}, DoT: {dotDamage}");
-            }
-            else
-            {
-                Debug.LogError($"[PoisonFlask] Lv.{currentLevel} 데이터를 찾을 수 없습니다!");
-            }
-        }
-
-        /// <summary>
-        /// 공격 수행
-        /// </summary>
-        protected override void PerformAttack()
+        protected override void ShootProjectile(GameObject target, int projectileCount)
         {
             // 가장 가까운 적들 찾기
             List<GameObject> closestEnemies = FindClosestEnemies(projectileCount);
@@ -95,7 +54,6 @@ namespace DiceSurvivor.Weapon
             // 각 타겟에게 플라스크 투척
             for (int i = 0; i < projectileCount; i++)
             {
-                GameObject target = null;
                 if (i < closestEnemies.Count)
                 {
                     target = closestEnemies[i];
@@ -148,7 +106,7 @@ namespace DiceSurvivor.Weapon
                 // 타겟이 없으면 전방 랜덤 위치
                 float randomAngle = Random.Range(-30f, 30f);
                 Vector3 direction = Quaternion.Euler(0, randomAngle, 0) * transform.forward;
-                targetPosition = transform.position + direction * range;
+                targetPosition = transform.position + direction * Weapon.range;
             }
 
             // 플라스크 생성
@@ -168,11 +126,12 @@ namespace DiceSurvivor.Weapon
                 targetPosition,         // 목표 위치
                 arcHeight,              // 포물선 높이
                 throwDuration,          // 투척 시간
-                explosionDamage,        // 폭발 데미지
-                explosionRadius,        // 폭발 범위
-                dotDamage,              // DoT 데미지
-                duration,               // DoT 지속시간
-                projectileSize          // 크기
+                Weapon.explosionDamage,        // 폭발 데미지
+                Weapon.explosionRadius,        // 폭발 범위
+                Weapon.dotDamage,              // DoT 데미지
+                Weapon.duration,               // DoT 지속시간
+                Weapon.projectileSize,         // 크기
+                poisonGasPrefab        // 독가스 프리팹
             );
 
             activeFlasks.Add(projectile);
@@ -181,57 +140,11 @@ namespace DiceSurvivor.Weapon
         }
 
         /// <summary>
-        /// 기본 포션 프리팹 생성
-        /// </summary>
-        private void CreateDefaultPotionPrefab()
-        {
-            potionPrefab = new GameObject("PotionPrefab");
-
-            // 기본 메시 (원통 - 플라스크 모양)
-            GameObject visual = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-            visual.transform.SetParent(potionPrefab.transform);
-            visual.transform.localPosition = Vector3.zero;
-            visual.transform.localScale = new Vector3(0.3f, 0.5f, 0.3f);
-
-            // 포션 색상 (독 - 녹색)
-            Renderer renderer = visual.GetComponent<Renderer>();
-            Material mat = new Material(Shader.Find("Standard"));
-            mat.color = new Color(0.2f, 0.8f, 0.2f);
-            renderer.material = mat;
-
-            // Collider 설정
-            CapsuleCollider collider = potionPrefab.GetComponent<CapsuleCollider>();
-            if (collider == null)
-            {
-                collider = potionPrefab.AddComponent<CapsuleCollider>();
-            }
-            collider.isTrigger = true;
-            collider.radius = 0.15f;
-            collider.height = 0.5f;
-
-            // Rigidbody 추가
-            Rigidbody rb = potionPrefab.GetComponent<Rigidbody>();
-            if (rb == null)
-            {
-                rb = potionPrefab.AddComponent<Rigidbody>();
-            }
-            rb.isKinematic = true;
-
-            potionPrefab.SetActive(false);
-        }
-
-        /// <summary>
         /// 비활성 플라스크 정리
         /// </summary>
         private void CleanupInactiveFlasks()
         {
             activeFlasks.RemoveAll(flask => flask == null || !flask.IsActive);
-        }
-
-        public override void LevelUp()
-        {
-            base.LevelUp();
-            Debug.Log($"[PoisonFlask] 레벨업! 현재 레벨: {currentLevel}");
         }
     }
 
@@ -249,6 +162,7 @@ namespace DiceSurvivor.Weapon
         private float dotDamage;               // DoT 데미지
         private float dotDuration;             // DoT 지속시간
         private float projectileSize;          // 크기
+        private GameObject poisonGasPrefab;    // 독가스 프리팹
 
         private float elapsedTime;             // 경과 시간
         private bool hasLanded;                // 착지 여부
@@ -259,7 +173,7 @@ namespace DiceSurvivor.Weapon
         /// 플라스크 초기화
         /// </summary>
         public void Initialize(Vector3 start, Vector3 target, float arc, float duration,
-                             float explDamage, float explRadius, float dot, float dotDur, float size)
+                             float explDamage, float explRadius, float dot, float dotDur, float size, GameObject gasPrefab)
         {
             startPosition = start;
             targetPosition = target;
@@ -271,6 +185,7 @@ namespace DiceSurvivor.Weapon
             dotDamage = dot;
             dotDuration = dotDur;
             projectileSize = size;
+            poisonGasPrefab = gasPrefab;
 
             elapsedTime = 0f;
             hasLanded = false;
@@ -363,8 +278,6 @@ namespace DiceSurvivor.Weapon
                 }
             }
 
-            // 폭발 이펙트
-            CreateExplosionEffect();
         }
 
         /// <summary>
@@ -376,36 +289,11 @@ namespace DiceSurvivor.Weapon
             poisonZone.transform.position = transform.position;
 
             PoisonDotZone zone = poisonZone.AddComponent<PoisonDotZone>();
-            zone.Initialize(explosionRadius, dotDamage, dotDuration);
+            zone.Initialize(explosionRadius, dotDamage, dotDuration, projectileSize, poisonGasPrefab);
 
             Debug.Log($"[PoisonFlaskProjectile] 독 구역 생성 - DoT: {dotDamage}/초, 지속: {dotDuration}초");
         }
-
-        /// <summary>
-        /// 폭발 이펙트 생성
-        /// </summary>
-        private void CreateExplosionEffect()
-        {
-            GameObject effect = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            effect.transform.position = transform.position;
-            effect.transform.localScale = Vector3.one * explosionRadius * 2f;
-
-            Destroy(effect.GetComponent<Collider>());
-
-            Renderer renderer = effect.GetComponent<Renderer>();
-            Material mat = new Material(Shader.Find("Standard"));
-            mat.color = new Color(0.2f, 0.8f, 0.2f, 0.3f);
-            mat.SetFloat("_Mode", 3);
-            mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
-            mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
-            mat.SetInt("_ZWrite", 0);
-            mat.DisableKeyword("_ALPHATEST_ON");
-            mat.EnableKeyword("_ALPHABLEND_ON");
-            mat.renderQueue = 3000;
-            renderer.material = mat;
-
-            Destroy(effect, 0.5f);
-        }
+       
     }
 
     /// <summary>
@@ -416,14 +304,21 @@ namespace DiceSurvivor.Weapon
         private float radius;
         private float dotDamage;
         private float duration;
+        private float projectileSize;
+        private GameObject gasPrefab;
+        private GameObject gasEffect;
+
         private float endTime;
         private float lastDotTime;
 
-        public void Initialize(float rad, float dot, float dur)
+        public void Initialize(float rad, float dot, float dur, float size, GameObject prefab)
         {
             radius = rad;
             dotDamage = dot;
             duration = dur;
+            projectileSize = size;
+            gasPrefab = prefab;
+
             endTime = Time.time + duration;
             lastDotTime = Time.time;
 
@@ -432,8 +327,51 @@ namespace DiceSurvivor.Weapon
             collider.radius = radius;
             collider.isTrigger = true;
 
-            // 시각화
-            CreateVisual();
+            // 독가스 프리팹이 있으면 사용, 없으면 기본 시각화
+            if (gasPrefab != null)
+            {
+                CreateGasEffectFromPrefab();
+            }
+        }
+
+        /// <summary>
+        /// 독가스 프리팹으로 이펙트 생성
+        /// </summary>
+        private void CreateGasEffectFromPrefab()
+        {
+            // 프리팹 인스턴스 생성
+            gasEffect = Instantiate(gasPrefab, transform.position, Quaternion.identity, transform);
+
+            // 프리팹 스케일을 projectileSize와 연동
+            gasEffect.transform.localScale = Vector3.one * projectileSize;
+
+            // 자식 ParticleSystem들의 startLifetime을 duration과 연동
+            ParticleSystem[] particleSystems = gasEffect.GetComponentsInChildren<ParticleSystem>();
+            foreach (var ps in particleSystems)
+            {
+                // 파티클 시스템 정지
+                ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+
+                // main 모듈 설정
+                var main = ps.main;
+                main.startLifetime = duration;  // startLifetime을 duration과 연동
+                main.loop = false;              // 루프 비활성화
+
+                // shape 모듈에서 radius 조정 (원형인 경우)
+                var shape = ps.shape;
+                if (shape.shapeType == ParticleSystemShapeType.Circle ||
+                    shape.shapeType == ParticleSystemShapeType.Sphere)
+                {
+                    shape.radius = radius;
+                }
+
+                // 파티클 재생
+                ps.Play();
+
+                Debug.Log($"[PoisonDotZone] ParticleSystem 설정 - StartLifetime: {duration}초, Scale: {projectileSize}");
+            }
+
+            Debug.Log($"[PoisonDotZone] 독가스 프리팹 생성 - Scale: {gasEffect.transform.localScale}, Duration: {duration}초");
         }
 
         void Update()
@@ -465,28 +403,11 @@ namespace DiceSurvivor.Weapon
                     enemy.TakeDamage(dotDamage);
                 }
             }
-        }
 
-        private void CreateVisual()
-        {
-            GameObject visual = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-            visual.transform.SetParent(transform);
-            visual.transform.localPosition = Vector3.zero;
-            visual.transform.localScale = new Vector3(radius * 2, 0.1f, radius * 2);
-
-            Destroy(visual.GetComponent<Collider>());
-
-            Renderer renderer = visual.GetComponent<Renderer>();
-            Material mat = new Material(Shader.Find("Standard"));
-            mat.color = new Color(0.2f, 0.8f, 0.2f, 0.2f);
-            mat.SetFloat("_Mode", 3);
-            mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
-            mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
-            mat.SetInt("_ZWrite", 0);
-            mat.DisableKeyword("_ALPHATEST_ON");
-            mat.EnableKeyword("_ALPHABLEND_ON");
-            mat.renderQueue = 3000;
-            renderer.material = mat;
+            if (enemies.Length > 0)
+            {
+                Debug.Log($"[PoisonDotZone] {enemies.Length}명에게 DoT 데미지 {dotDamage} 적용");
+            }
         }
     }
 }

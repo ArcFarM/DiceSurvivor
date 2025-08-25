@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3717555704524197801}
   - component: {fileID: 3369913465642457241}
   - component: {fileID: -5212112545469443783}
+  - component: {fileID: 371261089179039185}
   m_Layer: 0
   m_Name: EnemyTest5
   m_TagString: Enemy
@@ -28,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8209244736742389843}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.34, y: 0, z: -3.11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -104,7 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 983577228701aed4aa0b65808a44fa32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyData: {fileID: 0}
+  enemyData: {fileID: 11400000, guid: 67057c2c88f91e340b39f65240ef50bd, type: 2}
   playerPos: {fileID: 0}
   border: 2
   outTimeThreshold: 2
@@ -132,6 +133,34 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &371261089179039185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8209244736742389843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e42c1d9fe648a9418bbdb3fa951b7dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyData: {fileID: 11400000, guid: 67057c2c88f91e340b39f65240ef50bd, type: 2}
+  playerPos: {fileID: 0}
+  border: 2
+  outTimeThreshold: 2
+  clusterThreshold: 2
+  currentHealth: 0
+  currentMoveSpeed: 0
+  damage: 10
+  attackRange: 1.5
+  attackCooldown: 1
+  target: {fileID: 0}
+  detectionRange: 15
+  enemyRenderer: {fileID: 3717555704524197801}
+  isDead: 0
+  isAttacking: 0
+  isSlowed: 0
 --- !u!1001 &163191005893637202
 PrefabInstance:
   m_ObjectHideFlags: 0

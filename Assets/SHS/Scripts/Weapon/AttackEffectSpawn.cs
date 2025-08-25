@@ -29,7 +29,7 @@ namespace DiceSurvivor.Weapon
         [SerializeField] private float defaultDestroyTime = 5f;
 
         // 현재 장착 중인 무기 타입
-        [SerializeField] private WeaponType currentWeapon;
+        [SerializeField] private MeleeWeaponType currentWeapon;
         #endregion
 
         #region Unity Event Method
@@ -45,24 +45,24 @@ namespace DiceSurvivor.Weapon
 
             switch (currentWeapon)
             {
-                case WeaponType.Hammer:
+                case MeleeWeaponType.Hammer:
                     // 해머는 위치 고정 (보정 없음)
                     break;
 
-                case WeaponType.GreatSword:
+                case MeleeWeaponType.GreatSword:
                     // 대검 전용 위치 보정 (필요 시 구현)
                     break;
 
-                case WeaponType.Scythe:
+                case MeleeWeaponType.Scythe:
                     // 낫 전용 위치 보정 (필요 시 구현)
                     break;
 
-                case WeaponType.Whip:
+                case MeleeWeaponType.Whip:
                     // 채찍 전용 위치 보정 (필요 시 구현)
                     break;
 
-                case WeaponType.Staff:
-                case WeaponType.Spear:
+                case MeleeWeaponType.Staff:
+                case MeleeWeaponType.Spear:
                     //이펙트 위치를 맞춤
                     effect.transform.position = effectSpawnTransform.transform.position;
                     break;
@@ -80,13 +80,13 @@ namespace DiceSurvivor.Weapon
         {
             effect = Instantiate(attackEffect, effectSpawnTransform.position, effectSpawnTransform.rotation); // 이펙트 생성
 
-            float destroyTime = (currentWeapon == WeaponType.Staff || currentWeapon == WeaponType.Spear)
+            float destroyTime = (currentWeapon == MeleeWeaponType.Staff || currentWeapon == MeleeWeaponType.Spear)
                 ? 0.5f
                 : defaultDestroyTime; // 무기 타입에 따라 삭제 시간 설정
 
             switch (currentWeapon)
             {
-                case WeaponType.Scythe:
+                case MeleeWeaponType.Scythe:
                     ParticleSystem scytheParticle = effect.GetComponent<ParticleSystem>();
                     var scytheMain = scytheParticle.main;
                     var currentSize = scytheMain.startSize.constant;
@@ -94,14 +94,14 @@ namespace DiceSurvivor.Weapon
                     scytheMain.startSize = new ParticleSystem.MinMaxCurve(currentSize + Weapon.range);
                     break;
 
-                case WeaponType.GreatSword:
+                case MeleeWeaponType.GreatSword:
                     ParticleSystem greatswordParticle = effect.GetComponent<ParticleSystem>();
                     var greatswordMain = greatswordParticle.main;
 
                     greatswordMain.startSize = Weapon.range;
                     break;
 
-                case WeaponType.Hammer:
+                case MeleeWeaponType.Hammer:
                     WeaponController weaponController = this.GetComponentInParent<WeaponController>(); // 무기 정보 가져오기                    
 
                     WeaponSplashAttack aoe = effect.GetComponent<WeaponSplashAttack>(); // 해머 전용 이펙트 컴포넌트
@@ -111,12 +111,12 @@ namespace DiceSurvivor.Weapon
                     
                     break;
 
-                case WeaponType.Staff:
-                case WeaponType.Spear:
+                case MeleeWeaponType.Staff:
+                case MeleeWeaponType.Spear:
                     effect.GetComponentInChildren<rotation>().topEnd = effectSpawnTransform; // 회전 이펙트의 끝 위치 설정
                     break;
 
-                case WeaponType.Whip:
+                case MeleeWeaponType.Whip:
                     effect.GetComponentInChildren<rotation>().topEnd = effectSpawnTransform; // 회전 이펙트의 끝 위치 설정
                     particleAttractorMove particleRange = effect.GetComponentInChildren<particleAttractorMove>();
                     particleRange.speed = Weapon.range * 3;

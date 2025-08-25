@@ -193,6 +193,7 @@ MonoBehaviour:
   weaponLevel: 1
   maxLevel: 8
   sfxType: 3
+  weaponType: 0
   currentWeaponStats:
     id: 
     name: 

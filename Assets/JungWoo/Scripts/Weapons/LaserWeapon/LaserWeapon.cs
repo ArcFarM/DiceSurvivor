@@ -1,68 +1,64 @@
-/*using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DiceSurvivor.Manager;
-using DiceSurvivor.Test;
+using DiceSurvivor.Enemy;
 
 namespace DiceSurvivor.Weapon
 {
     /// <summary>
-    /// Laser 무기 - 가장 먼 적을 향해 관통 레이저 발사
+    /// Laser 무기 - 순간 발사 레이저 (0.1초 플래시)
     /// </summary>
     public class LaserWeapon : RangedWeapon
     {
         [Header("Laser Specific")]
-        [SerializeField] private GameObject laserPrefab;               // 레이저 프리팹
-        [SerializeField] private float laserDuration = 0.5f;           // 레이저 지속 시간
-        [SerializeField] private float laserWidth = 0.5f;              // 레이저 폭
+        [SerializeField] private GameObject laserBeamPrefab;          // 레이저 투사체 프리팹
+        [SerializeField] private GameObject hitEffectPrefab;          // 타격 이펙트 프리팹
+        [SerializeField] private float burstDelay = 0.2f;             // 연발 간격
+
+        [Header("Laser Width Settings")]
+        [SerializeField] private float baseWidth = 0.5f;              // 기본 레이저 두께
+        [SerializeField] private float widthPerLevel = 0.2f;          // 레벨당 두께 증가량
+        [SerializeField] private float maxWidth = 2.0f;               // 최대 레이저 두께
 
         [Header("Runtime")]
-        private List<LaserBeam> activeLasers;                          // 활성 레이저 목록
-        private float attackTimer = 0f;                                // 공격 타이머
+        private List<LaserBeam> activeLasers;                         // 활성 레이저 목록
+        private float attackTimer = 0f;                               // 공격 타이머
+        private Coroutine burstFireCoroutine;                         // 연발 코루틴
+        private bool isFiring = false;                                // 발사 중 플래그
+        private float currentLaserWidth;                              // 현재 레이저 두께
 
         protected override void Start()
         {
             weaponName = "Laser";
             base.Start();
 
-            // 리스트 초기화
             activeLasers = new List<LaserBeam>();
-
-            // 프리팹이 없으면 기본 생성
-            if (laserPrefab == null)
-            {
-                CreateDefaultLaserPrefab();
-            }
+            CalculateLaserWidth();
         }
 
         protected override void Update()
         {
             if (player == null) return;
 
-            // 쿨다운 체크
             attackTimer += Time.deltaTime;
 
-            if (attackTimer >= cooldown)
+            // cooldown이 지나고 발사 중이 아닐 때만 새로운 공격 시작
+            if (attackTimer >= cooldown && !isFiring)
             {
                 PerformAttack();
                 attackTimer = 0f;
             }
 
-            // 비활성 레이저 정리
             CleanupInactiveLasers();
         }
 
-        /// <summary>
-        /// 무기 초기화
-        /// </summary>
         protected override void InitializeWeapon()
         {
             LoadWeaponData();
+            CalculateLaserWidth();
         }
 
-        /// <summary>
-        /// 무기 데이터 로드
-        /// </summary>
         protected override void LoadWeaponData()
         {
             var dataManager = DataTableManager.Instance;
@@ -76,7 +72,19 @@ namespace DiceSurvivor.Weapon
             if (weaponStats != null)
             {
                 UpdateWeaponStats(weaponStats);
-                Debug.Log($"[Laser] Lv.{currentLevel} 로드 - Damage: {damage}, Count: {projectileCount}, Size: {projectileSize}");
+
+                // 레벨에 따른 연발 간격 조정
+                burstDelay = Mathf.Max(0.05f, 0.1f / projectileCount);
+
+                // 레벨에 따른 레이저 두께 계산
+                CalculateLaserWidth();
+
+                // 관통은 항상 true
+                isPiercing = true;
+
+                Debug.Log($"[Laser] Lv.{currentLevel} 로드");
+                Debug.Log($"  - Damage: {damage}, Count: {projectileCount}, Range: {range}");
+                Debug.Log($"  - BurstDelay: {burstDelay}, LaserWidth: {currentLaserWidth}");
             }
             else
             {
@@ -84,57 +92,100 @@ namespace DiceSurvivor.Weapon
             }
         }
 
-        /// <summary>
-        /// 공격 수행
-        /// </summary>
+        private void CalculateLaserWidth()
+        {
+            currentLaserWidth = baseWidth + (widthPerLevel * (currentLevel - 1));
+            currentLaserWidth = Mathf.Min(currentLaserWidth, maxWidth);
+        }
+
         protected override void PerformAttack()
         {
-            // projectileCount 만큼 레이저 발사
-            for (int i = 0; i < projectileCount; i++)
+            // cooldown마다 가장 먼 적 찾기
+            GameObject farthestEnemy = FindFarthestEnemy(range);
+
+            // 이전 연발이 진행 중이면 중단
+            if (burstFireCoroutine != null)
             {
-                StartCoroutine(FireLaserWithDelay(i * 0.1f));
+                StopCoroutine(burstFireCoroutine);
             }
+
+            // 연발 발사 시작
+            burstFireCoroutine = StartCoroutine(BurstFire(farthestEnemy));
         }
 
         /// <summary>
-        /// 딜레이 후 레이저 발사
+        /// 연발 발사 코루틴 - 같은 방향으로 연속 발사
         /// </summary>
-        private IEnumerator FireLaserWithDelay(float delay)
+        private IEnumerator BurstFire(GameObject targetEnemy)
         {
-            yield return new WaitForSeconds(delay);
+            isFiring = true;
 
-            // 가장 먼 적 찾기
-            GameObject farthestEnemy = FindFarthestEnemy();
-
-            Vector3 targetDirection;
-            if (farthestEnemy != null)
+            // 발사 방향 결정 (이번 공격 턴 동안 고정)
+            Vector3 fireDirection;
+            if (targetEnemy != null)
             {
-                targetDirection = (farthestEnemy.transform.position - transform.position).normalized;
+                fireDirection = (targetEnemy.transform.position - player.position).normalized;
+                Debug.Log($"[Laser] 타겟 발견: {targetEnemy.name}");
             }
             else
             {
-                // 적이 없으면 전방으로
-                targetDirection = transform.forward;
+                // 적이 없으면 플레이어 전방
+                fireDirection = player.forward;
+                Debug.Log("[Laser] 타겟 없음 - 전방 발사");
             }
 
-            FireLaser(targetDirection);
+            // projectileCount만큼 연속 발사 (같은 방향)
+            for (int i = 0; i < projectileCount; i++)
+            {
+                LaunchLaserBeam(fireDirection);
+
+                // 마지막 발사가 아니면 짧은 딜레이
+                if (i < projectileCount - 1)
+                {
+                    yield return new WaitForSeconds(burstDelay);
+                }
+            }
+
+            isFiring = false;
+            burstFireCoroutine = null;
         }
 
         /// <summary>
-        /// 가장 먼 적 찾기
+        /// 레이저 발사 함수 - 순간 발사
         /// </summary>
-        private GameObject FindFarthestEnemy()
+        private void LaunchLaserBeam(Vector3 direction)
+        {
+            // 레이저 빔 생성 (플레이어 위치에 생성)
+            GameObject laser = Instantiate(laserBeamPrefab, player.position, Quaternion.identity);
+            laser.name = $"LaserBeam_Flash_{System.DateTime.Now.Ticks}";
+
+            LaserBeam laserBeam = laser.GetComponent<LaserBeam>();
+            if (laserBeam == null)
+            {
+                laserBeam = laser.AddComponent<LaserBeam>();
+            }
+
+            // 레이저 초기화 (0.1초 플래시)
+            laserBeam.Initialize(player, direction, damage, range,
+                hitEffectPrefab, currentLaserWidth);
+
+            activeLasers.Add(laserBeam);
+        }
+
+        /// <summary>
+        /// 범위 내에서 가장 먼 적을 찾습니다.
+        /// </summary>
+        private GameObject FindFarthestEnemy(float searchRange)
         {
             GameObject farthest = null;
             float maxDistance = 0f;
-
             int enemyLayer = LayerMask.GetMask("Enemy");
-            Collider[] enemies = Physics.OverlapSphere(transform.position, range, enemyLayer);
+            Collider[] enemies = Physics.OverlapSphere(transform.position, searchRange, enemyLayer);
 
             foreach (var enemy in enemies)
             {
                 float distance = Vector3.Distance(transform.position, enemy.transform.position);
-                if (distance > maxDistance)
+                if (distance > maxDistance && distance <= searchRange)
                 {
                     maxDistance = distance;
                     farthest = enemy.gameObject;
@@ -144,289 +195,40 @@ namespace DiceSurvivor.Weapon
             return farthest;
         }
 
-        /// <summary>
-        /// 레이저 발사
-        /// </summary>
-        private void FireLaser()
+        private void CleanupInactiveLasers()
         {
-            // 레이저 끝점 계산
-            Vector3 endPosition = startPosition + direction * maxRange;
+            activeLasers.RemoveAll(laser => laser == null || !laser.IsActive);
+        }
 
-            // LineRenderer 위치 설정
-            lineRenderer.SetPosition(0, startPosition);
-            lineRenderer.SetPosition(1, endPosition);
+        public override void LevelUp()
+        {
+            base.LevelUp();
 
-            // 레이캐스트로 경로상의 모든 적 검출
-            RaycastHit[] hits = Physics.RaycastAll(startPosition, direction, maxRange);
+            // 레벨업 시 연발 간격과 레이저 두께 재계산
+            LoadWeaponData();
 
-            // Enemy 레이어만 필터링하고 데미지 적용
-            foreach (var hit in hits)
+            Debug.Log($"[Laser] 레벨업! 현재 레벨: {currentLevel}");
+            Debug.Log($"  - 연발 수: {projectileCount}, 연발 간격: {burstDelay}초");
+            Debug.Log($"  - 레이저 두께: {currentLaserWidth}");
+        }
+
+        void OnDestroy()
+        {
+            // 코루틴 정리
+            if (burstFireCoroutine != null)
             {
-                if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+                StopCoroutine(burstFireCoroutine);
+            }
+
+            // 활성 레이저 정리
+            foreach (var laser in activeLasers)
+            {
+                if (laser != null && laser.gameObject != null)
                 {
-                    if (!hitEnemies.Contains(hit.collider.gameObject))
-                    {
-                        var enemy = hit.collider.GetComponent<DiceSurvivor.EnemySystem.Enemy>();
-                        if (enemy != null)
-                        {
-                            enemy.TakeDamage(damage);
-                            hitEnemies.Add(hit.collider.gameObject);
-
-                            Debug.Log($"[LaserBeam] {hit.collider.name}에게 데미지 {damage} 적용");
-
-                            // 타격 이펙트
-                            CreateHitEffect(hit.point);
-                        }
-                    }
+                    Destroy(laser.gameObject);
                 }
             }
-
-            // BoxCast로 더 넓은 범위 검사 (레이저 두께 고려)
-            Vector3 halfExtents = new Vector3(beamWidth / 2f, beamWidth / 2f, maxRange / 2f);
-            Vector3 center = startPosition + direction * (maxRange / 2f);
-
-            Collider[] colliders = Physics.OverlapBox(center, halfExtents, Quaternion.LookRotation(direction), LayerMask.GetMask("Enemy"));
-
-            foreach (var collider in colliders)
-            {
-                if (!hitEnemies.Contains(collider.gameObject))
-                {
-                    var enemy = collider.GetComponent<DiceSurvivor.EnemySystem.Enemy>();
-                    if (enemy != null)
-                    {
-                        enemy.TakeDamage(damage);
-                        hitEnemies.Add(collider.gameObject);
-
-                        Debug.Log($"[LaserBeam] 범위 내 {collider.name}에게 데미지 {damage} 적용");
-                    }
-                }
-            }
-
-            Debug.Log($"[LaserBeam] 레이저 발사 완료 - 타격 적: {hitEnemies.Count}명");
-        }
-
-        void Update()
-        {
-            if (!IsActive) return;
-
-            // 지속 시간 체크
-            if (Time.time >= endTime)
-            {
-                Deactivate();
-            }
-
-            // 레이저 깜빡임 효과 (옵션)
-            if (lineRenderer != null)
-            {
-                float alpha = Mathf.PingPong(Time.time * 3f, 1f);
-                Color startColor = lineRenderer.startColor;
-                Color endColor = lineRenderer.endColor;
-                startColor.a = alpha;
-                endColor.a = alpha * 0.8f;
-                lineRenderer.startColor = startColor;
-                lineRenderer.endColor = endColor;
-            }
-        }
-
-        /// <summary>
-        /// 타격 이펙트 생성
-        /// </summary>
-        private void CreateHitEffect(Vector3 position)
-        {
-            GameObject effect = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            effect.transform.position = position;
-            effect.transform.localScale = Vector3.one * 0.5f;
-
-            Destroy(effect.GetComponent<Collider>());
-
-            // 파란색 반투명
-            Renderer renderer = effect.GetComponent<Renderer>();
-            Material mat = new Material(Shader.Find("Standard"));
-            mat.color = new Color(0.5f, 0.8f, 1f, 0.5f);
-            mat.SetFloat("_Mode", 3);
-            mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
-            mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
-            mat.SetInt("_ZWrite", 0);
-            mat.DisableKeyword("_ALPHATEST_ON");
-            mat.EnableKeyword("_ALPHABLEND_ON");
-            mat.renderQueue = 3000;
-            renderer.material = mat;
-
-            Destroy(effect, 0.3f);
-        }
-
-        /// <summary>
-        /// 레이저 비활성화
-        /// </summary>
-        private void Deactivate()
-        {
-            IsActive = false;
-
-            // 페이드 아웃 효과
-            StartCoroutine(FadeOutAndDestroy());
-        }
-
-        /// <summary>
-        /// 페이드 아웃 후 제거
-        /// </summary>
-        private IEnumerator FadeOutAndDestroy()
-        {
-            float fadeTime = 0.2f;
-            float elapsedTime = 0f;
-
-            while (elapsedTime < fadeTime)
-            {
-                if (lineRenderer != null)
-                {
-                    float alpha = Mathf.Lerp(1f, 0f, elapsedTime / fadeTime);
-                    Color startColor = lineRenderer.startColor;
-                    Color endColor = lineRenderer.endColor;
-                    startColor.a = alpha;
-                    endColor.a = alpha;
-                    lineRenderer.startColor = startColor;
-                    lineRenderer.endColor = endColor;
-                }
-
-                elapsedTime += Time.deltaTime;
-                yield return null;
-            }
-
-            Destroy(gameObject);
+            activeLasers.Clear();
         }
     }
 }
-aser(Vector3 direction)
-        {
-    // 레이저 생성
-    GameObject laser = Instantiate(laserPrefab, transform.position + Vector3.up * 0.5f, Quaternion.identity);
-    laser.name = $"Laser_{Time.time}";
-
-    // LaserBeam 컴포넌트 추가/설정
-    LaserBeam beam = laser.GetComponent<LaserBeam>();
-    if (beam == null)
-    {
-        beam = laser.AddComponent<LaserBeam>();
-    }
-
-    // 레이저 초기화
-    beam.Initialize(
-        transform.position + Vector3.up * 0.5f,    // 시작 위치
-        direction,                                  // 발사 방향
-        damage,                                     // 데미지
-        range,                                      // 최대 거리
-        projectileSize,                             // 레이저 두께
-        laserDuration                               // 지속 시간
-    );
-
-    activeLasers.Add(beam);
-
-    Debug.Log($"[Laser] 발사! 방향: {direction}");
-}
-
-/// <summary>
-/// 기본 레이저 프리팹 생성
-/// </summary>
-private void CreateDefaultLaserPrefab()
-{
-    laserPrefab = new GameObject("LaserPrefab");
-
-    // LineRenderer로 레이저 표현
-    LineRenderer lineRenderer = laserPrefab.AddComponent<LineRenderer>();
-    lineRenderer.startWidth = 0.5f;
-    lineRenderer.endWidth = 0.5f;
-    lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-    lineRenderer.startColor = new Color(0, 0.8f, 1f);
-    lineRenderer.endColor = new Color(0, 0.5f, 1f);
-
-    laserPrefab.SetActive(false);
-}
-
-/// <summary>
-/// 비활성 레이저 정리
-/// </summary>
-private void CleanupInactiveLasers()
-{
-    activeLasers.RemoveAll(laser => laser == null || !laser.IsActive);
-}
-
-public override void LevelUp()
-{
-    base.LevelUp();
-    Debug.Log($"[Laser] 레벨업! 현재 레벨: {currentLevel}");
-}
-    }
-    
-    /// <summary>
-    /// 레이저 빔 컴포넌트
-    /// </summary>
-    public class LaserBeam : MonoBehaviour
-{
-    private Vector3 startPosition;         // 시작 위치
-    private Vector3 direction;             // 방향
-    private float damage;                  // 데미지
-    private float maxRange;                // 최대 거리
-    private float beamWidth;               // 빔 두께
-    private float duration;                // 지속 시간
-
-    private LineRenderer lineRenderer;     // 라인 렌더러
-    private HashSet<GameObject> hitEnemies; // 타격한 적 목록
-    private float endTime;                 // 종료 시간
-
-    public bool IsActive { get; private set; }
-
-    /// <summary>
-    /// 레이저 초기화
-    /// </summary>
-    public void Initialize(Vector3 start, Vector3 dir, float dmg, float range, float width, float dur)
-    {
-        startPosition = start;
-        direction = dir.normalized;
-        damage = dmg;
-        maxRange = range;
-        beamWidth = width;
-        duration = dur;
-
-        endTime = Time.time + duration;
-        hitEnemies = new HashSet<GameObject>();
-        IsActive = true;
-
-        // LineRenderer 설정
-        SetupLineRenderer();
-
-        // 레이저 발사
-        FireLaser();
-    }
-
-    /// <summary>
-    /// LineRenderer 설정
-    /// </summary>
-    private void SetupLineRenderer()
-    {
-        lineRenderer = GetComponent<LineRenderer>();
-        if (lineRenderer == null)
-        {
-            lineRenderer = gameObject.AddComponent<LineRenderer>();
-        }
-
-        // 레이저 외관 설정
-        lineRenderer.startWidth = beamWidth;
-        lineRenderer.endWidth = beamWidth;
-        lineRenderer.positionCount = 2;
-
-        // 머티리얼 설정
-        if (lineRenderer.material == null)
-        {
-            Material laserMat = new Material(Shader.Find("Sprites/Default"));
-            laserMat.color = new Color(0, 0.8f, 1f);
-            lineRenderer.material = laserMat;
-        }
-
-        // 색상 설정
-        lineRenderer.startColor = new Color(0.5f, 0.8f, 1f, 1f);
-        lineRenderer.endColor = new Color(0.3f, 0.6f, 1f, 0.8f);
-    }
-
-    /// <summary>
-    /// 레이저 발사
-    /// </summary>
-    private void FireL*/

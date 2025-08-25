@@ -2,6 +2,7 @@ using DiceSurvivor.Manager;
 using DiceSurvivor.Weapon;
 using UnityEngine;
 using System.Collections;
+using DiceSurvivor.Player;
 
 namespace DiceSurvivor.Enemy 
 {
@@ -104,14 +105,81 @@ namespace DiceSurvivor.Enemy
                 }
             }
         }
-
         protected virtual void OnEnable()
         {
-            
+            ResetForReuse();
+        }
+
+        protected virtual void OnDisable()
+        {
+            // 풀로 반납될 때 혹시 남아있을 수 있는 코루틴/Invoke 정리
+            if (slowCoroutine != null)
+            {
+                StopCoroutine(slowCoroutine);
+                slowCoroutine = null;
+            }
+            StopAllCoroutines();
+            CancelInvoke();
+
+            // 색상 원복 (재활성화 때도 다시 설정하지만, 여기서도 안전하게 한 번)
+            if (enemyRenderer != null)
+            {
+                enemyRenderer.material.color = originalColor;
+            }
         }
         #endregion
 
         #region Custom Methods
+        private void ResetForReuse()
+        {
+            // 사망/상태 플래그 초기화
+            isDead = false;
+            isAttacking = false;
+            isSlowed = false;
+
+            // 능력치/타이머 초기화
+            if (copiedData == null)
+            {
+                // Start()가 한 번도 안 돈 경우(씬 첫 로드 직후), 방어적으로 복사
+                copiedData = enemyData.GetCopy();
+            }
+
+            currentHealth = copiedData.maxHealth;
+            currentMoveSpeed = copiedData.speed;
+            lastAttackTime = -999f;
+
+            // 이동/경계 체크 값 초기화
+            blockedCounter = 0;
+            outTimeCheck = 0f;
+
+            // 비주얼 초기화
+            if (enemyRenderer == null)
+            {
+                enemyRenderer = GetComponent<Renderer>();
+            }
+            if (enemyRenderer != null)
+            {
+                // originalColor가 아직 안 잡힌 경우 방어적으로 저장
+                if (originalColor == default)
+                {
+                    originalColor = enemyRenderer.material.color;
+                }
+                enemyRenderer.material.color = originalColor;
+            }
+
+            // 안전하게 잔여 코루틴/Invoke 제거
+            if (slowCoroutine != null)
+            {
+                StopCoroutine(slowCoroutine);
+                slowCoroutine = null;
+            }
+            StopAllCoroutines();
+            CancelInvoke();
+
+            // 레이어/스케일 등도 혹시 변경되었을 수 있으니 정리
+            gameObject.layer = LayerMask.NameToLayer("Enemy");
+            transform.localScale = Vector3.one;
+        }
         // EnemyActivity의 타입별 이동 처리
         protected virtual void HandleMovementByType()
         {
@@ -186,7 +254,12 @@ namespace DiceSurvivor.Enemy
 
             isAttacking = true;
             Debug.Log($"{name}이(가) 플레이어를 공격! 데미지: {damage}");
+            if (target.TryGetComponent<DiceSurvivor.Player.PlayerController>(out var pc))
+            {
+                pc.TakeDamage(damage);
+            }
             transform.LookAt(new Vector3(target.position.x, transform.position.y, target.position.z));
+
 
             lastAttackTime = Time.time;
             Invoke(nameof(EndAttack), 0.5f);
@@ -304,6 +377,8 @@ namespace DiceSurvivor.Enemy
 
             isDead = true;
             Debug.Log($"{name} 사망!");
+
+            GrantRewards();
 
             StartCoroutine(DeathEffect());
         }
@@ -437,6 +512,42 @@ namespace DiceSurvivor.Enemy
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, attackRange);
         }
+
+        private void GrantRewards()
+        {
+            if (copiedData == null || copiedData.type == EnemyData.EnemyType.Summoned)
+                return;
+
+            // -------- 경험치 보상 --------
+            float expReward = copiedData.exp;
+            if (Random.value > copiedData.expDropRate) expReward = 0f;
+
+            if (expReward > 0f)
+            {
+                PlayerExperience exp = FindObjectOfType<PlayerExperience>();
+                if (exp != null)
+                {
+                    exp.GainExp(expReward);
+                    Debug.Log($"[Reward] EXP +{expReward}");
+                }
+            }
+
+            // -------- 골드 보상 --------
+            int goldReward = copiedData.gold;
+            if (Random.value > copiedData.goldDropRate) goldReward = 0;
+
+            if (goldReward > 0)
+            {
+                // PlayerController 등에 AddCoins() 같은 메서드가 있다면 여기서 호출
+                PlayerController player = FindObjectOfType<PlayerController>();
+                if (player != null)
+                {
+                    player.AddCoins(goldReward);
+                    Debug.Log($"[Reward] GOLD +{goldReward}");
+                }
+            }
+        }
+    
         #endregion
     }
 }

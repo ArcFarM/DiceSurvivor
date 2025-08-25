@@ -1,6 +1,6 @@
 using DiceSurvivor.Audio;
 using DiceSurvivor.Manager;
-using DiceSurvivor.Test;
+using DiceSurvivor.Enemy;
 using DiceSurvivor.Weapon;
 using System.Collections;
 using System.Collections.Generic;
@@ -162,12 +162,12 @@ namespace DiceSurvivor.Weapon
             GameObject target = FindEnemy();
             if (target != null)
             {
-                ShootProjectile(target);
+                ShootProjectile(target, Weapon.projectileCount);
                 cooldown = Weapon.cooldown;
             }
         }
 
-        protected abstract void ShootProjectile(GameObject target);
+        protected abstract void ShootProjectile(GameObject target, int projectileCount);
 
         protected GameObject FindEnemy()
         {
@@ -224,6 +224,11 @@ namespace DiceSurvivor.Weapon
             }
 
             cooldown = Weapon.cooldown;
+        }
+
+        protected virtual void InitializeWeapon()
+        {
+
         }
         #endregion
 

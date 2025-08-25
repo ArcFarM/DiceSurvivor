@@ -44,80 +44,11 @@ namespace DiceSurvivor.Weapon
         /// </summary>
         private void InitializeWeapon()
         {
-            LoadWeaponData();
-
             if (debugMode)
             {
                 PrintWeaponInfo();
             }
-        }
-
-        /// <summary>
-        /// 무기 데이터 로드
-        /// </summary>
-        private void LoadWeaponData()
-        {
-            var dataManager = DataTableManager.Instance;
-            if (dataManager == null)
-            {
-                Debug.LogError("[BoomerangController] DataTableManager를 찾을 수 없습니다!");
-                return;
-            }
-
-            currentStats = dataManager.GetRangedWeapon("Boomerang", currentLevel);
-
-            if (currentStats != null)
-            {
-                boomerangWeapon.UpdateWeaponStats(currentStats);
-                Debug.Log($"[BoomerangController] Boomerang Lv.{currentLevel} 로드 성공!");
-            }
-            else
-            {
-                Debug.LogError($"[BoomerangController] Boomerang Lv.{currentLevel} 데이터 로드 실패!");
-            }
-        }
-
-        /// <summary>
-        /// 레벨 업
-        /// </summary>
-        public void LevelUp()
-        {
-            if (currentLevel >= maxLevel)
-            {
-                Debug.Log($"[BoomerangController] 이미 최대 레벨({maxLevel})입니다!");
-                return;
-            }
-
-            currentLevel++;
-            LoadWeaponData();
-
-            if (debugMode)
-            {
-                Debug.Log($"[BoomerangController] 레벨업! 현재 레벨: {currentLevel}");
-                PrintWeaponInfo();
-            }
-        }
-
-        /// <summary>
-        /// 특정 레벨로 설정
-        /// </summary>
-        public void SetLevel(int level)
-        {
-            if (level < 1 || level > maxLevel)
-            {
-                Debug.LogError($"[BoomerangController] 잘못된 레벨: {level} (1~{maxLevel} 범위)");
-                return;
-            }
-
-            currentLevel = level;
-            LoadWeaponData();
-
-            if (debugMode)
-            {
-                Debug.Log($"[BoomerangController] 레벨 설정: {currentLevel}");
-                PrintWeaponInfo();
-            }
-        }
+        }        
 
         /// <summary>
         /// 현재 레벨 반환
@@ -190,58 +121,7 @@ namespace DiceSurvivor.Weapon
             }
         }
 
-        /// <summary>
-        /// 디버그용 키 입력 처리
-        /// </summary>
-        void Update()
-        {
-            if (!debugMode) return;
-
-            // 테스트용 레벨업 (B키)
-            if (Input.GetKeyDown(KeyCode.B))
-            {
-                LevelUp();
-            }
-
-            // 테스트용 레벨 리셋 (N키)
-            if (Input.GetKeyDown(KeyCode.N))
-            {
-                SetLevel(1);
-            }
-
-            // 테스트용 최대 레벨 (M키)
-            if (Input.GetKeyDown(KeyCode.M))
-            {
-                SetLevel(maxLevel);
-            }
-        }
-
-        /// <summary>
-        /// 에디터 메뉴 - 레벨업
-        /// </summary>
-        [ContextMenu("Level Up")]
-        private void EditorLevelUp()
-        {
-            LevelUp();
-        }
-
-        /// <summary>
-        /// 에디터 메뉴 - 레벨 리셋
-        /// </summary>
-        [ContextMenu("Reset Level")]
-        private void EditorResetLevel()
-        {
-            SetLevel(1);
-        }
-
-        /// <summary>
-        /// 에디터 메뉴 - 최대 레벨
-        /// </summary>
-        [ContextMenu("Set Max Level")]
-        private void EditorSetMaxLevel()
-        {
-            SetLevel(maxLevel);
-        }
+       
 
         /// <summary>
         /// 에디터 메뉴 - 무기 정보 출력

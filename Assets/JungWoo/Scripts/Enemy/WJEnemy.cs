@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using DiceSurvivor.Weapon;
 
-namespace DiceSurvivor.Test
+namespace DiceSurvivor.Enemy
 {
     /// <summary>
     /// 적 기본 클래스 - IDamageable, IMovement 인터페이스 구현
@@ -90,7 +90,7 @@ namespace DiceSurvivor.Test
                     else
                     {
                         // 공격 범위 밖이면 이동
-                        MoveToTarget();
+                        //MoveToTarget();
                     }
                 }
                 else
@@ -232,6 +232,7 @@ namespace DiceSurvivor.Test
             // 감속 적용
             isSlowed = true;
             currentMoveSpeed = moveSpeed * (1f - slowPercent);
+            //EnemyActivity의 이동속도를 조절하는걸로 변경
 
             // 시각적 효과 (파란색)
             if (enemyRenderer != null)
