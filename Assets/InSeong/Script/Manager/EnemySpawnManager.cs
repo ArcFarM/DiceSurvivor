@@ -47,12 +47,17 @@ namespace DiceSurvivor.Manager {
             //플레이어는 단 하나만 존재하므로
             playerPos = GameObject.FindGameObjectWithTag("Player").transform;
 
+            //하이어라키 상 오브젝트 추가
+            enemyPar = new GameObject("SpawnedEnemies");
+            eliteEnemyPar = new GameObject("SpawnedEliteEnemies");
+            bossEnemyPar = new GameObject("SpawnedBossEnemies");
         }
 
         void Update()
         {
             // 게임 시간/웨이브 진행 체크
             timeSinceLastWave += Time.deltaTime;
+            eliteTimer += Time.deltaTime;
             if (timeSinceLastWave >= waveDuration)
             {
                 // 웨이브 교체 로직 실행
@@ -68,6 +73,7 @@ namespace DiceSurvivor.Manager {
                 spawnTimer = 0f;
                 //TODO : 일정 조건을 만족했을 때 엘리트적/보스 적 소환 추가
                 //TODO : 엘리트는 일정 이상 적을 처치 or 시간 경과 시 소환
+                SpawnEnemy(epManager.eliteEnemyDataArray[currentWaveIndex / 3]);
                 //TODO : 보스는 최종 웨이브 시간이 지났을 때 소환
             }
         }
@@ -100,10 +106,10 @@ namespace DiceSurvivor.Manager {
 
         public bool EliteSpawnCond()
         {
-            if (deadCounter >= eliteSpawnCounter || timeSinceLastWave >= eliteCooldown)
+            if (deadCounter >= eliteSpawnCounter || eliteTimer >= eliteCooldown)
             {
                 deadCounter = 0;
-                timeSinceLastWave = 0f;
+                eliteTimer = 0f;
                 return true;
             }
             return false;

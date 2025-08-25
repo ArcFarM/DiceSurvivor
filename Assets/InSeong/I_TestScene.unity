@@ -245,7 +245,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPos: {fileID: 0}
   deadCounter: 0
-  eliteSpawnCounter: 0
+  eliteSpawnCounter: 200
   eliteTimer: 0
   eliteCooldown: 120
   spawnDistance: 25
@@ -280,6 +280,9 @@ MonoBehaviour:
   maxEliteEnemyCount: 15
   maxBossEnemyCount: 1
   esManager: {fileID: 149814599}
+  enemyPar: {fileID: 0}
+  eliteEnemyPar: {fileID: 0}
+  bossEnemyPar: {fileID: 0}
   poolInitWaiting: 1
 --- !u!4 &149814601
 Transform:
