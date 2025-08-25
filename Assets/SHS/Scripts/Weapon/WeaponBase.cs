@@ -19,6 +19,7 @@ namespace DiceSurvivor.Weapon
         #region Variables
         protected WeaponController weaponController;
         protected float cooldown;
+        
 
         [SerializeField]
         protected WeaponStats weapon;
@@ -56,8 +57,15 @@ namespace DiceSurvivor.Weapon
 
         protected virtual void Update()
         {
+            Debug.Log(cooldown);
             if (cooldown > 0)
                 cooldown -= Time.deltaTime;
+
+            if (cooldown <= 0)
+            {
+                Attack();
+                cooldown = Weapon.cooldown;
+            }
         }
         #endregion
 
@@ -88,22 +96,14 @@ namespace DiceSurvivor.Weapon
         /// <summary>
         /// 데미지 적용
         /// </summary>
-        protected virtual void ApplyDamage(GameObject enemy, float damageAmount)
+        public virtual void ApplyDamage(GameObject enemy, float damageAmount)
         {
             if (enemy == null)
             {                
                 return;
             }
-            // Enemy 컴포넌트를 찾아서 데미지 적용
-            var enemyComponent = enemy.GetComponent<IDamageable>();
-            if (enemyComponent != null)
-            {
-                enemyComponent.TakeDamage(damageAmount);               
-            }
-            else
-            {
                 // IDamageable이 없으면 Health 컴포넌트 직접 찾기
-                var health = enemy.GetComponent<WJEnemy>();
+                var health = enemy.GetComponent<EnemyFinal>();
                 if (health != null)
                 {
                     health.TakeDamage(damageAmount);                    
@@ -112,7 +112,7 @@ namespace DiceSurvivor.Weapon
                 {
                     Debug.LogError($"[SplashWeapon] {enemy.name}에서 IDamageable 또는 Health 컴포넌트를 찾을 수 없습니다!");
                 }
-            }
+            
         }
         #endregion
     }
@@ -154,11 +154,14 @@ namespace DiceSurvivor.Weapon
         public Transform firePoint;
         #endregion
 
+        private void Start()
+        {
+            cooldown = Weapon.cooldown;
+        }
+
         #region Custom Method
         protected override void Attack()
-        {
-            if (cooldown > 0) return;
-
+        {            
             GameObject target = FindEnemy();
             if (target != null)
             {
@@ -219,7 +222,8 @@ namespace DiceSurvivor.Weapon
             {
                 if (enemy.TryGetComponent(out IDamageable dmg))
                 {
-                    dmg.TakeDamage(Weapon.dotDamage * Time.deltaTime);
+                    ApplyDamage(enemy.gameObject, Weapon.dotDamage);
+                    /*dmg.TakeDamage(Weapon.dotDamage * Time.deltaTime);*/
                 }
             }
 

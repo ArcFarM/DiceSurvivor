@@ -68,7 +68,7 @@ namespace DiceSurvivor.Weapon
 
             if (currentStats != null)
             {
-                killingAuraWeapon.UpdateWeaponStats(currentStats);
+                //killingAuraWeapon.UpdateWeaponStats(currentStats);
 
                 // 【중요】 데이터 로드 후 Collider와 파티클 업데이트
                 killingAuraWeapon.UpdateColliderRadius();
