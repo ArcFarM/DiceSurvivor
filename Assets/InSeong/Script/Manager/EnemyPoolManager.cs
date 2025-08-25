@@ -29,6 +29,12 @@ namespace DiceSurvivor.Manager {
         [Header("적 스폰 매니저 참조")]
         public EnemySpawnManager esManager;
 
+        //풀에 담긴 오브젝트들을 보관할 하이어라키 상 오브젝트
+        public GameObject enemyPar;
+        public GameObject eliteEnemyPar;
+        public GameObject bossEnemyPar;
+
+        
         //초기 풀 대기
         public bool poolInitWaiting = true;
         #endregion
@@ -42,6 +48,10 @@ namespace DiceSurvivor.Manager {
             base.Awake();
             //풀 구조 초기화
             InitializeEnemyPools();
+            //하이어라키 오브젝트 생성 후 할당
+            enemyPar = new GameObject("EnemyPool");
+            eliteEnemyPar = new GameObject("EliteEnemyPool");
+            bossEnemyPar = new GameObject("BossEnemyPool");
         }
         #endregion
 
@@ -117,6 +127,7 @@ namespace DiceSurvivor.Manager {
                 }
                 enemyObj.SetActive(false);
                 enemyPool.Enqueue(enemyObj);
+                enemyObj.transform.SetParent(enemyPar.transform);
             }
             for (int i = 0; i < maxEliteEnemyCount; i++)
             {
@@ -131,6 +142,7 @@ namespace DiceSurvivor.Manager {
                 }
                 eliteEnemyObj.SetActive(false);
                 eliteEnemyPool.Enqueue(eliteEnemyObj);
+                eliteEnemyObj.transform.SetParent(eliteEnemyPar.transform);
             }
             for (int i = 0; i < maxBossEnemyCount; i++)
             {
@@ -145,6 +157,7 @@ namespace DiceSurvivor.Manager {
                 }
                 bossEnemyObj.SetActive(false);
                 bossEnemyPool.Enqueue(bossEnemyObj);
+                bossEnemyObj.transform.SetParent(bossEnemyPar.transform);
             }
             poolInitWaiting = false; //풀 초기화 완료
         }

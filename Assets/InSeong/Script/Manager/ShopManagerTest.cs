@@ -6,7 +6,8 @@ using TMPro;
 
 namespace DiceSurvivor.Manager {
 
-    public class ShopManagerTest : SingletonManager<ShopManagerTest> {
+    public class ShopManagerTest : SingletonManager<ShopManagerTest>
+    {
         #region Variables
         //아이템 정보가 담긴 배열과 아이템 칸이 담긴 배열
         public TestItemArray testItems;
@@ -76,7 +77,7 @@ namespace DiceSurvivor.Manager {
             RefreshGold();
 
             //전체 아이템 정보 설정하기
-            foreach(var item in testItems.items)
+            foreach (var item in testItems.items)
             {
                 item.SetWeaponStats(1);
             }
@@ -84,10 +85,11 @@ namespace DiceSurvivor.Manager {
 
         private void OnEnable()
         {
+            //플레이어 보유 금액에 따라 이자 지급;
             FillItem();
             RefreshGold();
         }
-        
+
         #endregion
 
         #region Custom Methods
@@ -145,23 +147,28 @@ namespace DiceSurvivor.Manager {
         }
 
         //상점 열림 또는 새로고침 버튼 누르면 실행
-        void FillItem() {
+        void FillItem()
+        {
             if (isShopLocked) return;
             //현재 상점에 있는 아이템 정보를 전부 지우고 새로 채움
-            foreach(ItemSlot slot in itemSlots) {
+            foreach (ItemSlot slot in itemSlots)
+            {
                 ClearItem(slot);
             }
-            foreach(ItemSlot slot in itemSlots) {
+            foreach (ItemSlot slot in itemSlots)
+            {
                 AddItem(slot);
             }
         }
 
-        void AddItem(ItemSlot slot) {
+        void AddItem(ItemSlot slot)
+        {
             //아이템 칸에 무작위로 구매 가능한 아이템을 채움
             int randomIndex = Random.Range(0, testItems.items.Count);
             TestItem randomItem = testItems.items[randomIndex];
 
-            while (!randomItem.canIBuy) {
+            while (!randomItem.canIBuy)
+            {
                 randomIndex = Random.Range(0, testItems.items.Count);
                 randomItem = testItems.items[randomIndex];
             }
@@ -179,14 +186,15 @@ namespace DiceSurvivor.Manager {
                 RerollShop();
                 currentGold -= currRerollCost;
                 RefreshGold();
-                consecutiveRerollCount++; 
+                consecutiveRerollCount++;
             }
 
         }
         //새로고침 했을 때 상점 아이템을 새로 채우기
-        void RerollShop() {
+        void RerollShop()
+        {
             //잠금 여부와 상관 없이 아이템을 새로 채운다
-            if(isShopLocked) ToggleLockShop();
+            if (isShopLocked) ToggleLockShop();
             FillItem();
         }
 
@@ -196,11 +204,14 @@ namespace DiceSurvivor.Manager {
             //TODO : 상점 잠금 버튼 스프라이트 변경
         }
         //상점 잠금 및 잠금 해제
-        void ToggleLockShop() {
-            if (isShopLocked) {
+        void ToggleLockShop()
+        {
+            if (isShopLocked)
+            {
                 isShopLocked = false;
             }
-            else {
+            else
+            {
                 isShopLocked = true;
             }
         }
@@ -239,7 +250,7 @@ namespace DiceSurvivor.Manager {
             detailDisplay.gameObject.SetActive(true);
             if (!isBuyingMode)
             {
-                
+
                 detailDisplay.itemNameText.text = "";
                 detailDisplay.itemLevelText.text = "";
                 detailDisplay.itemDescriptionText.text = "삭제할 아이템을 클릭하세요. (삭제 모드 취소 : 삭제 버튼을 다시 클릭)";
@@ -275,23 +286,29 @@ namespace DiceSurvivor.Manager {
         }
 
         //플레이어 아이템 레벨 정보 업데이트 (PlayerTest에서 호출)
-        public void UpdatePlayerItemLevel(string itemName, int level) {
-            if (currItemLevelDict.ContainsKey(itemName)) {
+        public void UpdatePlayerItemLevel(string itemName, int level)
+        {
+            if (currItemLevelDict.ContainsKey(itemName))
+            {
                 currItemLevelDict[itemName] = level;
             }
-            else {
+            else
+            {
                 currItemLevelDict.Add(itemName, level);
             }
         }
 
         //최대 레벨에 도달한 아이템 삭제
-        public void VanishMaxLevelItem(TestItem item) {
+        public void VanishMaxLevelItem(TestItem item)
+        {
             string itemName = item.itemName;
             int maxLevel = item.maxLevel;
 
-            if (currItemLevelDict.TryGetValue(itemName, out int value)) {
+            if (currItemLevelDict.TryGetValue(itemName, out int value))
+            {
                 //아이템 레벨이 최대 레벨에 도달했을 경우 더 이상 상점에 안나오게 만들기
-                if (value >= maxLevel) {
+                if (value >= maxLevel)
+                {
                     item.canIBuy = false;
                 }
                 else return;
@@ -300,18 +317,21 @@ namespace DiceSurvivor.Manager {
         }
 
         //진화 조건을 만족했을 경우 진화 아이템 상점 풀에 추가하기
-        void AddEvolvedWeapon() {
+        void AddEvolvedWeapon()
+        {
             //구매 시 플레이어 아이템 칸과 상호작용하여 진화 무기로 교체
         }
         //아이템 칸 정보 지우기
-        void ClearItem(ItemSlot slot) {
-            if(!isBuyingMode) slot.currentItem.canIBuy = false;
+        void ClearItem(ItemSlot slot)
+        {
+            if (!isBuyingMode) slot.currentItem.canIBuy = false;
             slot.currentItem = null;
             slot.changeInfo();
         }
 
         //플레이어 무기 칸이 최대치에 도달한 경우 갖고 있지 않은 아이템은 모두 삭제
-        void ClearAllUnused() {
+        void ClearAllUnused()
+        {
 
         }
 
@@ -347,11 +367,22 @@ namespace DiceSurvivor.Manager {
         }
 
         //골드 정보 갱신
-        void RefreshGold() {
+        void RefreshGold()
+        {
             //UI에 표시
-            if (goldText != null) {
+            if (goldText != null)
+            {
                 goldText.text = currentGold.ToString();
             }
+        }
+
+        void GiveInterest()
+        {
+            //플레이어 보유 금액에 따라 이자 지급
+            int currGold = EnemySpawnManager.Instance.playerPos.gameObject.GetComponent<GoldWallet>().GetGold();
+            int interest = (int)Mathf.Min(100, currentGold / 10);
+            EnemySpawnManager.Instance.playerPos.gameObject.GetComponent<GoldWallet>().Add(interest);
+            Debug.Log("이자 지급 : " + interest);
         }
         #endregion
     }

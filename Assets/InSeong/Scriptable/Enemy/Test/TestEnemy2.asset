@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyId: 
   enemyName: 
-  body: {fileID: 4379503485202037059, guid: ec521dd5d05412e4198667d2b91d30da, type: 3}
+  body: {fileID: 4379503485202037059, guid: 13014ef52859e004bbe84733fb0eff19, type: 3}
   type: 1
-  health: 1
+  currHealth: 0
+  maxHealth: 0
   damage: 0
   speed: 1
   armor: 0

@@ -322,6 +322,9 @@ namespace DiceSurvivor.Enemy
                 yield return null;
             }
 
+            //사망 시 플레이어가 경험치 및 일정 확률로 골드 획득
+            //
+
             // 크기 복구 후 풀로 반환 (Destroy 대신)
             transform.localScale = originalScale;
             EnemyPoolManager.Instance.ReturnEnemy(copiedData, this.gameObject);
