@@ -46,12 +46,13 @@ namespace DiceSurvivor.Manager {
         protected override void Awake()
         {
             base.Awake();
-            //풀 구조 초기화
-            InitializeEnemyPools();
             //하이어라키 오브젝트 생성 후 할당
             enemyPar = new GameObject("EnemyPool");
             eliteEnemyPar = new GameObject("EliteEnemyPool");
             bossEnemyPar = new GameObject("BossEnemyPool");
+            //풀 구조 초기화
+            InitializeEnemyPools();
+
         }
         #endregion
 
@@ -116,14 +117,14 @@ namespace DiceSurvivor.Manager {
             for (int i = 0; i < maxEnemyCount; i++)
             {
                 GameObject enemyObj = Instantiate(enemyDataArray[currentWaveIndex].body);
-                //각 DataArray에 할당된 body는 EnemyActivity 컴포넌트를 갖고 있고, 여기에 EnemyData 할당
-                if (enemyObj.TryGetComponent<EnemyActivity>(out EnemyActivity ea))
+                //각 DataArray에 할당된 body는 EnemyFinal 컴포넌트를 갖고 있고, 여기에 EnemyData 할당
+                if (enemyObj.TryGetComponent<EnemyFinal>(out EnemyFinal ea))
                 {
                     ea.EnemyData = enemyDataArray[currentWaveIndex];
                 }
                 else
                 {
-                    Debug.LogError("EnemyActivity component not found on the enemy prefab.");
+                    Debug.LogError("EnemyFinal component not found on the enemy prefab.");
                 }
                 enemyObj.SetActive(false);
                 enemyPool.Enqueue(enemyObj);
@@ -132,13 +133,13 @@ namespace DiceSurvivor.Manager {
             for (int i = 0; i < maxEliteEnemyCount; i++)
             {
                 GameObject eliteEnemyObj = Instantiate(eliteEnemyDataArray[0].body);
-                if (eliteEnemyObj.TryGetComponent<EnemyActivity>(out EnemyActivity ea))
+                if (eliteEnemyObj.TryGetComponent<EnemyFinal>(out EnemyFinal ea))
                 {
                     ea.EnemyData = eliteEnemyDataArray[0];
                 }
                 else
                 {
-                    Debug.LogError("EnemyActivity component not found on the enemy prefab.");
+                    Debug.LogError("EnemyFinal component not found on the enemy prefab.");
                 }
                 eliteEnemyObj.SetActive(false);
                 eliteEnemyPool.Enqueue(eliteEnemyObj);
@@ -147,13 +148,13 @@ namespace DiceSurvivor.Manager {
             for (int i = 0; i < maxBossEnemyCount; i++)
             {
                 GameObject bossEnemyObj = Instantiate(bossEnemyDataArray[0].body);
-                if (bossEnemyObj.TryGetComponent<EnemyActivity>(out EnemyActivity ea))
+                if (bossEnemyObj.TryGetComponent<EnemyFinal>(out EnemyFinal ea))
                 {
                     ea.EnemyData = bossEnemyDataArray[0];
                 }
                 else
                 {
-                    Debug.LogError("EnemyActivity component not found on the enemy prefab.");
+                    Debug.LogError("EnemyFinal component not found on the enemy prefab.");
                 }
                 bossEnemyObj.SetActive(false);
                 bossEnemyPool.Enqueue(bossEnemyObj);
