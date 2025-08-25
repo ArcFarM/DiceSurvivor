@@ -27,6 +27,7 @@ namespace DiceSurvivor.Weapon
 
         void Awake()
         {
+            isPiercing = true;
             lineRenderer = GetComponent<LineRenderer>();
             lineRenderer.enabled = false;
             damagedEnemies = new HashSet<WJEnemy>();

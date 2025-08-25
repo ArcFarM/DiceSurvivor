@@ -68,7 +68,7 @@ namespace DiceSurvivor.Weapon
 
             if (currentStats != null)
             {
-                lightningStaffWeapon.UpdateWeaponStats(currentStats);
+                //lightningStaffWeapon.Weapon(currentStats);
                 Debug.Log($"[LightningStaffController] LightningStaff Lv.{currentLevel} 로드 성공!");
             }
             else

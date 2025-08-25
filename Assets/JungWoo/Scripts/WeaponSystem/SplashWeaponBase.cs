@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+/*using System.Collections.Generic;
 using UnityEngine;
 using DiceSurvivor.Manager;
 
@@ -191,16 +191,7 @@ namespace DiceSurvivor.Weapon
         }
     }
 
-    // 인터페이스들
-    public interface IDamageable
-    {
-        void TakeDamage(float damage);
-    }
-
-    public interface IMovement
-    {
-        void ApplySlow(float slowPercent, float duration);
-    }
+   
 
     // 임시 Health 컴포넌트 (실제 프로젝트에 있다면 제거)
     public class Health : MonoBehaviour
@@ -216,4 +207,4 @@ namespace DiceSurvivor.Weapon
             }
         }
     }
-}
+}*/

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6343528319845645283}
   - component: {fileID: 3719759244550906675}
   - component: {fileID: 4075987936280751420}
+  - component: {fileID: 7060670393514680477}
   m_Layer: 0
   m_Name: IceBall
   m_TagString: Untagged
@@ -86,3 +87,15 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7060670393514680477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8790654104702029820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51b7af5096b70984bb86ee1314cc5932, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -15,7 +15,7 @@ namespace DiceSurvivor.Weapon
         [Header("------Weapon-------")]
         [SerializeField] private string weaponName = "KillingAura";
         [SerializeField] private int weaponLevel = 1;
-        [SerializeField] private int maxLevel = 8;
+        //[SerializeField] private int maxLevel = 8;
         [SerializeField] private SfxType sfxType;
 
         private int currentLevel;

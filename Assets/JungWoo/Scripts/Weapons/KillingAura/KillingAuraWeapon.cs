@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DiceSurvivor.Manager;
 using DiceSurvivor.Enemy;
+using System.Collections;
 
 namespace DiceSurvivor.Weapon
 {
@@ -10,21 +11,23 @@ namespace DiceSurvivor.Weapon
     /// </summary>
     public class KillingAuraWeapon : SplashWeaponBase
     {
+        #region Variables
         [Header("KillingAura Specific")]
         //[SerializeField] private float dotInterval = 0.5f; // DoT 데미지 간격 (1초)
-
-        // DoT 관리용 딕셔너리 (적 -> 마지막 데미지 시간)
-        private Dictionary<GameObject, float> lastDotTime = new Dictionary<GameObject, float>();
 
         // 범위 내 적 배열 관리
         private List<GameObject> enemiesInAura = new List<GameObject>();
 
+        private Dictionary<GameObject, Coroutine> activeDots = new Dictionary<GameObject, Coroutine>();
+
         // DoT 타이머 (상시 작동)
-        private float dotTimer = 0f;
+        //private float dotTimer = 0f;
 
         // Aura 시각화용
         private GameObject auraVisual;
+        #endregion
 
+        #region Unity Event Method
         protected override void Awake()
         {
             base.Awake();
@@ -32,149 +35,13 @@ namespace DiceSurvivor.Weapon
 
         protected override void Update()
         {
-            base.Update();
-
             // 범위를 벗어난 적 정리
             CleanupNullEnemies();
+            
         }
-
-        /// <summary>
-        /// 무기 초기화
-        /// </summary>
-        protected override void InitializeWeapon()
+        private void FixedUpdate()
         {
-            SetupAuraCollider();
-        }
-
-        /// <summary>
-        /// Aura Collider 설정 (Layer 감지용)
-        /// </summary>
-        private void SetupAuraCollider()
-        {
-            // 기존 콜라이더 제거
-            Collider[] colliders = GetComponents<Collider>();
-            foreach (var col in colliders)
-            {
-                Destroy(col);
-            }
-
-            // 새 Sphere Collider 추가 (트리거)
-            SphereCollider sphereCollider = gameObject.AddComponent<SphereCollider>();
-            sphereCollider.isTrigger = true;
-            sphereCollider.radius = Weapon.radius;
-
-            Debug.Log($"[KillingAura] Collider 설정 - 반경: {Weapon.radius}");
-        }
-       
-        /// <summary>
-        /// 【위치: Line 108-119】 Collider Radius 업데이트 메서드
-        /// </summary>
-        public void UpdateColliderRadius()
-        {
-            // SphereCollider 컴포넌트 가져오기
-            SphereCollider sphereCollider = GetComponent<SphereCollider>();
-
-            // null 체크 후 radius 업데이트
-            if (sphereCollider != null)
-            {
-                sphereCollider.radius = Weapon.radius;
-                //Debug.Log($"[KillingAura] Collider Radius 업데이트: {radius}");
-            }
-            else
-            {
-                //Debug.LogWarning("[KillingAura] SphereCollider를 찾을 수 없습니다!");
-            }
-        }
-
-        /// <summary>
-        /// 【위치: Line 121-142】 파티클 스케일 업데이트 (radius와 연동)
-        /// </summary>
-        public void UpdateParticleScale()
-        {
-            // KillingAuraParticle 자식 오브젝트 찾기
-            Transform particleTransform = transform.Find("KillingAuraParticle");
-
-            if (particleTransform != null)
-            {
-                // radius에 비례하여 파티클 스케일 설정
-                float scaleMultiplier = Weapon.radius * 0.5f;
-                particleTransform.localScale = new Vector3(scaleMultiplier, scaleMultiplier, scaleMultiplier);
-
-                //Debug.Log($"[KillingAura] 파티클 업데이트 - Scale: {particleTransform.localScale}, Radius: {radius}");
-            }
-            else
-            {
-                //Debug.LogWarning("[KillingAura] KillingAuraParticle 오브젝트를 찾을 수 없습니다.");
-            }
-        }
-
-        /// <summary>
-        /// 범위 내 모든 적에게 DoT 데미지 및 감속 적용 (1초마다 실행)
-        /// </summary>
-        private void ApplyDotToAllEnemiesInRange()
-        {
-            // 배열 복사본으로 작업 (순회 중 수정 방지)
-            List<GameObject> enemiesCopy = new List<GameObject>(enemiesInAura);
-
-            // 적이 없으면 리턴
-            if (enemiesCopy.Count == 0) return;
-
-            //Debug.Log($"[KillingAura] DoT 타이머 발동! 범위 내 적: {enemiesCopy.Count}명");
-
-            int damageAppliedCount = 0;
-
-            foreach (var enemy in enemiesCopy)
-            {
-                // null 체크
-                if (enemy == null)
-                {
-                    continue;
-                }
-
-                // DoT 데미지 적용
-                if (Weapon.dotDamage > 0)
-                {
-                    // Enemy 컴포넌트 직접 찾아서 데미지 적용
-                    var enemyComponent = enemy.GetComponent<WJEnemy>();
-                    if (enemyComponent != null)
-                    {
-                        enemyComponent.TakeDamage(Weapon.dotDamage);
-                        damageAppliedCount++;
-                    }
-                }
-
-                // 감속 효과 적용 (duration 값 사용)
-                if (Weapon.duration > 0)
-                {
-                    EffectSlow.ApplySlow(enemy, Weapon.duration);
-                }
-            }
-
-            //Debug.Log($"[KillingAura] DoT 데미지 적용 완료: {damageAppliedCount}명에게 {dotDamage} 데미지");
-        }
-
-        /// <summary>
-        /// null이 된 적 제거
-        /// </summary>
-        private void CleanupNullEnemies()
-        {
-            // null 적 제거
-            enemiesInAura.RemoveAll(enemy => enemy == null);
-
-            // DoT 시간 딕셔너리에서도 제거
-            List<GameObject> toRemove = new List<GameObject>();
-            foreach (var kvp in lastDotTime)
-            {
-                if (kvp.Key == null)
-                {
-                    toRemove.Add(kvp.Key);
-                }
-            }
-
-            foreach (var enemy in toRemove)
-            {
-                lastDotTime.Remove(enemy);
-            }
+            UpdateParticleScale();
         }
 
         /// <summary>
@@ -182,31 +49,19 @@ namespace DiceSurvivor.Weapon
         /// </summary>
         private void OnTriggerEnter(Collider other)
         {
-            // Enemy 레이어 체크
-            if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+            // EnemyFinal이 붙어있는 경우
+            EnemyFinal enemy = other.GetComponent<EnemyFinal>();
+            if (enemy != null)
             {
-                // 배열에 추가 (중복 방지)
                 if (!enemiesInAura.Contains(other.gameObject))
                 {
                     enemiesInAura.Add(other.gameObject);
-                    Debug.Log($"[KillingAura] Enemy 진입: {other.gameObject.name} - 현재 적 수: {enemiesInAura.Count}");
 
-                    // 즉시 초기 데미지 적용
-                    if (Weapon.dotDamage > 0)
-                    {
-                        var enemyComp = other.gameObject.GetComponent<WJEnemy>();
-                        if (enemyComp != null)
-                        {
-                            enemyComp.TakeDamage(Weapon.dotDamage);
-                            //Debug.Log($"[KillingAura] 진입 즉시 데미지 {dotDamage} 적용: {other.gameObject.name}");
-                        }
-                    }
+                    // DOT 시작
+                    Coroutine dot = StartCoroutine(ApplyDot(other.gameObject));
+                    activeDots.Add(other.gameObject, dot);
 
-                    // 즉시 감속 적용
-                    if (Weapon.duration > 0)
-                    {
-                        EffectSlow.ApplySlow(other.gameObject, Weapon.duration);
-                    }
+                    EffectSlow.ApplySlow(other.gameObject, Weapon.duration);
                 }
             }
         }
@@ -233,48 +88,21 @@ namespace DiceSurvivor.Weapon
         /// </summary>
         private void OnTriggerExit(Collider other)
         {
-            // Enemy 레이어 체크
             if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
-                // 배열에서 제거
-                if (enemiesInAura.Remove(other.gameObject))
+                // enemiesInAura에서 제거
+                enemiesInAura.Remove(other.gameObject);
+
+                // DOT 중단
+                if (activeDots.ContainsKey(other.gameObject))
                 {
-                    //Debug.Log($"[KillingAura] Enemy 퇴장: {other.gameObject.name} - 남은 적 수: {enemiesInAura.Count}");
+                    StopCoroutine(activeDots[other.gameObject]);
+                    activeDots.Remove(other.gameObject);
                 }
 
-                // DoT 시간 기록 제거
-                if (lastDotTime.ContainsKey(other.gameObject))
-                {
-                    lastDotTime.Remove(other.gameObject);
-                }
+                // 감속 초기화 (원래 속도 복귀)
+                EffectSlow.ApplySlow(other.gameObject, 0f);
             }
-        }
-
-        /// <summary>
-        /// 레벨 업
-        /// </summary>
-        public override void LevelUp()
-        {
-            base.LevelUp();
-            Debug.Log($"[KillingAura] 레벨업! 현재 레벨: {Weapon.level}");
-        }
-
-        /// <summary>
-        /// 현재 범위 내 적 수 반환
-        /// </summary>
-        public int GetEnemyCount()
-        {
-            CleanupNullEnemies();
-            return enemiesInAura.Count;
-        }
-
-        /// <summary>
-        /// 범위 내 적 배열 반환
-        /// </summary>
-        public List<GameObject> GetEnemiesInRange()
-        {
-            CleanupNullEnemies();
-            return new List<GameObject>(enemiesInAura);
         }
 
         /// <summary>
@@ -304,8 +132,150 @@ namespace DiceSurvivor.Weapon
         {
             // 배열 정리
             enemiesInAura.Clear();
-            lastDotTime.Clear();
+            activeDots.Clear();
 
         }
+        #endregion
+
+        #region Custom Method
+        protected override void Attack()
+        {
+            ApplyDotToAllEnemiesInRange();
+        }
+
+        /// <summary>
+        /// 무기 초기화
+        /// </summary>
+        protected override void InitializeWeapon()
+        {
+            //SetupAuraCollider();
+        }
+
+        /// <summary>
+        /// Aura Collider 설정 (Layer 감지용)
+        /// </summary>
+        private void SetupAuraCollider()
+        {
+            // 기존 콜라이더 제거
+            Collider[] colliders = GetComponents<Collider>();
+            foreach (var col in colliders)
+            {
+                Destroy(col);
+            }
+
+            // 새 Sphere Collider 추가 (트리거)
+            SphereCollider sphereCollider = gameObject.AddComponent<SphereCollider>();
+            sphereCollider.isTrigger = true;
+            sphereCollider.radius = Weapon.radius;
+
+            Debug.Log($"[KillingAura] Collider 설정 - 반경: {Weapon.radius}");
+        }
+
+        /// <summary>
+        /// 【위치: Line 121-142】 파티클 스케일 업데이트 (radius와 연동)
+        /// </summary>
+        public void UpdateParticleScale()
+        {
+            // radius에 비례하여 파티클 스케일 설정
+            float scaleMultiplier = Weapon.radius;
+            transform.localScale = new Vector3(scaleMultiplier, 1, scaleMultiplier);
+        }
+
+        /// <summary>
+        /// 범위 내 모든 적에게 DoT 데미지 및 감속 적용 (1초마다 실행)
+        /// </summary>
+        private void ApplyDotToAllEnemiesInRange()
+        {
+            // 배열 복사본으로 작업 (순회 중 수정 방지)
+            List<GameObject> enemiesCopy = new List<GameObject>(enemiesInAura);
+
+            // 적이 없으면 리턴
+            if (enemiesCopy.Count == 0) return;
+
+            //Debug.Log($"[KillingAura] DoT 타이머 발동! 범위 내 적: {enemiesCopy.Count}명");
+
+            int damageAppliedCount = 0;
+
+            foreach (var enemy in enemiesCopy)
+            {
+                // null 체크
+                if (enemy == null)
+                {
+                    continue;
+                }
+
+                // DoT 데미지 적용
+                if (Weapon.dotDamage > 0)
+                {
+                    // Enemy 컴포넌트 직접 찾아서 데미지 적용
+                    var enemyComponent = enemy.GetComponent<EnemyFinal>();
+                    if (enemyComponent != null)
+                    {
+                        enemyComponent.TakeDamage(Weapon.dotDamage * Weapon.duration);
+                        damageAppliedCount++;
+                    }
+                }
+
+                // 감속 효과 적용 (duration 값 사용)
+                if (Weapon.duration > 0)
+                {
+                    EffectSlow.ApplySlow(enemy, Weapon.duration);
+                }
+            }
+            //Debug.Log($"[KillingAura] DoT 데미지 적용 완료: {damageAppliedCount}명에게 {dotDamage} 데미지");
+        }
+
+        /// <summary>
+        /// null이 된 적 제거
+        /// </summary>
+        private void CleanupNullEnemies()
+        {
+            // null 적 제거
+            enemiesInAura.RemoveAll(enemy => enemy == null);
+
+            // DoT 시간 딕셔너리에서도 제거
+            List<GameObject> toRemove = new List<GameObject>();
+            foreach (var kvp in activeDots)
+            {
+                if (kvp.Key == null)
+                {
+                    toRemove.Add(kvp.Key);
+                }
+            }
+
+            foreach (var enemy in toRemove)
+            {
+                activeDots.Remove(enemy);
+            }
+        }
+
+        private IEnumerator ApplyDot(GameObject enemy)
+        {
+            while (enemy != null && enemiesInAura.Contains(enemy))
+            {
+                ApplyDamage(enemy, Weapon.dotDamage);
+                yield return new WaitForSeconds(Weapon.duration); // 0.5초마다
+            }
+        }
+
+        /// <summary>
+        /// 현재 범위 내 적 수 반환
+        /// </summary>
+        public int GetEnemyCount()
+        {
+            CleanupNullEnemies();
+            return enemiesInAura.Count;
+        }
+
+        /// <summary>
+        /// 범위 내 적 배열 반환
+        /// </summary>
+        public List<GameObject> GetEnemiesInRange()
+        {
+            CleanupNullEnemies();
+            return new List<GameObject>(enemiesInAura);
+        }
+        protected override void PerformAttack() { }
     }
+    #endregion
 }

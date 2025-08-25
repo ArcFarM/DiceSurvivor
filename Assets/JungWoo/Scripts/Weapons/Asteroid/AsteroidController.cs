@@ -1,4 +1,4 @@
-using UnityEngine;
+/*using UnityEngine;
 using DiceSurvivor.Manager;
 using DiceSurvivor.Weapon;
 
@@ -45,7 +45,7 @@ namespace DiceSurvivor.WeaponSystem
         /// </summary>
         private void InitializeWeapon()
         {
-            LoadWeaponData();
+            //LoadWeaponData();
 
             if (debugMode)
             {
@@ -56,7 +56,7 @@ namespace DiceSurvivor.WeaponSystem
         /// <summary>
         /// 무기 데이터 로드
         /// </summary>
-        private void LoadWeaponData()
+        *//*private void LoadWeaponData()
         {
             var dataManager = DataTableManager.Instance;
             if (dataManager == null)
@@ -76,7 +76,7 @@ namespace DiceSurvivor.WeaponSystem
             {
                 Debug.LogError($"[AsteroidController] Asteroid Lv.{currentLevel} 데이터 로드 실패!");
             }
-        }
+        }*//*
 
         /// <summary>
         /// 레벨 업
@@ -90,7 +90,7 @@ namespace DiceSurvivor.WeaponSystem
             }
 
             currentLevel++;
-            LoadWeaponData();
+            //LoadWeaponData();
 
             // 레벨업 시 AsteroidWeapon의 LevelUp 호출 (소행성 재생성)
             if (asteroidWeapon != null)
@@ -258,4 +258,4 @@ namespace DiceSurvivor.WeaponSystem
             PrintWeaponInfo();
         }
     }
-}
+}*/

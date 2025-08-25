@@ -1,4 +1,4 @@
-using UnityEngine;
+/*using UnityEngine;
 using DiceSurvivor.Manager;
 
 namespace DiceSurvivor.Weapon
@@ -44,7 +44,7 @@ namespace DiceSurvivor.Weapon
         /// </summary>
         private void InitializeWeapon()
         {
-            LoadWeaponData();
+            //LoadWeaponData();
 
             if (debugMode)
             {
@@ -55,7 +55,7 @@ namespace DiceSurvivor.Weapon
         /// <summary>
         /// 무기 데이터 로드
         /// </summary>
-        private void LoadWeaponData()
+       *//* private void LoadWeaponData()
         {
             var dataManager = DataTableManager.Instance;
             if (dataManager == null)
@@ -75,49 +75,8 @@ namespace DiceSurvivor.Weapon
             {
                 Debug.LogError($"[IcicleController] Icicle Lv.{currentLevel} 데이터 로드 실패!");
             }
-        }
+        }*//*
 
-        /// <summary>
-        /// 레벨 업
-        /// </summary>
-        public void LevelUp()
-        {
-            if (currentLevel >= maxLevel)
-            {
-                Debug.Log($"[IcicleController] 이미 최대 레벨({maxLevel})입니다!");
-                return;
-            }
-
-            currentLevel++;
-            LoadWeaponData();
-
-            if (debugMode)
-            {
-                Debug.Log($"[IcicleController] 레벨업! 현재 레벨: {currentLevel}");
-                PrintWeaponInfo();
-            }
-        }
-
-        /// <summary>
-        /// 특정 레벨로 설정
-        /// </summary>
-        public void SetLevel(int level)
-        {
-            if (level < 1 || level > maxLevel)
-            {
-                Debug.LogError($"[IcicleController] 잘못된 레벨: {level} (1~{maxLevel} 범위)");
-                return;
-            }
-
-            currentLevel = level;
-            LoadWeaponData();
-
-            if (debugMode)
-            {
-                Debug.Log($"[IcicleController] 레벨 설정: {currentLevel}");
-                PrintWeaponInfo();
-            }
-        }
 
         /// <summary>
         /// 현재 레벨 반환
@@ -250,4 +209,4 @@ namespace DiceSurvivor.Weapon
             PrintWeaponInfo();
         }
     }
-}
+}*/

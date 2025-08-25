@@ -56,8 +56,7 @@ namespace DiceSurvivor.Weapon
         }
 
         protected virtual void Update()
-        {
-            Debug.Log(cooldown);
+        {            
             if (cooldown > 0)
                 cooldown -= Time.deltaTime;
 
@@ -217,7 +216,7 @@ namespace DiceSurvivor.Weapon
         {
             if (cooldown > 0) return;
 
-            Collider[] enemies = Physics.OverlapSphere(transform.position, Weapon.explosionRadius);
+            Collider[] enemies = Physics.OverlapSphere(transform.position, Weapon.radius);
             foreach (var enemy in enemies)
             {
                 if (enemy.TryGetComponent(out IDamageable dmg))
@@ -229,6 +228,10 @@ namespace DiceSurvivor.Weapon
 
             cooldown = Weapon.cooldown;
         }
+        /// <summary>
+        /// 공격 수행
+        /// </summary>
+        protected abstract void PerformAttack();
 
         protected virtual void InitializeWeapon()
         {

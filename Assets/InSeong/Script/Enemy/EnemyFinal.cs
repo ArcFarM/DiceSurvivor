@@ -302,10 +302,10 @@ namespace DiceSurvivor.Enemy
 
             currentHealth -= damageAmount;
 
-            Debug.Log($"[Enemy] {gameObject.name} 데미지 받음!");
-            Debug.Log($"[Enemy] 받은 데미지: {damageAmount}");
-            Debug.Log($"[Enemy] 남은 체력: {currentHealth}/{copiedData.maxHealth}");
-            Debug.Log($"[Enemy] 체력 비율: {(currentHealth / copiedData.maxHealth * 100):F1}%");
+            //Debug.Log($"[Enemy] {gameObject.name} 데미지 받음!");
+            //Debug.Log($"[Enemy] 받은 데미지: {damageAmount}");
+            //Debug.Log($"[Enemy] 남은 체력: {currentHealth}/{copiedData.maxHealth}");
+            //Debug.Log($"[Enemy] 체력 비율: {(currentHealth / copiedData.maxHealth * 100):F1}%");
 
             StartCoroutine(DamageEffect());
 
@@ -378,7 +378,7 @@ namespace DiceSurvivor.Enemy
             isDead = true;
             Debug.Log($"{name} 사망!");
 
-            GrantRewards();
+            //GrantRewards();
 
             StartCoroutine(DeathEffect());
         }

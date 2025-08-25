@@ -173,7 +173,6 @@ namespace DiceSurvivor.Manager {
             obj.SetActive(false);
             //검증을 위한 인덱스
             int index = esManager.currentWaveIndex;
-            Debug.Log(index);
 
             //현재 웨이브와 맞지 않는 오브젝트들은 파괴 후 재생성
             //현재 웨이브와 맞는 오브젝트들은 풀에 반환

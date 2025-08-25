@@ -71,7 +71,7 @@ namespace DiceSurvivor.Weapon
                 //killingAuraWeapon.UpdateWeaponStats(currentStats);
 
                 // 【중요】 데이터 로드 후 Collider와 파티클 업데이트
-                killingAuraWeapon.UpdateColliderRadius();
+                
                 killingAuraWeapon.UpdateParticleScale();
 
                 Debug.Log($"[KillingAuraController] KillingAura Lv.{currentLevel} 로드 성공!");

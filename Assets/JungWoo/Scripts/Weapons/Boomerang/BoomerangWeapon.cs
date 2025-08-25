@@ -13,7 +13,7 @@ namespace DiceSurvivor.Weapon
     {
         [Header("Boomerang Specific")]
         [SerializeField] private GameObject boomerangPrefab;           // 부메랑 프리팹
-        [SerializeField] private float rotationSpeed = 720f;           // 회전 속도 (도/초)
+        //[SerializeField] private float rotationSpeed = 720f;           // 회전 속도 (도/초)
 
         [Header("Runtime")]
         private List<BoomerangProjectile> activeBoomerangs;            // 활성 부메랑 목록

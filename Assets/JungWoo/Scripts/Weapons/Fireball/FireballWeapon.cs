@@ -17,7 +17,7 @@ namespace DiceSurvivor.Weapon
 
         [Header("Runtime")]
         private List<FireballProjectile> activeFireballs;              // 활성 파이어볼 목록
-        private float attackTimer = 0f;                                // 공격 타이머
+        //private float attackTimer = 0f;                                // 공격 타이머
 
         protected override void Awake()
         {
