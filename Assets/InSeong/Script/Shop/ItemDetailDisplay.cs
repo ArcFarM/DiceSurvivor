@@ -21,13 +21,15 @@ public class ItemDetailDisplay : MonoBehaviour {
     public void ShowDetail(TestItem item) {
         if (item == null) return;
 
+
+
         // ShopManager에서 현재 아이템 레벨 가져오기
         int currentLevel = ItemManager.Instance.GetItemLevel(item.itemName);
 
         // UI 업데이트
         itemNameText.text = item.itemName;
-        itemDescriptionText.text = item.weapon.description;
-        itemLevelText.text = $"Level: {currentLevel}/{item.maxLevel}";
+        itemDescriptionText.text = ShopManagerTest.Instance.GetItemDescription(item);
+        itemLevelText.text = $"Level: {currentLevel + 1} / {item.maxLevel}";
 
         gameObject.SetActive(true);
     }

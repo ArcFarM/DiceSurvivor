@@ -15,9 +15,12 @@ namespace DiceSurvivor.UI
         //TODO : weapon의 정보를 부착할 공간들 변수 추가하기
         [SerializeField] TextMeshProUGUI weaponName;
         [SerializeField] TextMeshProUGUI weaponDesc;
+
+        StartWeaponWindow parent;
         #endregion
 
         #region Properties
+        public StartWeaponWindow Parent { get => parent; set => parent = value; }
         #endregion
 
         #region Unity Event Methods
@@ -40,6 +43,9 @@ namespace DiceSurvivor.UI
         {
             //담겨 있는 무기 정보를 아이템 매니저로 넘겨서 플레이어 근접 무기로 할당
             ItemManager.Instance.BuyItem(weapon);
+            parent.RemoveUnused(weapon);
+            parent.gameObject.SetActive(false);
+            DiceSurvivor.Manager.ShopManagerTest.Instance.OpenShop();
         }
         #endregion
     }
