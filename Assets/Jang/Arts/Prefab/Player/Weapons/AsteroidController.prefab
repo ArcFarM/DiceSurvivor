@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4161052561625041928
+--- !u!1 &357849303249777874
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,48 +8,48 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5239416544762690378}
-  - component: {fileID: 4406462736012701347}
+  - component: {fileID: 2725569406066359634}
+  - component: {fileID: 2141655409881002814}
   m_Layer: 6
-  m_Name: LaserController
+  m_Name: AsteroidController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5239416544762690378
+--- !u!4 &2725569406066359634
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4161052561625041928}
+  m_GameObject: {fileID: 357849303249777874}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 874984034206911238}
+  - {fileID: 6421646480130917549}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4406462736012701347
+--- !u!114 &2141655409881002814
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4161052561625041928}
+  m_GameObject: {fileID: 357849303249777874}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2ee4e5f2be1ef5944962dd07fd50ba29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponName: Laser
-  weaponLevel: 1
+  weaponName: Asteroid
+  weaponLevel: 2
   maxLevel: 8
-  sfxType: 9
-  weaponType: 1
+  sfxType: 19
+  weaponType: 2
   currentWeaponStats:
     id: 
     name: 
@@ -69,7 +69,7 @@ MonoBehaviour:
     isPiercing: 0
     canReturn: 0
     description: 
---- !u!1 &7596274741883465197
+--- !u!1 &3312669841915061291
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -77,40 +77,40 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 874984034206911238}
-  - component: {fileID: 7912416819900110460}
-  m_Layer: 0
-  m_Name: WeaponLaser
+  - component: {fileID: 6421646480130917549}
+  - component: {fileID: 2555976971148231099}
+  m_Layer: 6
+  m_Name: WeaponAsteroid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &874984034206911238
+--- !u!4 &6421646480130917549
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7596274741883465197}
+  m_GameObject: {fileID: 3312669841915061291}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.05, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5239416544762690378}
+  m_Father: {fileID: 2725569406066359634}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7912416819900110460
+--- !u!114 &2555976971148231099
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7596274741883465197}
+  m_GameObject: {fileID: 3312669841915061291}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3bdc029a7640a142819438e1168179f, type: 3}
+  m_Script: {fileID: 11500000, guid: b452054de85b9464592be3b9ad4dfedb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   weapon:
@@ -132,12 +132,6 @@ MonoBehaviour:
     isPiercing: 0
     canReturn: 0
     description: 
-  projectilePrefab: {fileID: 0}
-  firePoint: {fileID: 0}
+  asteroidPrefab: {fileID: 1959430219590424626, guid: 3dfec7f7d4ed5184a9ace0abd329c60a, type: 3}
+  orbitHeight: 0.2
   player: {fileID: 0}
-  laserBeamPrefab: {fileID: 455433898682083204, guid: 679745c9e35dfdc4dac3ac387a889bee, type: 3}
-  hitEffectPrefab: {fileID: 104906590551963121, guid: ed57ceaef52174144ae78522738e5fa8, type: 3}
-  burstDelay: 0.2
-  baseWidth: 0.5
-  widthPerLevel: 0.2
-  maxWidth: 2

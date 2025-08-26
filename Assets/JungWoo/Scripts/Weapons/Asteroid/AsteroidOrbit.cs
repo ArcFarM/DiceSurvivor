@@ -44,11 +44,7 @@ namespace DiceSurvivor.Weapon
 
             // Collider 크기 조정
             SphereCollider collider = GetComponent<SphereCollider>();
-            if (collider == null)
-            {
-                collider = gameObject.AddComponent<SphereCollider>();
-                collider.isTrigger = true;
-            }
+            
 
             // 초기 위치 설정
             UpdatePosition();
@@ -123,6 +119,7 @@ namespace DiceSurvivor.Weapon
         /// </summary>
         public void Deactivate()
         {
+            
             if (!IsActive) return;
             IsActive = false;
 

@@ -21,7 +21,7 @@ namespace DiceSurvivor.Weapon
         private float initialWidth;
 
         private float flashDuration = 0.1f;      // 레이저 지속 시간 (0.1초)
-        private HashSet<WJEnemy> damagedEnemies; // 이번 발사에서 데미지 받은 적들
+        private HashSet<EnemyFinal> damagedEnemies; // 이번 발사에서 데미지 받은 적들
 
         public bool IsActive { get; private set; }
 
@@ -30,7 +30,7 @@ namespace DiceSurvivor.Weapon
             isPiercing = true;
             lineRenderer = GetComponent<LineRenderer>();
             lineRenderer.enabled = false;
-            damagedEnemies = new HashSet<WJEnemy>();
+            damagedEnemies = new HashSet<EnemyFinal>();
         }
 
         public void Initialize(Transform player, Vector3 direction, float dmg, float range,
@@ -90,7 +90,7 @@ namespace DiceSurvivor.Weapon
                 // 관통: 레이저에 닿은 모든 적에게 즉시 데미지
                 foreach (var hit in hits)
                 {
-                    var enemy = hit.collider.GetComponent<WJEnemy>();
+                    var enemy = hit.collider.GetComponent<EnemyFinal>();
                     if (enemy != null && !damagedEnemies.Contains(enemy))
                     {
                         enemy.TakeDamage(damage);

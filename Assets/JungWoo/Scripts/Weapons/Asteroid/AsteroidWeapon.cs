@@ -27,6 +27,9 @@ namespace DiceSurvivor.Weapon
 
         #region Property
         private bool HasActiveWave => activeAsteroids != null && activeAsteroids.Count > 0;
+
+        // 7레벨 이상에서 duration과 cooldown이 같은지 체크
+        private bool IsInstantReplace => Weapon.level >= 7 && Weapon.duration >= Weapon.cooldown;
         #endregion
 
         #region Unity Event Method
@@ -52,7 +55,7 @@ namespace DiceSurvivor.Weapon
             spawnTimer += Time.deltaTime;
 
             // 활성 파동이 없을 때만 새 파동 생성 (프레임당 무한 생성 방지)
-            float cd = Mathf.Max(cooldown, MinCooldown);
+            float cd = Mathf.Max(Weapon.cooldown, MinCooldown);
             if (!HasActiveWave && spawnTimer >= cd)
             {
                 PerformAttack();
@@ -118,40 +121,8 @@ namespace DiceSurvivor.Weapon
         /// </summary>
         protected override void InitializeWeapon()
         {
-            //LoadWeaponData();
-
-            /*// 시작 시 한 번만 소환 (이미 활성 파동이 있으면 중복 소환 금지)
-            if (!HasActiveWave)
-            {
-                PerformAttack();
-                spawnTimer = 0f;
-            }*/
+            
         }
-
-        /// <summary>
-        /// 무기 데이터 로드
-        /// </summary>
-        /*protected override void LoadWeaponData()
-        {
-            var dataManager = DataTableManager.Instance;
-            if (dataManager == null)
-            {
-                Debug.LogError("[Asteroid] DataTableManager를 찾을 수 없습니다!");
-                return;
-            }
-
-            var weaponStats = dataManager.GetSplashWeapon("Asteroid", currentLevel);
-            if (weaponStats != null)
-            {
-                UpdateWeaponStats(weaponStats);
-                Debug.Log($"[Asteroid] Lv.{currentLevel} 로드 - Count: {projectileCount}, Size: {projectileSize}, Speed: {projectileSpeed}, Duration: {duration}");
-            }
-            else
-            {
-                Debug.LogError($"[Asteroid] Lv.{currentLevel} 데이터를 찾을 수 없습니다!");
-            }
-        }*/
-
         /// <summary>
         /// 공격 수행 - 소행성 생성
         /// </summary>
@@ -189,16 +160,12 @@ namespace DiceSurvivor.Weapon
         {
             // 소행성 생성 (플레이어가 아닌 월드 공간에 생성)
             GameObject asteroid = Instantiate(asteroidPrefab, player.position, Quaternion.identity);
-            asteroid.name = $"Asteroid";
 
             asteroid.transform.SetParent(this.transform, worldPositionStays: true);
 
             // AsteroidOrbit 컴포넌트 추가/설정
             AsteroidOrbit orbit = asteroid.GetComponent<AsteroidOrbit>();
-            if (orbit == null)
-            {
-                orbit = asteroid.AddComponent<AsteroidOrbit>();
-            }
+
 
             // 소행성 초기화
             orbit.Initialize(
@@ -210,7 +177,6 @@ namespace DiceSurvivor.Weapon
                 startAngle,            // 시작 각도
                 orbitHeight            // 공전 높이
             );
-
             activeAsteroids.Add(orbit);
         }
 
@@ -221,13 +187,17 @@ namespace DiceSurvivor.Weapon
         {
             yield return new WaitForSeconds(Weapon.duration);
 
-
-            if (Weapon.duration < Weapon.cooldown)
+            // 7레벨 이상이고 duration과 cooldown이 같으면 즉시 제거
+            if (IsInstantReplace)
+            {
+                CleanupAllAsteroidsInstant();
+                Debug.Log($"[Asteroid] Lv.{Weapon.level} - Duration 종료, 즉시 교체");
+            }
+            else
             {
                 CleanupAllAsteroids();
                 Debug.Log($"[Asteroid] Duration 종료 - 소행성 비활성화");
             }
-
         }
 
         /// <summary>
@@ -255,18 +225,40 @@ namespace DiceSurvivor.Weapon
             activeAsteroids.Clear();
         }
 
+        /// <summary>
+        /// 모든 소행성 즉시 제거 (7-8레벨용)
+        /// </summary>
+        private void CleanupAllAsteroidsInstant()
+        {
+            if (activeAsteroids == null) return;
+            foreach (var asteroid in activeAsteroids)
+            {
+                if (asteroid != null && asteroid.gameObject != null)
+                {
+                    // 즉시 제거
+                    Destroy(asteroid.gameObject);
+                }
+            }
+            activeAsteroids.Clear();
+        }
+
         public override void LevelUp()
         {
             base.LevelUp();
 
             // 레벨업 시 즉시 새로운 소행성 생성
-            CleanupAllAsteroids();
+            // 7-8레벨은 즉시 교체, 그 외는 기존 방식
+            if (IsInstantReplace)
+            {
+                CleanupAllAsteroidsInstant();
+            }
+            else
+            {
+                CleanupAllAsteroids();
+            }
             spawnTimer = 0f;
             PerformAttack();
-
         }
-
-
         #endregion
     }
 }

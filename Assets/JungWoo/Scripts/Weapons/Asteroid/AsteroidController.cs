@@ -56,7 +56,7 @@ namespace DiceSurvivor.WeaponSystem
         /// <summary>
         /// 무기 데이터 로드
         /// </summary>
-        *//*private void LoadWeaponData()
+        private void LoadWeaponData()
         {
             var dataManager = DataTableManager.Instance;
             if (dataManager == null)
@@ -69,14 +69,14 @@ namespace DiceSurvivor.WeaponSystem
 
             if (currentStats != null)
             {
-                asteroidWeapon.UpdateWeaponStats(currentStats);
+                //asteroidWeapon.UpdateWeaponStats(currentStats);
                 Debug.Log($"[AsteroidController] Asteroid Lv.{currentLevel} 로드 성공!");
             }
             else
             {
                 Debug.LogError($"[AsteroidController] Asteroid Lv.{currentLevel} 데이터 로드 실패!");
             }
-        }*//*
+        }
 
         /// <summary>
         /// 레벨 업
