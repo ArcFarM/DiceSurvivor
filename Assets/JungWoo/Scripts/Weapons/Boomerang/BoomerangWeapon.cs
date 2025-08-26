@@ -79,7 +79,10 @@ namespace DiceSurvivor.Weapon
         }
         protected override void ShootProjectile(GameObject target, int projectileCount)
         {
-            throw new System.NotImplementedException();
+            for (int i = 0; i < projectileCount; i++)
+            {
+                LaunchBoomerang(target, 0.5f);
+            }
         }
         /// <summary>
         /// 부메랑 발사
@@ -126,7 +129,8 @@ namespace DiceSurvivor.Weapon
                 Weapon.projectileSpeed,             // 이동 속도
                 Weapon.projectileSize,         // 크기
                 Weapon.isPiercing,             // 관통 여부
-                rotationSpeed          // 회전 속도
+                rotationSpeed,          // 회전 속도
+                this
             );
 
             activeBoomerangs.Add(projectile);

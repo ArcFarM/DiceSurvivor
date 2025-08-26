@@ -8,6 +8,7 @@ namespace DiceSurvivor.Weapon
     /// </summary>
     public class PoisonFlaskProjectile : MonoBehaviour
     {
+        private PoisonFlaskWeapon? flaskWeapon = null;
         private Vector3 startPosition;         // 시작 위치
         private Vector3 targetPosition;        // 목표 위치
         private float arcHeight;               // 포물선 높이
@@ -24,11 +25,14 @@ namespace DiceSurvivor.Weapon
 
         public bool IsActive { get; private set; }
 
+        public PoisonFlaskWeapon PF { get { return flaskWeapon; } set { flaskWeapon = value; } }
+
         /// <summary>
         /// 플라스크 초기화
         /// </summary>
         public void Initialize(Vector3 start, Vector3 target, float arc, float duration,
-                             float explDamage, float explRadius, float dot, float dotDur, float size, GameObject gasPrefab)
+                             float explDamage, float explRadius, float dot, float dotDur, float size, GameObject gasPrefab,
+                             PoisonFlaskWeapon pf)
         {
             startPosition = start;
             targetPosition = target;
@@ -41,6 +45,7 @@ namespace DiceSurvivor.Weapon
             dotDuration = dotDur;
             projectileSize = size;
             poisonGasPrefab = gasPrefab;
+            PF = pf;
 
             elapsedTime = 0f;
             hasLanded = false;
@@ -128,7 +133,7 @@ namespace DiceSurvivor.Weapon
                 var enemy = enemyCollider.GetComponent<EnemyFinal>();
                 if (enemy != null)
                 {
-                    enemy.TakeDamage(explosionDamage);
+                    flaskWeapon.ApplyDamage(enemy.gameObject,explosionDamage);
                     Debug.Log($"[PoisonFlaskProjectile] 폭발 데미지: {enemyCollider.name} - {explosionDamage}");
                 }
             }
@@ -144,7 +149,7 @@ namespace DiceSurvivor.Weapon
             poisonZone.transform.position = transform.position;
 
             PoisonDotZone zone = poisonZone.AddComponent<PoisonDotZone>();
-            zone.Initialize(explosionRadius, dotDamage, dotDuration, projectileSize, poisonGasPrefab);
+            zone.Initialize(explosionRadius, dotDamage, dotDuration, projectileSize, poisonGasPrefab, PF);
 
             Debug.Log($"[PoisonFlaskProjectile] 독 구역 생성 - DoT: {dotDamage}/초, 지속: {dotDuration}초");
         }
@@ -156,6 +161,7 @@ namespace DiceSurvivor.Weapon
     /// </summary>
     public class PoisonDotZone : MonoBehaviour
     {
+        private PoisonFlaskWeapon? flaskWeapon = null;
         private float radius;
         private float dotDamage;
         private float duration;
@@ -166,13 +172,16 @@ namespace DiceSurvivor.Weapon
         private float endTime;
         private float lastDotTime;
 
-        public void Initialize(float rad, float dot, float dur, float size, GameObject prefab)
+        public PoisonFlaskWeapon PF { get { return flaskWeapon; } set { flaskWeapon = value; } }
+
+        public void Initialize(float rad, float dot, float dur, float size, GameObject prefab, PoisonFlaskWeapon pf)
         {
             radius = rad;
             dotDamage = dot;
             duration = dur;
             projectileSize = size;
             gasPrefab = prefab;
+            PF = pf;
 
             endTime = Time.time + duration;
             lastDotTime = Time.time;

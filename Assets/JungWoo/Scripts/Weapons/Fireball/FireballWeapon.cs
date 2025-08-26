@@ -71,7 +71,8 @@ namespace DiceSurvivor.Weapon
                 Weapon.range,                  // 최대 거리
                 Weapon.projectileSpeed,        // 이동 속도
                 Weapon.projectileSize,         // 투사체 크기
-                explosionEffectPrefab   // 폭발 이펙트
+                explosionEffectPrefab,   // 폭발 이펙트
+                this
             );
             activeFireballs.Add(projectile);
 

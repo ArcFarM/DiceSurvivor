@@ -849,9 +849,9 @@ MonoBehaviour:
   currentWaveIndex: 0
   waveDuration: 60
   timeSinceLastWave: 0
-  enemyPar: {fileID: 1484534468}
-  eliteEnemyPar: {fileID: 691239285}
-  bossEnemyPar: {fileID: 1007562595}
+  spawnedEnemyPar: {fileID: 0}
+  spawnedEliteEnemyPar: {fileID: 0}
+  spawnedBossEnemyPar: {fileID: 0}
 --- !u!114 &2137528448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -871,7 +871,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7ece6aebfeeb220478e91738a70808e4, type: 2}
   bossEnemyDataArray:
   - {fileID: 11400000, guid: f0a7fc04823942247b16842bb934cac7, type: 2}
-  maxEnemyCount: 100
+  maxEnemyCount: 2
   maxEliteEnemyCount: 15
   maxBossEnemyCount: 1
   esManager: {fileID: 2137528447}
@@ -1476,6 +1476,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8843733687875616945}
     m_Modifications:
+    - target: {fileID: 1345075136693866734, guid: 1c635e67a6489b942b8cb4224874a79d, type: 3}
+      propertyPath: weaponLevel
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6933620842093199170, guid: 1c635e67a6489b942b8cb4224874a79d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1918,6 +1922,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FireballController
       objectReference: {fileID: 0}
+    - target: {fileID: 3354198262835608422, guid: e4b2a3b9fb0e0f54d95ef0cec3448a3c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5170086445493744742, guid: e4b2a3b9fb0e0f54d95ef0cec3448a3c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2203,7 +2211,7 @@ PrefabInstance:
     - target: {fileID: 7912416819900110460, guid: ef2430592af1f1143a376c0a48d1927f, type: 3}
       propertyPath: firePoint
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1822454317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2238,6 +2246,10 @@ PrefabInstance:
     - target: {fileID: 89889279728174553, guid: fa5c7e08cac0e3146bba72fea57ea54d, type: 3}
       propertyPath: m_Name
       value: DaggerController
+      objectReference: {fileID: 0}
+    - target: {fileID: 89889279728174553, guid: fa5c7e08cac0e3146bba72fea57ea54d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7787130335570454511, guid: fa5c7e08cac0e3146bba72fea57ea54d, type: 3}
       propertyPath: m_LocalPosition.x

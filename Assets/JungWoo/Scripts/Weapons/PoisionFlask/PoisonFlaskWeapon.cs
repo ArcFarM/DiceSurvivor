@@ -125,7 +125,8 @@ namespace DiceSurvivor.Weapon
                 Weapon.dotDamage,              // DoT 데미지
                 Weapon.duration,               // DoT 지속시간
                 Weapon.projectileSize,         // 크기
-                poisonGasPrefab        // 독가스 프리팹
+                poisonGasPrefab,        // 독가스 프리팹
+                this
             );
 
             activeFlasks.Add(projectile);

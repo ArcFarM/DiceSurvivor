@@ -9,6 +9,7 @@ namespace DiceSurvivor.Weapon
     /// </summary>
     public class BoomerangProjectile : MonoBehaviour
     {
+        private BoomerangWeapon? boomerangWeapon = null;
         private Transform owner;               // 발사한 플레이어
         private Vector3 initialDirection;      // 초기 방향
         private float damage;                  // 데미지
@@ -26,13 +27,15 @@ namespace DiceSurvivor.Weapon
 
         public bool IsActive { get; private set; }
 
+        public BoomerangWeapon BW { get { return boomerangWeapon; } set { boomerangWeapon = value; } }
+
         private float groundY = 0f; // Prevent the projectile from going below this y-value. Adjust as needed.
 
         /// <summary>
         /// 부메랑 초기화
         /// </summary>
         public void Initialize(Transform launcher, Vector3 direction, float dmg, float range,
-                             float speed, float size, bool piercing, float rotSpeed)
+                             float speed, float size, bool piercing, float rotSpeed, BoomerangWeapon bw)
         {
             owner = launcher;
             initialDirection = direction.normalized;
@@ -41,7 +44,8 @@ namespace DiceSurvivor.Weapon
             projectileSize = size;
             isPiercing = piercing;
             rotationSpeed = rotSpeed;
-            moveSpeed = speed;  
+            moveSpeed = speed;
+            BW = bw;
 
             startPosition = transform.position;
             traveledDistance = 0f;
@@ -154,7 +158,7 @@ namespace DiceSurvivor.Weapon
                     var enemy = other.GetComponent<EnemyFinal>();
                     if (enemy != null)
                     {
-                        enemy.TakeDamage(damage);
+                        boomerangWeapon.ApplyDamage(enemy.gameObject, damage);
                         currentHitList.Add(other.gameObject);
 
                         Debug.Log($"[BoomerangProjectile] {other.name}에게 데미지 {damage} 적용 (돌아오는 중: {isReturning})");

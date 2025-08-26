@@ -11,6 +11,7 @@ namespace DiceSurvivor.Weapon
     [RequireComponent(typeof(LineRenderer))]
     public class LaserBeam : MonoBehaviour
     {
+        private LaserWeapon laserWeapon;
         private LineRenderer lineRenderer;
         private Transform playerTransform;
         private Vector3 targetDirection;         // 발사 시점의 방향 (고정)
@@ -25,6 +26,8 @@ namespace DiceSurvivor.Weapon
 
         public bool IsActive { get; private set; }
 
+        public LaserWeapon LA { get { return laserWeapon; } set { laserWeapon = value; } }
+
         void Awake()
         {
             isPiercing = true;
@@ -34,7 +37,7 @@ namespace DiceSurvivor.Weapon
         }
 
         public void Initialize(Transform player, Vector3 direction, float dmg, float range,
-            GameObject hitPrefab, float laserWidth)
+            GameObject hitPrefab, float laserWidth, LaserWeapon la)
         {
             playerTransform = player;
             targetDirection = direction.normalized;
@@ -43,6 +46,7 @@ namespace DiceSurvivor.Weapon
             isPiercing = true;  // 항상 관통
             hitEffectPrefab = hitPrefab;
             initialWidth = laserWidth;
+            LA = la;
 
             // LineRenderer 설정
             lineRenderer.startWidth = initialWidth;
@@ -93,7 +97,7 @@ namespace DiceSurvivor.Weapon
                     var enemy = hit.collider.GetComponent<EnemyFinal>();
                     if (enemy != null && !damagedEnemies.Contains(enemy))
                     {
-                        enemy.TakeDamage(damage);
+                        laserWeapon.ApplyDamage(enemy.gameObject, damage);
                         damagedEnemies.Add(enemy);
                         CreateHitEffect(hit.point);
 

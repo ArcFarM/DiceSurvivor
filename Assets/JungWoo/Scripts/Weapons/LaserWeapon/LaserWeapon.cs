@@ -168,7 +168,7 @@ namespace DiceSurvivor.Weapon
 
             // 레이저 초기화 (0.1초 플래시)
             laserBeam.Initialize(firePoint, direction, Weapon.damage, Weapon.range,
-                hitEffectPrefab, currentLaserWidth);
+                hitEffectPrefab, currentLaserWidth, this);
 
             activeLasers.Add(laserBeam);
         }

@@ -10,6 +10,7 @@ namespace DiceSurvivor.Weapon
     /// </summary>
     public class FireballProjectile : MonoBehaviour
     {
+        private FireballWeapon? fireballWeapon = null;
         private Vector3 moveDirection;         // 이동 방향
         private float directDamage;           // 직접 데미지
         private float explosionDamage;        // 폭발 데미지
@@ -26,12 +27,13 @@ namespace DiceSurvivor.Weapon
         private bool hasExploded;             // 폭발 여부
 
         public bool IsActive { get; private set; }
+        public FireballWeapon FB { get { return fireballWeapon; } set { fireballWeapon = value; } }
 
         /// <summary>
         /// 파이어볼 초기화
         /// </summary>
         public void Initialize(Vector3 direction, float damage, float explDamage, float explRadius,
-                             float dot, float duration, float range, float speed, float size, GameObject effect)
+                             float dot, float duration, float range, float speed, float size, GameObject effect, FireballWeapon fb)
         {
             moveDirection = direction.normalized;
             directDamage = damage;
@@ -42,7 +44,8 @@ namespace DiceSurvivor.Weapon
             maxRange = range;
             projectileSize = size;
             explosionEffect = effect;
-            moveSpeed = speed;               // projectileSpeed는 이동 시간(초)
+            moveSpeed = speed;      // projectileSpeed는 이동 시간(초)
+            FB = fb;
 
             startPosition = transform.position;
             traveledDistance = 0f;
@@ -89,7 +92,7 @@ namespace DiceSurvivor.Weapon
                 var enemy = other.GetComponent<EnemyFinal>();
                 if (enemy != null)
                 {
-                    enemy.TakeDamage(directDamage);
+                    fireballWeapon.ApplyDamage(enemy.gameObject, directDamage);
                     Debug.Log($"[FireballProjectile] 직접 타격: {other.name} - 데미지: {directDamage}");
                 }
 
@@ -118,7 +121,7 @@ namespace DiceSurvivor.Weapon
                 if (enemy != null)
                 {
                     // 폭발 데미지
-                    enemy.TakeDamage(explosionDamage);
+                    fireballWeapon.ApplyDamage(enemy.gameObject,explosionDamage);
                     Debug.Log($"[FireballProjectile] 폭발 데미지: {enemyCollider.name} - {explosionDamage}");
                 }
             }
