@@ -8,7 +8,7 @@ namespace DiceSurvivor.UI
     public class StartWeaponWindow : MonoBehaviour
     {
         #region Variables
-        [SerializeField] TestItemArray meleeWeaponArray;
+        public TestItemArray meleeWeaponArray;
         StartWeaponPanel[] weaponSelections;
 
 
@@ -43,9 +43,23 @@ namespace DiceSurvivor.UI
                 usedIndices.Add(idx);
 
                 items[idx].SetWeaponStats(1);
+                weaponSelections[i].Parent = this;
                 weaponSelections[i].SetRandomWeapon(items[idx]);
+                //고른 후 상점을 호출하여 현재 보유하지 않은 모든 물리 무기를 비활성화
             }
         }
+
+        public void RemoveUnused(TestItem item)
+        {
+            foreach (var weapon in meleeWeaponArray.items)
+            {
+                if (weapon.itemName != item.itemName)
+                {
+                    weapon.canIBuy = false;
+                }
+            }
+        }
+        
         #endregion
     }
 }

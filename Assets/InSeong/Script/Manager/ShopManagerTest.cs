@@ -81,18 +81,27 @@ namespace DiceSurvivor.Manager {
             {
                 item.SetWeaponStats(1);
             }
+
+            gameObject.SetActive(false);    
         }
 
         private void OnEnable()
         {
             //플레이어 보유 금액에 따라 이자 지급;
+            consecutiveRerollCount = 0;
             FillItem();
             RefreshGold();
+            GiveInterest();
         }
 
         #endregion
 
         #region Custom Methods
+        public void OpenShop()
+        {
+            //상점 열기
+            gameObject.SetActive(true);
+        }
         //구매 버튼 눌렀을 때 실행
         public void BuyItem(ItemSlot slot)
         {
@@ -144,6 +153,9 @@ namespace DiceSurvivor.Manager {
 
             //5. 아이템 칸 정보 갱신
             ClearItem(slot);
+
+            //6. 리롤 가격 초기화
+            consecutiveRerollCount = 0;
         }
 
         //상점 열림 또는 새로고침 버튼 누르면 실행
@@ -159,6 +171,8 @@ namespace DiceSurvivor.Manager {
             {
                 AddItem(slot);
             }
+            //플레이어가 이미 최대 레벨에 도달한 아이템은 구매 불가능하게 만듦
+            ClearAllUnused();
         }
 
         void AddItem(ItemSlot slot)
@@ -332,7 +346,13 @@ namespace DiceSurvivor.Manager {
         //플레이어 무기 칸이 최대치에 도달한 경우 갖고 있지 않은 아이템은 모두 삭제
         void ClearAllUnused()
         {
-
+            foreach (var item in testItems.items)
+            {
+                if (!im.CanAddItem(item.type))
+                {
+                    item.canIBuy = false;
+                }
+            }
         }
 
         //아이템 설명 가져오기
@@ -346,21 +366,22 @@ namespace DiceSurvivor.Manager {
             }
 
             WeaponStats currWeapon = new WeaponStats();
-            int currLevel = im.GetItemLevel(item.itemName);
+            int currLevel = im.GetItemLevel(item.itemName) + 1;
 
             switch (item.type)
             {
                 case TestItem.ItemType.MeleeWeapon:
                     currWeapon = dt.MeleeWeapons.GetWeapon(item.itemName, currLevel);
+                    Debug.Log(currWeapon.description);
                     return currWeapon.description;
                 case TestItem.ItemType.RangedWeapon:
                     currWeapon = dt.RangedWeapons.GetWeapon(item.itemName, currLevel);
+                    Debug.Log(currWeapon.description);
                     return currWeapon.description;
                 case TestItem.ItemType.SplashWeapon:
                     currWeapon = dt.SplashWeapons.GetWeapon(item.itemName, currLevel);
+                    Debug.Log(currWeapon.description);
                     return currWeapon.description;
-                //case TestItem.ItemType.Passive:
-                //return dt.PassiveItems[item.ID].description;
                 default:
                     return "알 수 없는 아이템 타입입니다.";
             }
