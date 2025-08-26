@@ -13,8 +13,6 @@ namespace DiceSurvivor.Weapon
     {
         #region Variables
         [Header("Laser Specific")]
-        [SerializeField] private Transform player;
-        [SerializeField] private GameObject laserBeamPrefab;          // 레이저 투사체 프리팹
         [SerializeField] private GameObject hitEffectPrefab;          // 타격 이펙트 프리팹
         [SerializeField] private float burstDelay = 0.2f;             // 연발 간격
 
@@ -42,7 +40,7 @@ namespace DiceSurvivor.Weapon
         protected override void Update()
         {
             // RangedWeaponBase의 Update를 사용하지 않고 자체 로직 사용
-            if (player == null) return;
+            if (firePoint == null) return;
 
             // 쿨다운 관리
             if (cooldown > 0)
@@ -127,13 +125,13 @@ namespace DiceSurvivor.Weapon
             Vector3 fireDirection;
             if (targetEnemy != null)
             {
-                fireDirection = (targetEnemy.transform.position - player.position).normalized;
+                fireDirection = (targetEnemy.transform.position - firePoint.position).normalized;
                 Debug.Log($"[Laser] 타겟 발견: {targetEnemy.name}");
             }
             else
             {
                 // 적이 없으면 플레이어 전방
-                fireDirection = player.forward;
+                fireDirection = firePoint.forward;
                 Debug.Log("[Laser] 타겟 없음 - 전방 발사");
             }
 
@@ -159,7 +157,7 @@ namespace DiceSurvivor.Weapon
         private void LaunchLaserBeam(Vector3 direction)
         {
             // 레이저 빔 생성 (플레이어 위치에 생성)
-            GameObject laser = Instantiate(laserBeamPrefab, player.position, Quaternion.identity);
+            GameObject laser = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
             laser.name = $"LaserBeam_Flash_{System.DateTime.Now.Ticks}";
 
             LaserBeam laserBeam = laser.GetComponent<LaserBeam>();
@@ -169,7 +167,7 @@ namespace DiceSurvivor.Weapon
             }
 
             // 레이저 초기화 (0.1초 플래시)
-            laserBeam.Initialize(player, direction, Weapon.damage, Weapon.range,
+            laserBeam.Initialize(firePoint, direction, Weapon.damage, Weapon.range,
                 hitEffectPrefab, currentLaserWidth);
 
             activeLasers.Add(laserBeam);

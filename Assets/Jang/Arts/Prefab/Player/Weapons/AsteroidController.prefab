@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2725569406066359634
 Transform:
   m_ObjectHideFlags: 0
@@ -134,4 +134,4 @@ MonoBehaviour:
     description: 
   asteroidPrefab: {fileID: 1959430219590424626, guid: 3dfec7f7d4ed5184a9ace0abd329c60a, type: 3}
   orbitHeight: 0.2
-  player: {fileID: 0}
+  player: {fileID: 2725569406066359634}

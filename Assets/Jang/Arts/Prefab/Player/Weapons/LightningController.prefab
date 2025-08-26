@@ -67,7 +67,7 @@ MonoBehaviour:
   secondaryDamageDelay: 0.3
   lightningPrefab: {fileID: 6587203506217683037, guid: 20643bf7d9b38fc4aabed2b0899208b3, type: 3}
   lightningEffectPrefab: {fileID: 1539475381189617055, guid: af95a52533871cd42b8b66e5d23c8a7a, type: 3}
-  player: {fileID: 0}
+  player: {fileID: 5026878986647331265}
 --- !u!1 &2355521102938108038
 GameObject:
   m_ObjectHideFlags: 0

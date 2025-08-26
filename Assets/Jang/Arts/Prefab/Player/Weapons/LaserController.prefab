@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5239416544762690378
 Transform:
   m_ObjectHideFlags: 0
@@ -132,10 +132,8 @@ MonoBehaviour:
     isPiercing: 0
     canReturn: 0
     description: 
-  projectilePrefab: {fileID: 0}
-  firePoint: {fileID: 0}
-  player: {fileID: 0}
-  laserBeamPrefab: {fileID: 455433898682083204, guid: 679745c9e35dfdc4dac3ac387a889bee, type: 3}
+  projectilePrefab: {fileID: 455433898682083204, guid: 679745c9e35dfdc4dac3ac387a889bee, type: 3}
+  firePoint: {fileID: 5239416544762690378}
   hitEffectPrefab: {fileID: 104906590551963121, guid: ed57ceaef52174144ae78522738e5fa8, type: 3}
   burstDelay: 0.2
   baseWidth: 0.5
