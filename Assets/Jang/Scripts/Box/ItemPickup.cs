@@ -1,3 +1,4 @@
+using DiceSurvivor.Audio;
 using DiceSurvivor.Player;
 using UnityEngine;
 
@@ -22,7 +23,7 @@ public class ItemPickup : MonoBehaviour
         if (player == null) return;
 
         // 효과 실행 ...
-
+        SfxManager.Instance.PlaySfx(SfxType.CollectItem);
 
         switch (itemType)
         {

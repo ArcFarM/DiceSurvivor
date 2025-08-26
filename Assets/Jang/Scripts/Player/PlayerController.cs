@@ -1,6 +1,7 @@
+using DiceSurvivor.Audio;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System.Collections;
 
 namespace DiceSurvivor.Player
 {

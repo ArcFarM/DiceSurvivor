@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using DiceSurvivor.Audio;
 
 namespace DiceSurvivor.Player
 {
@@ -74,6 +75,9 @@ namespace DiceSurvivor.Player
         {
             if (IsDead || amount <= 0f) return;
             if (IsInvincible) return;
+
+            // 플레이어가 공격 받았을 때 Sfx 실행
+            SfxManager.Instance.PlaySfx(SfxType.PlayerAttacked);
 
             currentHealth = Mathf.Clamp(currentHealth - amount, 0f, maxHealth);
             UpdateHPUI();
@@ -198,6 +202,9 @@ namespace DiceSurvivor.Player
             StopBlinkImmediate();
             SetVisible(true);
             Debug.Log("[PlayerHealth] Player Died");
+
+            // 플레이어가 죽을 때 SFX
+            SfxManager.Instance.PlaySfx(SfxType.PlayerDeath);
 
             if (animator != null && !string.IsNullOrEmpty(deathTrigger))
                 animator.SetTrigger(deathTrigger);

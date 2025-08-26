@@ -3,6 +3,7 @@ using DiceSurvivor.Weapon;
 using UnityEngine;
 using System.Collections;
 using DiceSurvivor.Player;
+using DiceSurvivor.Audio;
 
 namespace DiceSurvivor.Enemy 
 {
@@ -254,6 +255,7 @@ namespace DiceSurvivor.Enemy
 
             isAttacking = true;
             Debug.Log($"{name}이(가) 플레이어를 공격! 데미지: {damage}");
+            
             if (target.TryGetComponent<DiceSurvivor.Player.PlayerController>(out var pc))
             {
                 pc.TakeDamage(damage);
