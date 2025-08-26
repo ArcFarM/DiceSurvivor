@@ -224,6 +224,9 @@ namespace DiceSurvivor.Player
             GameOverUI gameOver = FindObjectOfType<GameOverUI>();
             if (gameOver != null) gameOver.ShowGameOverUI();
 
+            // 스테이지 실패 SFX
+            SfxManager.Instance.PlaySfx(SfxType.Defeat);
+
             if (pauseOnDeath)
                 Time.timeScale = 0f; // 애니메이션 끝난 뒤에 멈춤
         }
