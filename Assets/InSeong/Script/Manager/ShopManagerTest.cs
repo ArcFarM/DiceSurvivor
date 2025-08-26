@@ -37,7 +37,7 @@ namespace DiceSurvivor.Manager {
         bool isShopLocked = false;
 
         //플레이어 참조
-        PlayerTest player;
+        PlayerController player;
 
         //현재 보유 금액
         [SerializeField]
@@ -62,8 +62,8 @@ namespace DiceSurvivor.Manager {
         protected override void Awake()
         {
             base.Awake();
-            //플레이어는 게임 전체에서 단 하나이므로 findfirstobjectbytype 사용
-            player = FindFirstObjectByType<PlayerTest>().GetComponent<PlayerTest>();
+
+            player = GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<PlayerController>();
             //딕셔너리 초기화
             currItemLevelDict = new Dictionary<string, int>();
             itemCosts = new Dictionary<TestItem.ItemType, int> {
@@ -92,11 +92,18 @@ namespace DiceSurvivor.Manager {
             FillItem();
             RefreshGold();
             GiveInterest();
+            Time.timeScale = 0.01f;
         }
 
         #endregion
 
         #region Custom Methods
+        public bool CheckCond()
+        {
+            DiceSurvivor.Player.PlayerExperience pExp = player.GetComponent<PlayerExperience>();
+            //상점은 플레이어 레벨 5마다 열림
+            return pExp.level % 5 == 0;
+        }
         public void OpenShop()
         {
             //상점 열기

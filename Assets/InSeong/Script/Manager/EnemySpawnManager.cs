@@ -30,14 +30,24 @@ namespace DiceSurvivor.Manager {
         public float waveDuration = 60f; // 웨이브 지속 시간 (초)
         public float timeSinceLastWave = 0f; // 마지막 웨이브 이후 경과 시간
 
-        //소환된 적들은 모두 Hierarchy 창 내 이 오브젝트의 자식으로 관리
-        public GameObject enemyPar;
-        public GameObject eliteEnemyPar;
-        public GameObject bossEnemyPar;
+        // 스폰된 적들을 관리할 부모 오브젝트들 (PoolManager와 다른 이름 사용)
+        public GameObject spawnedEnemyPar;
+        public GameObject spawnedEliteEnemyPar;
+        public GameObject spawnedBossEnemyPar;
 
         #endregion
 
         #region Unity Event Methods
+        
+        public void ResetSpawn()
+        {
+            timeSinceLastWave = 0f;
+            currentWaveIndex = 0;
+            spawnTimer = 0f;
+            eliteTimer = 0f;
+            deadCounter = 0;
+        }
+
         protected override void Awake()
         {
             base.Awake();
@@ -46,15 +56,12 @@ namespace DiceSurvivor.Manager {
             epManager = EnemyPoolManager.Instance;
             //플레이어는 단 하나만 존재하므로
             playerPos = GameObject.FindGameObjectWithTag("Player").transform;
-
-            //하이어라키 상 오브젝트 추가
-            enemyPar = new GameObject("SpawnedEnemies");
-            eliteEnemyPar = new GameObject("SpawnedEliteEnemies");
-            bossEnemyPar = new GameObject("SpawnedBossEnemies");
         }
 
         void Update()
         {
+            //누락 체크
+            CheckMissing();
             // 게임 시간/웨이브 진행 체크
             timeSinceLastWave += Time.deltaTime;
             eliteTimer += Time.deltaTime;
@@ -68,6 +75,7 @@ namespace DiceSurvivor.Manager {
             spawnTimer += Time.deltaTime;
             if (spawnTimer >= spawnInterval && epManager.enemyPool.Count > 0)
             {
+                Debug.Log("적 소환");
                 //일반 적 스폰 로직 실행
                 SpawnEnemy(epManager.enemyDataArray[currentWaveIndex]);
                 spawnTimer = 0f;
@@ -79,6 +87,35 @@ namespace DiceSurvivor.Manager {
         }
         #endregion
         #region Custom Methods
+        
+        /// <summary>
+        /// 기존 오브젝트를 찾거나 새로 생성하는 메서드
+        /// </summary>
+        GameObject FindOrCreateObject(string name)
+        {
+            GameObject existingObj = GameObject.Find(name);
+            if (existingObj != null)
+            {
+                return existingObj;
+            }
+            else
+            {
+                return new GameObject(name);
+            }
+        }
+        
+        //누락 점검
+        void CheckMissing()
+        {
+            if (epManager == null) epManager = EnemyPoolManager.Instance;
+            if (playerPos == null) playerPos = GameObject.FindGameObjectWithTag("Player").transform;
+            
+            // 스폰된 적들을 관리할 부모 오브젝트들
+            if (spawnedEnemyPar == null) spawnedEnemyPar = FindOrCreateObject("SpawnedEnemies");
+            if (spawnedEliteEnemyPar == null) spawnedEliteEnemyPar = FindOrCreateObject("SpawnedEliteEnemies");
+            if (spawnedBossEnemyPar == null) spawnedBossEnemyPar = FindOrCreateObject("SpawnedBossEnemies");
+        }
+        
         //소환 가능 여부 점검
         public bool SpawnCondCheck(EnemyData enemyData)
         {
@@ -88,17 +125,20 @@ namespace DiceSurvivor.Manager {
                     if (epManager.enemyPool.Count > 0)
                     {
                         return true; // 풀에 여유가 있어야 소환 가능
-                    } break;
+                    }
+                    break;
                 case EnemyData.EnemyType.Elite:
                     if (epManager.eliteEnemyPool.Count > 0)
                     {
                         return true; // 풀에 여유가 있어야 소환 가능
-                    } break;
+                    }
+                    break;
                 case EnemyData.EnemyType.Boss:
                     if (epManager.bossEnemyPool.Count > 0)
                     {
                         return true; // 풀에 여유가 있어야 소환 가능
-                    } break;
+                    }
+                    break;
             }
 
             return false;
@@ -123,23 +163,28 @@ namespace DiceSurvivor.Manager {
             if (epManager.poolInitWaiting) return;
 
             GameObject enemyObj = epManager.SpawnEnemy(enemyData);
+            if(enemyObj == null)
+            {
+                Debug.LogWarning("적 소환 실패: 풀에서 적 오브젝트를 가져올 수 없음.");
+                return;
+            }
             if (enemyObj != null)
             {
                 // 플레이어 위치 기준으로 가장자리 무작위 위치로 소환 위치 결정
                 Vector3 spawnPos = GetSpawnPos();
                 enemyObj.transform.position = spawnPos;
 
-                // 적 타입에 맞춰서 부모 오브젝트 지정
+                // 적 타입에 맞춰서 부모 오브젝트 지정 (스폰된 적들용 부모)
                 switch (enemyData.type)
                 {
                     case EnemyData.EnemyType.Normal:
-                        enemyObj.transform.SetParent(enemyPar.transform);
+                        enemyObj.transform.SetParent(spawnedEnemyPar.transform);
                         break;
                     case EnemyData.EnemyType.Elite:
-                        enemyObj.transform.SetParent(eliteEnemyPar.transform);
+                        enemyObj.transform.SetParent(spawnedEliteEnemyPar.transform);
                         break;
                     case EnemyData.EnemyType.Boss:
-                        enemyObj.transform.SetParent(bossEnemyPar.transform);
+                        enemyObj.transform.SetParent(spawnedBossEnemyPar.transform);
                         break;
                 }
 
@@ -155,42 +200,42 @@ namespace DiceSurvivor.Manager {
             }
         }
 
-    Vector3 GetSpawnPos()
-    {
-        Camera mainCam = Camera.main;
-
-        // 화면 경계
-        Vector3 bottomLeft = playerPos.position - new Vector3(spawnDistance, 0, spawnDistance);
-        Vector3 topRight = playerPos.position + new Vector3(spawnDistance, 0, spawnDistance);
-
-        // 화면 경계 좌표
-        float leftBound = bottomLeft.x;
-        float rightBound = topRight.x;
-        float topBound = topRight.z;
-        float bottomBound = bottomLeft.z;
-        
-        // 4개 변 중 하나 랜덤 선택
-        int side = Random.Range(0, 4);
-        Vector3 spawnPos = Vector3.zero;
-        
-        switch (side)
+        Vector3 GetSpawnPos()
         {
-            case 0: // 아래쪽 변
-                spawnPos = new Vector3(Random.Range(leftBound, rightBound), playerPos.position.y, bottomBound);
-                break;
-            case 1: // 위쪽 변
-                spawnPos = new Vector3(Random.Range(leftBound, rightBound), playerPos.position.y, topBound);
-                break;
-            case 2: // 왼쪽 변
-                spawnPos = new Vector3(leftBound, playerPos.position.y, Random.Range(bottomBound, topBound));
-                break;
-            case 3: // 오른쪽 변
-                spawnPos = new Vector3(rightBound, playerPos.position.y, Random.Range(bottomBound, topBound));
-                break;
+            Camera mainCam = Camera.main;
+
+            // 화면 경계
+            Vector3 bottomLeft = playerPos.position - new Vector3(spawnDistance, 0, spawnDistance);
+            Vector3 topRight = playerPos.position + new Vector3(spawnDistance, 0, spawnDistance);
+
+            // 화면 경계 좌표
+            float leftBound = bottomLeft.x;
+            float rightBound = topRight.x;
+            float topBound = topRight.z;
+            float bottomBound = bottomLeft.z;
+            
+            // 4개 변 중 하나 랜덤 선택
+            int side = Random.Range(0, 4);
+            Vector3 spawnPos = Vector3.zero;
+            
+            switch (side)
+            {
+                case 0: // 아래쪽 변
+                    spawnPos = new Vector3(Random.Range(leftBound, rightBound), playerPos.position.y, bottomBound);
+                    break;
+                case 1: // 위쪽 변
+                    spawnPos = new Vector3(Random.Range(leftBound, rightBound), playerPos.position.y, topBound);
+                    break;
+                case 2: // 왼쪽 변
+                    spawnPos = new Vector3(leftBound, playerPos.position.y, Random.Range(bottomBound, topBound));
+                    break;
+                case 3: // 오른쪽 변
+                    spawnPos = new Vector3(rightBound, playerPos.position.y, Random.Range(bottomBound, topBound));
+                    break;
+            }
+            
+            return spawnPos;
         }
-        
-        return spawnPos;
-    }
 
         /// <summary>
         /// 웨이브 교체

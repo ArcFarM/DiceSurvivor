@@ -19,17 +19,21 @@ namespace DiceSurvivor.Manager {
                 //끄는 도중에는 반환하지 않는다
                 if (isQuitting) return null;
                 //스레드 동기화 - 다른 스레드에서 lockObject를 사용하고 있지 않다면 실행
-                lock (lockObject) {
+                lock (lockObject)
+                {
                     //인스턴스가 없다면 찾아서 할당
-                    if(instance == null) {
+                    if (instance == null)
+                    {
                         instance = FindFirstObjectByType<T>();
                         //찾아서 없으면 생성하고 이름을 T로 할당
-                        if(instance == null) {
+                        if (instance == null)
+                        {
                             GameObject singleton = new();
                             instance = singleton.AddComponent<T>();
                             singleton.name = typeof(T).ToString();
                         }
                     }
+                    
                 }
                 return instance;
             }
@@ -39,10 +43,16 @@ namespace DiceSurvivor.Manager {
         #region Unity Event Method
         //가상 메서드 : 상속받은 애들의 오버라이딩 지원
         protected virtual void Awake() {
-            if (instance == null) {
+            if (instance == null)
+            {
                 instance = this as T;
-                DontDestroyOnLoad(gameObject);
+                //DontDestroyOnLoad(gameObject);
                 OnSingletonAwake();
+            }
+            else if(instance != this)
+            {
+                Destroy(gameObject);
+                return;
             }
         }
 

@@ -19,6 +19,9 @@ public class GameOverUI : MonoBehaviour
     public void RestartGame()
     {
         Time.timeScale = 1f;
+        //적 스폰과 풀을 초기화
+        DiceSurvivor.Manager.EnemySpawnManager.Instance.ResetSpawn();
+        DiceSurvivor.Manager.EnemyPoolManager.Instance.ResetPool();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
