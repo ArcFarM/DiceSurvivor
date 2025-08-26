@@ -1,7 +1,7 @@
 using DiceSurvivor.Enemy;    
 using System.Collections.Generic;
-
 using UnityEngine;
+
 namespace DiceSurvivor.Weapon
 {
     /// <summary>
@@ -151,7 +151,7 @@ namespace DiceSurvivor.Weapon
                 if (!currentHitList.Contains(other.gameObject))
                 {
                     // 데미지 적용
-                    var enemy = other.GetComponent<WJEnemy>();
+                    var enemy = other.GetComponent<EnemyFinal>();
                     if (enemy != null)
                     {
                         enemy.TakeDamage(damage);

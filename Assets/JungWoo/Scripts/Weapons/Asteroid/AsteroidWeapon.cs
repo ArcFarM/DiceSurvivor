@@ -191,12 +191,12 @@ namespace DiceSurvivor.Weapon
             if (IsInstantReplace)
             {
                 CleanupAllAsteroidsInstant();
-                Debug.Log($"[Asteroid] Lv.{Weapon.level} - Duration 종료, 즉시 교체");
+                //Debug.Log($"[Asteroid] Lv.{Weapon.level} - Duration 종료, 즉시 교체");
             }
             else
             {
                 CleanupAllAsteroids();
-                Debug.Log($"[Asteroid] Duration 종료 - 소행성 비활성화");
+                //Debug.Log($"[Asteroid] Duration 종료 - 소행성 비활성화");
             }
         }
 
