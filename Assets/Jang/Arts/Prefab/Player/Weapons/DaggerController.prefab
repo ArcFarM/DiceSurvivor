@@ -48,7 +48,7 @@ MonoBehaviour:
   weaponName: Dagger
   weaponLevel: 1
   maxLevel: 8
-  sfxType: 6
+  sfxType: 15
   weaponType: 1
   currentWeaponStats:
     id: 

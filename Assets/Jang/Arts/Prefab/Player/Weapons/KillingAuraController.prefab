@@ -19769,7 +19769,7 @@ MonoBehaviour:
   weaponName: KillingAura
   weaponLevel: 1
   maxLevel: 8
-  sfxType: 14
+  sfxType: 16
   weaponType: 2
   currentWeaponStats:
     id: 

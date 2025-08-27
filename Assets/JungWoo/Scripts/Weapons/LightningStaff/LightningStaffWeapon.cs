@@ -47,37 +47,6 @@ namespace DiceSurvivor.Weapon
             // 비활성 번개 정리
             //CleanupInactiveBolts();
         }
-        /// <summary>
-        /// 무기 초기화
-        /// </summary>
-        protected override void InitializeWeapon()
-        {
-            //LoadWeaponData();
-        }
-
-        /// <summary>
-        /// 무기 데이터 로드
-        /// </summary>
-        /*protected override void LoadWeaponData()
-        {
-            var dataManager = DataTableManager.Instance;
-            if (dataManager == null)
-            {
-                Debug.LogError("[LightningStaff] DataTableManager를 찾을 수 없습니다!");
-                return;
-            }
-
-            var weaponStats = dataManager.GetSplashWeapon("LightningStaff", currentLevel);
-            if (weaponStats != null)
-            {
-                UpdateWeaponStats(weaponStats);
-                Debug.Log($"[LightningStaff] Lv.{currentLevel} 로드 - Damage: {damage}, ExplosionDamage: {explosionDamage}, Radius: {radius}");
-            }
-            else
-            {
-                Debug.LogError($"[LightningStaff] Lv.{currentLevel} 데이터를 찾을 수 없습니다!");
-            }
-        }*/
 
         /// <summary>
         /// 공격 수행

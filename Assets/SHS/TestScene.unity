@@ -360,6 +360,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GreatSword
       objectReference: {fileID: 0}
+    - target: {fileID: 305101255062719726, guid: d2f7749e402086b49b0903604a841082, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7770702973893158601, guid: d2f7749e402086b49b0903604a841082, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -423,7 +427,7 @@ GameObject:
   - component: {fileID: 818683253}
   - component: {fileID: 818683252}
   - component: {fileID: 818683251}
-  - component: {fileID: 818683250}
+  - component: {fileID: 818683256}
   m_Layer: 0
   m_Name: Enemy (1)
   m_TagString: Enemy
@@ -431,31 +435,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &818683250
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 818683249}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59fb5531b15379b449f10e1d02a75cda, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 0
-  moveSpeed: 3
-  damage: 10
-  attackRange: 1.5
-  attackCooldown: 1
-  currentMoveSpeed: 0
-  isSlowed: 0
-  target: {fileID: 1627650563}
-  detectionRange: 15
-  enemyRenderer: {fileID: 818683253}
-  isDead: 0
-  isAttacking: 0
 --- !u!54 &818683251
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -572,6 +551,34 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &818683256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 818683249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e42c1d9fe648a9418bbdb3fa951b7dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyData: {fileID: 11400000, guid: 67057c2c88f91e340b39f65240ef50bd, type: 2}
+  playerPos: {fileID: 1627650563}
+  border: 2
+  outTimeThreshold: 2
+  clusterThreshold: 2
+  currentHealth: 0
+  currentMoveSpeed: 0
+  damage: 10
+  attackRange: 1.5
+  attackCooldown: 1
+  target: {fileID: 1627650563}
+  detectionRange: 15
+  enemyRenderer: {fileID: 818683253}
+  isDead: 0
+  isAttacking: 0
+  isSlowed: 0
 --- !u!1 &1325710708
 GameObject:
   m_ObjectHideFlags: 0
@@ -678,7 +685,7 @@ GameObject:
   - component: {fileID: 1536733036}
   - component: {fileID: 1536733035}
   - component: {fileID: 1536733034}
-  - component: {fileID: 1536733033}
+  - component: {fileID: 1536733039}
   m_Layer: 0
   m_Name: Enemy (2)
   m_TagString: Enemy
@@ -686,31 +693,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1536733033
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1536733032}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59fb5531b15379b449f10e1d02a75cda, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 0
-  moveSpeed: 3
-  damage: 10
-  attackRange: 1.5
-  attackCooldown: 1
-  currentMoveSpeed: 0
-  isSlowed: 0
-  target: {fileID: 1627650563}
-  detectionRange: 15
-  enemyRenderer: {fileID: 1536733036}
-  isDead: 0
-  isAttacking: 0
 --- !u!54 &1536733034
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -827,6 +809,34 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1536733039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1536733032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e42c1d9fe648a9418bbdb3fa951b7dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyData: {fileID: 11400000, guid: 67057c2c88f91e340b39f65240ef50bd, type: 2}
+  playerPos: {fileID: 1627650563}
+  border: 2
+  outTimeThreshold: 2
+  clusterThreshold: 2
+  currentHealth: 0
+  currentMoveSpeed: 0
+  damage: 10
+  attackRange: 1.5
+  attackCooldown: 1
+  target: {fileID: 1627650563}
+  detectionRange: 15
+  enemyRenderer: {fileID: 1536733036}
+  isDead: 0
+  isAttacking: 0
+  isSlowed: 0
 --- !u!1 &1543778490
 GameObject:
   m_ObjectHideFlags: 0
@@ -1131,22 +1141,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 1705684566}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59fb5531b15379b449f10e1d02a75cda, type: 3}
+  m_Script: {fileID: 11500000, guid: 1e42c1d9fe648a9418bbdb3fa951b7dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  enemyData: {fileID: 11400000, guid: 67057c2c88f91e340b39f65240ef50bd, type: 2}
+  playerPos: {fileID: 1627650563}
+  border: 2
+  outTimeThreshold: 2
+  clusterThreshold: 2
   currentHealth: 0
-  moveSpeed: 3
+  currentMoveSpeed: 0
   damage: 10
   attackRange: 1.5
   attackCooldown: 1
-  currentMoveSpeed: 0
-  isSlowed: 0
   target: {fileID: 1627650563}
   detectionRange: 15
   enemyRenderer: {fileID: 1705684568}
   isDead: 0
   isAttacking: 0
+  isSlowed: 0
 --- !u!1 &1731908716
 GameObject:
   m_ObjectHideFlags: 0
