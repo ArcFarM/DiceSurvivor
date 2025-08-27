@@ -91,9 +91,6 @@ MonoBehaviour:
   - type: 9
     clips:
     - {fileID: 8300000, guid: 0c36bdab560809d4ebcb7d7089963f39, type: 3}
-  - type: 9
-    clips:
-    - {fileID: 8300000, guid: 0c36bdab560809d4ebcb7d7089963f39, type: 3}
   - type: 10
     clips:
     - {fileID: 8300000, guid: 7505575833aaaae4da071508a40b62fa, type: 3}
