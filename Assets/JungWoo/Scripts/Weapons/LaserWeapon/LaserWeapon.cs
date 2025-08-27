@@ -126,13 +126,13 @@ namespace DiceSurvivor.Weapon
             if (targetEnemy != null)
             {
                 fireDirection = (targetEnemy.transform.position - firePoint.position).normalized;
-                Debug.Log($"[Laser] 타겟 발견: {targetEnemy.name}");
+                //Debug.Log($"[Laser] 타겟 발견: {targetEnemy.name}");
             }
             else
             {
                 // 적이 없으면 플레이어 전방
                 fireDirection = firePoint.forward;
-                Debug.Log("[Laser] 타겟 없음 - 전방 발사");
+                //Debug.Log("[Laser] 타겟 없음 - 전방 발사");
             }
 
             // projectileCount만큼 연속 발사 (같은 방향)

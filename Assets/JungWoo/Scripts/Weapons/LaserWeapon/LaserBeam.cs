@@ -72,6 +72,8 @@ namespace DiceSurvivor.Weapon
             // 끝점: 플레이어 위치 + 방향 * 최대 거리
             Vector3 endPos = startPos + targetDirection * maxRange;
 
+            endPos.y = startPos.y;
+
             // 레이저 라인 설정
             lineRenderer.SetPosition(0, startPos);
             lineRenderer.SetPosition(1, endPos);
