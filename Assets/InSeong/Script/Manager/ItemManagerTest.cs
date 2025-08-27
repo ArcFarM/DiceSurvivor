@@ -60,13 +60,16 @@ namespace DiceSurvivor.Manager {
         //아이템 구매/레벨업
         public bool BuyItem(TestItem item)
         {
+            Debug.Log("상점 구매 가능 여부 점검");
             if (!ShopManagerTest.Instance.isBuyingMode) return false;
             if (!item.canIBuy) return false;
 
             string itemName = item.itemName;
             bool hasItem = GetItemLevel(itemName) > 0;
 
+            Debug.Log("아이템 보유 여부 점검");
             Debug.Log(hasItem);
+            Debug.Log("아이템 추가 가능 여부 점검");
             Debug.Log(CanAddItem(item.type));
             if (hasItem)
             {

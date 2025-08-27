@@ -22,6 +22,7 @@ namespace DiceSurvivor.UI
         {
             weaponSelections = GetComponentsInChildren<StartWeaponPanel>();
             AssignRandomWeapons();
+            Time.timeScale = 0f;
         }
         #endregion
 

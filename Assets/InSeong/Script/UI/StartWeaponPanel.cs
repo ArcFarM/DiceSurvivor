@@ -46,6 +46,7 @@ namespace DiceSurvivor.UI
             parent.RemoveUnused(weapon);
             parent.gameObject.SetActive(false);
             //DiceSurvivor.Manager.ShopManagerTest.Instance.OpenShop();
+            Time.timeScale = 1f;
         }
         #endregion
     }

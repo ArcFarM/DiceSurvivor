@@ -12,11 +12,11 @@ namespace DiceSurvivor.Weapon
         #region Variables
         //참조
         private Animator animator;
-        private AttackEffectSpawn attackEffect;        
+        private AttackEffectSpawn attackEffect;
 
         [Header("------Weapon-------")]
-        [SerializeField]private string weaponName = "Hammer";
-        [SerializeField]private int weaponLevel = 1;
+        [SerializeField] private string weaponName = "Hammer";
+        [SerializeField] private int weaponLevel = 1;
         [SerializeField] private int maxLevel = 8;
         [SerializeField] private SfxType sfxType;
         [SerializeField] private WeaponType weaponType;
@@ -24,7 +24,7 @@ namespace DiceSurvivor.Weapon
         private int currentLevel;
 
         [Header("------WeaponStat------")]
-        [SerializeField]public WeaponStats currentWeaponStats;
+        [SerializeField] public WeaponStats currentWeaponStats;
 
         public event System.Action<WeaponStats> OnWeaponLoaded;
         #endregion
@@ -36,7 +36,7 @@ namespace DiceSurvivor.Weapon
         private void Awake()
         {
             animator = this.GetComponent<Animator>();
-            attackEffect = this.GetComponentInChildren<AttackEffectSpawn>();            
+            attackEffect = this.GetComponentInChildren<AttackEffectSpawn>();
         }
 
         private void Start()
@@ -45,11 +45,11 @@ namespace DiceSurvivor.Weapon
             {
                 LoadMeleeWeaponData();
             }
-            else if(weaponType == WeaponType.RangedWeapon)
+            else if (weaponType == WeaponType.RangedWeapon)
             {
                 LoadRangedWeaponData();
             }
-            else if(weaponType == WeaponType.SplashWeapon)
+            else if (weaponType == WeaponType.SplashWeapon)
             {
                 LoadSplashWeaponData();
             }
@@ -78,19 +78,17 @@ namespace DiceSurvivor.Weapon
 
         private void OnEnable()
         {
-            if(animator != null)
+            if (animator != null)
             {
-                int dictLevel = ItemManager.Instance.GetItemLevel(weaponName);
-                if (weaponLevel < dictLevel) weaponLevel = dictLevel;
-                animator.SetBool("IsAttack", true); // 공격 애니메이션 트리거 실행
-            }            
+                GetData();
+            }
         }
         private void OnDisable()
         {
-            if(animator != null)
+            if (animator != null)
             {
                 animator.SetBool("IsAttack", false);
-            }            
+            }
         }
         #endregion
 
@@ -123,6 +121,13 @@ namespace DiceSurvivor.Weapon
         public void PlaySfx()
         {
             SfxManager.Instance.PlaySfx(sfxType);
+        }
+
+        public void GetData()
+        {
+            int dictLevel = ItemManager.Instance.GetItemLevel(weaponName);
+                if (weaponLevel < dictLevel) weaponLevel = dictLevel;
+                animator.SetBool("IsAttack", true); // 공격 애니메이션 트리거 실행
         }
         #endregion
     }

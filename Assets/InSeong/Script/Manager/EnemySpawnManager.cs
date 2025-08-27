@@ -75,7 +75,7 @@ namespace DiceSurvivor.Manager {
             spawnTimer += Time.deltaTime;
             if (spawnTimer >= spawnInterval && epManager.enemyPool.Count > 0)
             {
-                Debug.Log("적 소환");
+                //Debug.Log("적 소환");
                 //일반 적 스폰 로직 실행
                 SpawnEnemy(epManager.enemyDataArray[currentWaveIndex]);
                 spawnTimer = 0f;

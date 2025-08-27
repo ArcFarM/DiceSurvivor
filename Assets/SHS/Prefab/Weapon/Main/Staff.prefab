@@ -130,6 +130,7 @@ MonoBehaviour:
   weaponLevel: 1
   maxLevel: 8
   sfxType: 1
+  weaponType: 0
   currentWeaponStats:
     id: 
     name: 
@@ -277,7 +278,7 @@ GameObject:
   - component: {fileID: 8203854579098323121}
   m_Layer: 0
   m_Name: Staff
-  m_TagString: Untagged
+  m_TagString: WeaponController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

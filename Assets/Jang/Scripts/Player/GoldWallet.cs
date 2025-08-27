@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 
+
 public class GoldWallet : MonoBehaviour
 {
     public static GoldWallet Instance;
@@ -30,7 +31,7 @@ public class GoldWallet : MonoBehaviour
         return true;
     }
 
-    private void RefreshUI()
+    public void RefreshUI()
     {
         if (goldText != null)
             goldText.text = gold.ToString();

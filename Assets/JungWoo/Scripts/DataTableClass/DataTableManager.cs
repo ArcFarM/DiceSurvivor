@@ -31,12 +31,12 @@ namespace DiceSurvivor.Manager
         {
             if (jsonFile != null)
             {
-                //Debug.Log($"JSON 파일 로드 시작: {jsonFile.name}");
+                Debug.Log($"JSON 파일 로드 시작: {jsonFile.name}");
                 //Debug.Log($"JSON 내용 첫 500자: {jsonFile.text.Substring(0, Mathf.Min(500, jsonFile.text.Length))}");
 
                 dataTable = JsonDataParser.ParseJsonToDataTable(jsonFile.text);
 
-                // 로드된 데이터 확인
+                //로드된 데이터 확인
                 VerifyLoadedData();
                 //PrintAllWeapons();
             }
@@ -74,11 +74,11 @@ namespace DiceSurvivor.Manager
                 var weaponLevels = dataTable.MeleeWeapons.GetAllLevelsOfWeapon(weaponName);
                 if (weaponLevels != null)
                 {
-                    Debug.Log($"  레벨 수: {weaponLevels.Count}");
+                    //Debug.Log($"  레벨 수: {weaponLevels.Count}");
                 }
             }
 
-            Debug.Log("데이터 테이블 로드 및 검증 완료");
+            //Debug.Log("데이터 테이블 로드 및 검증 완료");
         }
 
         public DataTable GetDataTable()
@@ -91,7 +91,7 @@ namespace DiceSurvivor.Manager
         /// </summary>
         public WeaponStats GetMeleeWeapon(string weaponName, int level)
         {
-            Debug.Log($"GetMeleeWeapon 호출 - 무기: {weaponName}, 레벨: {level}");
+            //Debug.Log($"GetMeleeWeapon 호출 - 무기: {weaponName}, 레벨: {level}");
 
             if (dataTable == null)
             {
@@ -117,7 +117,7 @@ namespace DiceSurvivor.Manager
             }
             else
             {
-                Debug.Log($"{weaponName} Lv.{level} 데이터 찾음 - 데미지: {weapon.damage}, 쿨다운: {weapon.cooldown}");
+                //Debug.Log($"{weaponName} Lv.{level} 데이터 찾음 - 데미지: {weapon.damage}, 쿨다운: {weapon.cooldown}");
             }
 
             return weapon;

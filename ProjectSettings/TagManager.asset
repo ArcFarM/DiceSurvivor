@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Doodad
   - Customization
+  - WeaponController
   layers:
   - Default
   - TransparentFX

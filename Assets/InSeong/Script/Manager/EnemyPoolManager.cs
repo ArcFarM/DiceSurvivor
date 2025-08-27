@@ -152,7 +152,7 @@ namespace DiceSurvivor.Manager {
         /// </summary>
         public GameObject SpawnEnemy(EnemyData data)
         {
-            Debug.Log("적 소환 요청: " + data.type);
+            //Debug.Log("적 소환 요청: " + data.type);
             //인덱스 안 맞는 애들은 소환 전에 returnenemy를 실행
             // 해당 EnemyData의 풀에서 오브젝트 꺼내서 spawnmanager에 전달
             switch (data.type)
@@ -181,9 +181,9 @@ namespace DiceSurvivor.Manager {
             //Debug.Log("적 유효성 검사 및 반환");
             if (CheckValid(esManager.currentWaveIndex, dataArray, data))
             {
-                Debug.Log(pool.Count);
+                //Debug.Log(pool.Count);
                 GameObject result = pool.Dequeue();
-                Debug.Log("적 반환: " + result.name);
+                //Debug.Log("적 반환: " + result.name);
                 return result;
             }
             else
@@ -209,12 +209,12 @@ namespace DiceSurvivor.Manager {
         /// </summary>
         void InitializeEnemyPools()
         {
-            Debug.Log("풀 초기화 시작");
+            //Debug.Log("풀 초기화 시작");
             int currentWaveIndex = esManager.currentWaveIndex;
             //각 풀에 정해진 최대 수량 만큼의 오브젝트를 미리 생성
             for (int i = 0; i < maxEnemyCount; i++)
             {
-                Debug.Log("일반 적 풀에 집어넣기");
+                //Debug.Log("일반 적 풀에 집어넣기");
                 GameObject enemyObj = Instantiate(enemyDataArray[currentWaveIndex].body);
                 //각 DataArray에 할당된 body는 EnemyFinal 컴포넌트를 갖고 있고, 여기에 EnemyData 할당
                 if (enemyObj.TryGetComponent<EnemyFinal>(out EnemyFinal ea))
@@ -320,7 +320,7 @@ namespace DiceSurvivor.Manager {
             bool cond1 = index >= 0 && index < dataArray.Length;
             //조건 2 : 반환해야 할 객체의 EnemyData가 현재 웨이브에 맞는 데이터인가?
             bool cond2 = data != null && data.enemyName == dataArray[index].enemyName;
-            Debug.Log("조건 검사 : " + cond1 + " , " + cond2);
+            //Debug.Log("조건 검사 : " + cond1 + " , " + cond2);
             return cond1 && cond2;
         }
         #endregion
