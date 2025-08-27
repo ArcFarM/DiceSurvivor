@@ -16,10 +16,10 @@ MonoBehaviour:
   enemyName: 456
   body: {fileID: 8209244736742389843, guid: 2770322b6562e6c4a8d6285a60c3ff42, type: 3}
   type: 0
-  currHealth: 0
-  maxHealth: 0
-  damage: 0
-  speed: 5
+  currHealth: 10
+  maxHealth: 10
+  damage: 10
+  speed: 3
   armor: 0
   exp: 15
   gold: 15

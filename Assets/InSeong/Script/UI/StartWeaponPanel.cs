@@ -45,7 +45,7 @@ namespace DiceSurvivor.UI
             ItemManager.Instance.BuyItem(weapon);
             parent.RemoveUnused(weapon);
             parent.gameObject.SetActive(false);
-            DiceSurvivor.Manager.ShopManagerTest.Instance.OpenShop();
+            //DiceSurvivor.Manager.ShopManagerTest.Instance.OpenShop();
         }
         #endregion
     }
