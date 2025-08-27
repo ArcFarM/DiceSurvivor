@@ -1,5 +1,8 @@
+using Autodesk.Fbx;
+using DiceSurvivor.Audio;
 using DiceSurvivor.Enemy;
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace DiceSurvivor.Weapon 
 {
@@ -19,6 +22,7 @@ namespace DiceSurvivor.Weapon
         private float dotDuration;             // DoT 지속시간
         private float projectileSize;          // 크기
         private GameObject poisonGasPrefab;    // 독가스 프리팹
+        private Sound sound;                    //소리
 
         private float elapsedTime;             // 경과 시간
         private bool hasLanded;                // 착지 여부
@@ -27,6 +31,10 @@ namespace DiceSurvivor.Weapon
 
         public PoisonFlaskWeapon PF { get { return flaskWeapon; } set { flaskWeapon = value; } }
 
+        private void Start()
+        {
+
+        }
         /// <summary>
         /// 플라스크 초기화
         /// </summary>
@@ -104,8 +112,10 @@ namespace DiceSurvivor.Weapon
         {
             if (hasLanded) return;
             hasLanded = true;
-
+            
             Debug.Log($"[PoisonFlaskProjectile] 착지! 위치: {transform.position}");
+            SfxManager.Instance.PlaySfx(SfxType.PoisonFlask);
+
 
             // 1차 폭발 데미지
             ApplyExplosionDamage();

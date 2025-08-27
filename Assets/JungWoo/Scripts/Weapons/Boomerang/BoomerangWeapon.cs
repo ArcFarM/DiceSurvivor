@@ -101,6 +101,7 @@ namespace DiceSurvivor.Weapon
 
             // 부메랑 생성
             GameObject boomerang = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+            weaponController.PlaySfx();
 
             // BoomerangProjectile 컴포넌트 추가/설정
             BoomerangProjectile projectile = boomerang.GetComponent<BoomerangProjectile>();

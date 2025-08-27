@@ -45,13 +45,14 @@ namespace DiceSurvivor.Weapon
         /// </summary>
         private void LaunchFireball()
         {
+
             // 무작위 방향 생성
             float randomAngle = Random.Range(0f, 360f);
             Vector3 randomDirection = Quaternion.Euler(0, randomAngle, 0) * Vector3.forward;
 
             // 파이어볼 생성
             GameObject fireball = Instantiate(projectilePrefab, transform.position + Vector3.up * 0.5f, Quaternion.identity);
-           
+            weaponController.PlaySfx();
 
             // FireballProjectile 컴포넌트 추가/설정
             FireballProjectile projectile = fireball.GetComponent<FireballProjectile>();

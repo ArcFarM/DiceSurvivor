@@ -83,6 +83,7 @@ namespace DiceSurvivor.Weapon
         {
             // 차크람 생성
             GameObject Dagger = Instantiate(projectilePrefab, transform.position + offset + Vector3.up * 0.5f * spawnHeightOffset, Quaternion.identity);
+            weaponController.PlaySfx();
 
             // DaggerProjectile 컴포넌트 추가/설정
             DaggerProjectile projectile = Dagger.GetComponent<DaggerProjectile>();

@@ -19,6 +19,7 @@ namespace DiceSurvivor.Weapon
         [Header("Runtime")]
         private List<PoisonFlaskProjectile> activeFlasks;              // 활성 플라스크 목록
         private float attackTimer = 0f;                                // 공격 타이머
+        private float sfxTimer = 0f;                                   // 소리 타이머
 
         protected override void Awake()
         {
@@ -32,6 +33,7 @@ namespace DiceSurvivor.Weapon
 
         protected override void Update()
         {
+            
             // 쿨다운 체크
             attackTimer += Time.deltaTime;
 
@@ -108,8 +110,16 @@ namespace DiceSurvivor.Weapon
                 targetPosition = transform.position + direction * Weapon.range;
             }
 
+            
             // 플라스크 생성
             GameObject flask = Instantiate(projectilePrefab, transform.position + Vector3.up * 1f, Quaternion.identity);
+            sfxTimer += Time.deltaTime;
+            if (sfxTimer >= throwDuration)
+            {
+                weaponController.PlaySfx();
+                sfxTimer = 0f;
+            }
+
 
             // PoisonFlaskProjectile 컴포넌트 추가/설정
             PoisonFlaskProjectile projectile = flask.GetComponent<PoisonFlaskProjectile>();
