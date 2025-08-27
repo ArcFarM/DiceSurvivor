@@ -60,6 +60,11 @@ namespace DiceSurvivor.Player
             expToLevelUp = Mathf.Ceil(expToLevelUp * expGrowthRate); // 올림 처리
             UpdateLevelText();
             Debug.Log($"레벨업! 현재 레벨: {level}");
+            DiceSurvivor.Manager.ShopManagerTest smt = DiceSurvivor.Manager.ShopManagerTest.Instance;
+            if (smt.CheckCond())
+            {
+                smt.OpenShop();
+            }
         }
 
         // 경험치 텍스트 갱신 ("000/000  00%" 형식)

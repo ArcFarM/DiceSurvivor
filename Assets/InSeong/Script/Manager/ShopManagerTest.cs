@@ -3,7 +3,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using DiceSurvivor.Player;
 using TMPro;
-
+/*
+Final TODO : 스프라이트 씌우고 교체하기
+상점 열리게 하는거 ItemManager에서 하게 하기
+*/
 namespace DiceSurvivor.Manager {
 
     public class ShopManagerTest : SingletonManager<ShopManagerTest>
@@ -49,6 +52,10 @@ namespace DiceSurvivor.Manager {
         public TextMeshProUGUI goldText;
         public TextMeshProUGUI shopLevelText;
 
+        public Sprite closedLock;
+        public Sprite openedLock;
+
+
         public ItemDetailDisplay detailDisplay;
 
         //아이템 구매/삭제 모드 전환
@@ -92,7 +99,6 @@ namespace DiceSurvivor.Manager {
             FillItem();
             RefreshGold();
             GiveInterest();
-            Time.timeScale = 0.01f;
         }
 
         #endregion
@@ -108,6 +114,14 @@ namespace DiceSurvivor.Manager {
         {
             //상점 열기
             gameObject.SetActive(true);
+            Time.timeScale = 0.01f;
+        }
+
+        public void CloseShop()
+        {
+            //상점 닫기
+            gameObject.SetActive(false);
+            Time.timeScale = 1f;
         }
         //구매 버튼 눌렀을 때 실행
         public void BuyItem(ItemSlot slot)
@@ -230,10 +244,12 @@ namespace DiceSurvivor.Manager {
             if (isShopLocked)
             {
                 isShopLocked = false;
+                lockButton.image.sprite = openedLock;
             }
             else
             {
                 isShopLocked = true;
+                lockButton.image.sprite = closedLock;
             }
         }
 
