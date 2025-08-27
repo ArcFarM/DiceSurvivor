@@ -8,7 +8,8 @@ namespace DiceSurvivor.Player
     public class PlayerWeaponControl : MonoBehaviour
     {
         #region Variables
-        List<WeaponController> weapons = new List<WeaponController>();
+        [SerializeField] List<WeaponController> weapons = new List<WeaponController>();
+        [SerializeField] List<WeaponController> childweapons = new List<WeaponController>();
         float timer = 0;
         public float cooldown = 0.3f;
         #endregion
@@ -21,10 +22,17 @@ namespace DiceSurvivor.Player
         {
             foreach (Transform objects in gameObject.transform)
             {
-                var weapon = objects.gameObject.GetComponent<WeaponController>();
-                if (weapon != null)
+                GameObject item = objects.gameObject;
+                if (item.tag == "WeaponController")
                 {
-                    weapons.Add(weapon);
+                    WeaponController weapon = item.GetComponent<WeaponController>();
+                    WeaponController childWeapon = item.GetComponentInChildren<WeaponController>();
+                    if (weapon != null || childWeapon != null)
+                    {
+                        if (weapon != null) weapons.Add(weapon);
+                        else childweapons.Add(childWeapon);
+                    }
+                    //Debug.Log("무기 추가됨: " + item.name);
                 }
             }
         }
@@ -46,27 +54,26 @@ namespace DiceSurvivor.Player
             ItemManager im = ItemManager.Instance;
             foreach (WeaponController weapon in weapons)
             {
-                if (weapon.gameObject.activeSelf) continue;
-                if (weapon.currentWeaponStats.type == "MeleeWeapon")
+                foreach (var item in im.GetSubWeapons)
                 {
-                    if (im.GetMeleeWeapon != null && im.GetMeleeWeapon.itemName == weapon.currentWeaponStats.name)
+                    if (item != null && item.itemName == weapon.WeaponName)
                     {
                         weapon.gameObject.SetActive(true);
-                    }
-                }
-                else
-                {
-                    foreach (var item in im.GetSubWeapons)
-                    {
-                        if (item != null && item.itemName == weapon.currentWeaponStats.name)
-                        {
-                            weapon.gameObject.SetActive(true);
-                            break;
-                        }
+                        break;
                     }
                 }
             }
-            Debug.Log("활성화 된 무기 찾기 완료");
+            foreach (WeaponController weapon in childweapons)
+            {
+                GameObject parent = weapon.gameObject.transform.parent.gameObject;
+                if (parent.activeSelf) continue;
+                if (im.GetMeleeWeapon != null && im.GetMeleeWeapon.itemName == weapon.WeaponName)
+                {
+                    parent.SetActive(true);
+                    weapon.gameObject.SetActive(true);
+                }
+            }
+            //Debug.Log("활성화 된 무기 찾기 완료");
         }
         #endregion
     }

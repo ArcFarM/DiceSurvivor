@@ -351,7 +351,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 929111737033692181, guid: 6406f1cfb5d04b04e8d180a7f5e25e71, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -377,7 +377,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6646462373909999492, guid: e40decdca688b384babcb900715fa02b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8203854579098323121, guid: e40decdca688b384babcb900715fa02b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -438,7 +438,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 305101255062719726, guid: d2f7749e402086b49b0903604a841082, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7770702973893158601, guid: d2f7749e402086b49b0903604a841082, type: 3}
       propertyPath: m_LocalPosition.x
@@ -551,6 +551,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LightningController
       objectReference: {fileID: 0}
+    - target: {fileID: 2355521102938108038, guid: c9110a88179b7e74d815c59c52aebe53, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5026878986647331265, guid: c9110a88179b7e74d815c59c52aebe53, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -649,6 +653,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FireballController
       objectReference: {fileID: 0}
+    - target: {fileID: 3354198262835608422, guid: e4b2a3b9fb0e0f54d95ef0cec3448a3c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5170086445493744742, guid: e4b2a3b9fb0e0f54d95ef0cec3448a3c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -740,6 +748,10 @@ PrefabInstance:
     - target: {fileID: 89889279728174553, guid: fa5c7e08cac0e3146bba72fea57ea54d, type: 3}
       propertyPath: m_Name
       value: DaggerController
+      objectReference: {fileID: 0}
+    - target: {fileID: 89889279728174553, guid: fa5c7e08cac0e3146bba72fea57ea54d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7787130335570454511, guid: fa5c7e08cac0e3146bba72fea57ea54d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -909,7 +921,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 153670563746694090, guid: b28dc699ab77d554f942634e614fcb9c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5827254461320222767, guid: b28dc699ab77d554f942634e614fcb9c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1010,7 +1022,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 652219586928485137, guid: df451289fed1c924a863868f01803a39, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1068,6 +1080,10 @@ PrefabInstance:
     - target: {fileID: 3646202744888135946, guid: 7ae072b4c251bd240bc85e302090f60e, type: 3}
       propertyPath: m_Name
       value: PosionFlaskController
+      objectReference: {fileID: 0}
+    - target: {fileID: 3646202744888135946, guid: 7ae072b4c251bd240bc85e302090f60e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1167,6 +1183,10 @@ PrefabInstance:
     - target: {fileID: 357849303249777874, guid: b6df0517439073947af0dc13cede2787, type: 3}
       propertyPath: m_Name
       value: AsteroidController
+      objectReference: {fileID: 0}
+    - target: {fileID: 357849303249777874, guid: b6df0517439073947af0dc13cede2787, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2725569406066359634, guid: b6df0517439073947af0dc13cede2787, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1276,6 +1296,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: KillingAuraController
       objectReference: {fileID: 0}
+    - target: {fileID: 5313374231460063162, guid: 4ba5117f9a5de594aa04b105f744f3e6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6898944217312681547, guid: 4ba5117f9a5de594aa04b105f744f3e6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1335,7 +1359,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 258402840792481118, guid: 5e85ee5fbfe684245934291f7588d786, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9091455361217287748, guid: 5e85ee5fbfe684245934291f7588d786, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1393,6 +1417,10 @@ PrefabInstance:
     - target: {fileID: 620353444378687120, guid: 2b14b745827ac3341bcd844f6f03746a, type: 3}
       propertyPath: m_Name
       value: IclcleController
+      objectReference: {fileID: 0}
+    - target: {fileID: 620353444378687120, guid: 2b14b745827ac3341bcd844f6f03746a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2049604588864488862, guid: 2b14b745827ac3341bcd844f6f03746a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1622,6 +1650,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BoomerangController
       objectReference: {fileID: 0}
+    - target: {fileID: 7326904682046756753, guid: 1c635e67a6489b942b8cb4224874a79d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1669,6 +1701,10 @@ PrefabInstance:
     - target: {fileID: 4161052561625041928, guid: ef2430592af1f1143a376c0a48d1927f, type: 3}
       propertyPath: m_Name
       value: LaserController
+      objectReference: {fileID: 0}
+    - target: {fileID: 4161052561625041928, guid: ef2430592af1f1143a376c0a48d1927f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5239416544762690378, guid: ef2430592af1f1143a376c0a48d1927f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2291,6 +2327,10 @@ PrefabInstance:
     - target: {fileID: 5497853574866378042, guid: b72fb9fc194724042a62fd0c3206a7bd, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5878394307419849439, guid: b72fb9fc194724042a62fd0c3206a7bd, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 75.6001
       objectReference: {fileID: 0}
     - target: {fileID: 6344684167557233649, guid: b72fb9fc194724042a62fd0c3206a7bd, type: 3}
       propertyPath: m_AnchorMax.y
@@ -3253,7 +3293,7 @@ GameObject:
   m_Component:
   - component: {fileID: 706745954906728718}
   m_Layer: 0
-  m_Name: GrondCheck
+  m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

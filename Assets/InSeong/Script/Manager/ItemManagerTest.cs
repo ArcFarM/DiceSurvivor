@@ -42,6 +42,7 @@ namespace DiceSurvivor.Manager {
                 { TestItem.ItemType.Passive, maxPassives }
             };
         }
+
         #endregion
 
         #region Custom Methods
@@ -60,25 +61,28 @@ namespace DiceSurvivor.Manager {
         //아이템 구매/레벨업
         public bool BuyItem(TestItem item)
         {
-            Debug.Log("상점 구매 가능 여부 점검");
+            //Debug.Log(ShopManagerTest.Instance.isBuyingMode);
             if (!ShopManagerTest.Instance.isBuyingMode) return false;
+            //Debug.Log(item.canIBuy);
             if (!item.canIBuy) return false;
 
             string itemName = item.itemName;
             bool hasItem = GetItemLevel(itemName) > 0;
 
-            Debug.Log("아이템 보유 여부 점검");
-            Debug.Log(hasItem);
-            Debug.Log("아이템 추가 가능 여부 점검");
-            Debug.Log(CanAddItem(item.type));
+            //Debug.Log("아이템 보유 여부 점검");
+            //Debug.Log(hasItem);
+            //Debug.Log("아이템 추가 가능 여부 점검");
+            //Debug.Log(CanAddItem(item.type));
             if (hasItem)
             {
+                //Debug.Log("기존 아이템 레벨업 : " + item.itemName);
                 //기존 아이템 레벨업
                 if (GetItemLevel(itemName) >= item.maxLevel) return false;
                 itemLevelDict[itemName]++;
             }
             else
             {
+                //Debug.Log("새로운 아이템 추가 : " + item.itemName);
                 //새로운 아이템 추가
                 if (!CanAddItem(item.type)) return false;
                 AddNewItem(item);
@@ -122,6 +126,7 @@ namespace DiceSurvivor.Manager {
         //새로운 아이템 추가
         private void AddNewItem(TestItem item)
         {
+            //Debug.Log(item.type);
             switch (item.type)
             {
                 case TestItem.ItemType.MeleeWeapon:

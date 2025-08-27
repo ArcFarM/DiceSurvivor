@@ -470,7 +470,6 @@ MonoBehaviour:
   - {fileID: 7284638006762084522}
   - {fileID: 1332515733445686893}
   vanishChance: 5
-  currentGold: 0
   rerollButton: {fileID: 8857258669694034348}
   lockButton: {fileID: 8204013924830838475}
   vanishButton: {fileID: 958005568249362131}
@@ -3044,7 +3043,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4806805307343216616}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3776394802609969971}
+        m_TargetAssemblyTypeName: DiceSurvivor.Manager.ShopManagerTest, Assembly-CSharp
+        m_MethodName: OnLockButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6344327022706464528
 GameObject:
   m_ObjectHideFlags: 0

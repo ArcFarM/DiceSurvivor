@@ -42,9 +42,6 @@ namespace DiceSurvivor.Manager {
         //플레이어 참조
         PlayerController player;
 
-        //현재 보유 금액
-        [SerializeField]
-        GoldWallet currentGold;
         [Header("UI Elements")]
         public Button rerollButton;
         public Button lockButton;
@@ -71,7 +68,6 @@ namespace DiceSurvivor.Manager {
             base.Awake();
 
             player = GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<PlayerController>();
-            currentGold = GoldWallet.Instance;
             //딕셔너리 초기화
             currItemLevelDict = new Dictionary<string, int>();
             itemCosts = new Dictionary<TestItem.ItemType, int> {
@@ -82,7 +78,7 @@ namespace DiceSurvivor.Manager {
             im = ItemManager.Instance;
             dtm = DataTableManager.Instance;
             dt = DataTableManager.Instance.GetDataTable();
-            //currentGold.RefreshUI();
+            //GoldWallet.Instance.RefreshUI();
             //전체 아이템 정보 설정하기
             foreach (var item in testItems.items)
             {
@@ -97,8 +93,17 @@ namespace DiceSurvivor.Manager {
             //플레이어 보유 금액에 따라 이자 지급;
             consecutiveRerollCount = 0;
             FillItem();
-            currentGold.RefreshUI();
+            GoldWallet.Instance.RefreshUI();
             GiveInterest();
+            RefreshGold();
+        }
+
+        void OnDestroy()
+        {
+            foreach(TestItem item in testItems.items)
+            {
+                item.canIBuy = true;
+            }
         }
 
         #endregion
@@ -144,7 +149,7 @@ namespace DiceSurvivor.Manager {
             }
             else Debug.LogError("해당 아이템 구매 시도 시 오류 발생 : " + itemToBuy);
 
-            if (currentGold.GetGold() < itemCost) return;
+            if (GoldWallet.Instance.GetGold() < itemCost) return;
 
             // 2. 해당 아이템을 보유하고 있는 지 확인
             bool hasItem = im.GetItemLevel(itemToBuy.itemName) > 0;
@@ -168,9 +173,10 @@ namespace DiceSurvivor.Manager {
             }
 
             // 4. 구매 처리
-            currentGold.TrySpend(itemCost);
+            GoldWallet.Instance.TrySpend(itemCost);
             im.BuyItem(itemToBuy);
-            currentGold.RefreshUI();
+            GoldWallet.Instance.RefreshUI();
+            RefreshGold();
 
             //5. 아이템 칸 정보 갱신
             ClearItem(slot);
@@ -216,11 +222,12 @@ namespace DiceSurvivor.Manager {
         public void OnRerollButtonClicked()
         {
             int currRerollCost = rerollCost + (consecutiveRerollCount * 5);
-            if (currentGold.GetGold() >= currRerollCost)
+            if (GoldWallet.Instance.GetGold() >= currRerollCost)
             {
                 RerollShop();
-                currentGold.TrySpend(currRerollCost);
-                currentGold.RefreshUI();
+                GoldWallet.Instance.TrySpend(currRerollCost);
+                GoldWallet.Instance.RefreshUI();
+                RefreshGold();
                 consecutiveRerollCount++;
             }
 
@@ -244,12 +251,12 @@ namespace DiceSurvivor.Manager {
             if (isShopLocked)
             {
                 isShopLocked = false;
-                lockButton.image.sprite = openedLock;
+                lockButton.GetComponent<Image>().sprite = openedLock;
             }
             else
             {
                 isShopLocked = true;
-                lockButton.image.sprite = closedLock;
+                lockButton.GetComponent<Image>().sprite = closedLock;
             }
         }
 
@@ -411,7 +418,7 @@ namespace DiceSurvivor.Manager {
         }
 
         //골드 정보 갱신
-        void RefreshGold(bool isBuying)
+        void RefreshGold()
         {
             //UI에 표시
             if (goldText != null)
@@ -423,9 +430,9 @@ namespace DiceSurvivor.Manager {
         void GiveInterest()
         {
             //플레이어 보유 금액에 따라 이자 지급
-            int currGold = EnemySpawnManager.Instance.playerPos.gameObject.GetComponent<GoldWallet>().GetGold();
+            int currGold = GoldWallet.Instance.GetGold();
             int interest = (int)Mathf.Min(100, currGold / 10);
-            EnemySpawnManager.Instance.playerPos.gameObject.GetComponent<GoldWallet>().Add(interest);
+            GoldWallet.Instance.Add(interest);
             Debug.Log("이자 지급 : " + interest);
         }
         #endregion

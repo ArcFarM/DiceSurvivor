@@ -3,7 +3,6 @@ using DiceSurvivor.Audio;
 using DiceSurvivor.Manager;
 using DiceSurvivor.Type;
 using UnityEngine;
-using UnityEngine.Android;
 
 namespace DiceSurvivor.Weapon
 {
@@ -30,6 +29,7 @@ namespace DiceSurvivor.Weapon
         #endregion
 
         #region Properties
+        public string WeaponName { get { return weaponName; } }
         #endregion
 
         #region Unity Event Methods
@@ -37,6 +37,7 @@ namespace DiceSurvivor.Weapon
         {
             animator = this.GetComponent<Animator>();
             attackEffect = this.GetComponentInChildren<AttackEffectSpawn>();
+            this.gameObject.SetActive(false);
         }
 
         private void Start()
