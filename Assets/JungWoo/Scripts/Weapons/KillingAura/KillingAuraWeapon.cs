@@ -19,18 +19,13 @@ namespace DiceSurvivor.Weapon
         private List<GameObject> enemiesInAura = new List<GameObject>();
 
         private Dictionary<GameObject, Coroutine> activeDots = new Dictionary<GameObject, Coroutine>();
-
-        // DoT 타이머 (상시 작동)
-        //private float dotTimer = 0f;
-
-        // Aura 시각화용
-        private GameObject auraVisual;
         #endregion
 
         #region Unity Event Method
         protected override void Awake()
         {
             base.Awake();
+            weaponController.PlaySfx();
         }
 
         protected override void Update()
@@ -141,14 +136,6 @@ namespace DiceSurvivor.Weapon
         protected override void Attack()
         {
             ApplyDotToAllEnemiesInRange();
-        }
-
-        /// <summary>
-        /// 무기 초기화
-        /// </summary>
-        protected override void InitializeWeapon()
-        {
-            //SetupAuraCollider();
         }
 
         /// <summary>

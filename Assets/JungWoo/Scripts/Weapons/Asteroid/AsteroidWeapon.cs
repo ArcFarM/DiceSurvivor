@@ -117,13 +117,6 @@ namespace DiceSurvivor.Weapon
         }
 
         /// <summary>
-        /// 무기 초기화
-        /// </summary>
-        protected override void InitializeWeapon()
-        {
-            
-        }
-        /// <summary>
         /// 공격 수행 - 소행성 생성
         /// </summary>
         protected override void PerformAttack()
@@ -160,6 +153,7 @@ namespace DiceSurvivor.Weapon
         {
             // 소행성 생성 (플레이어가 아닌 월드 공간에 생성)
             GameObject asteroid = Instantiate(asteroidPrefab, player.position, Quaternion.identity);
+            weaponController.PlaySfx();
 
             asteroid.transform.SetParent(this.transform, worldPositionStays: true);
 

@@ -122,6 +122,7 @@ namespace DiceSurvivor.Weapon
 
             // 번개 생성
             GameObject lightning = Instantiate(lightningPrefab, strikePosition, Quaternion.identity);
+            weaponController.PlaySfx();
 
             // LightningBolt 컴포넌트 추가/설정
             LightningBolt bolt = lightning.GetComponent<LightningBolt>();

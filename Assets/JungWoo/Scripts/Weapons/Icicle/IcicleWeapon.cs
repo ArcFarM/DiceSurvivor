@@ -61,38 +61,6 @@ namespace DiceSurvivor.Weapon
         }
 
         /// <summary>
-        /// 무기 초기화
-        /// </summary>
-        protected override void InitializeWeapon()
-        {
-            //LoadWeaponData();
-        }
-
-        /// <summary>
-        /// 무기 데이터 로드
-        /// </summary>
-       /* protected override void LoadWeaponData()
-        {
-            var dataManager = DataTableManager.Instance;
-            if (dataManager == null)
-            {
-                Debug.LogError("[Icicle] DataTableManager를 찾을 수 없습니다!");
-                return;
-            }
-
-            var weaponStats = dataManager.GetSplashWeapon("Icicle", currentLevel);
-            if (weaponStats != null)
-            {
-                UpdateWeaponStats(weaponStats);
-                //Debug.Log($"[Icicle] Lv.{currentLevel} 로드 완료 - 폭발 데미지: {explosionDamage}, DoT: {dotDamage}, 지속시간: {duration}");
-            }
-            else
-            {
-                Debug.LogError($"[Icicle] Lv.{currentLevel} 데이터를 찾을 수 없습니다!");
-            }
-        }*/
-
-        /// <summary>
         /// 공격 수행
         /// </summary>
         protected override void PerformAttack()
@@ -117,6 +85,7 @@ namespace DiceSurvivor.Weapon
 
             // 고드름 생성
             GameObject icicle = Instantiate(iciclePrefab, startPosition, Quaternion.identity);
+            weaponController.PlaySfx();
 
             // IcicleProjectile 컴포넌트 추가/설정
             IcicleProjectile projectile = icicle.GetComponent<IcicleProjectile>();
