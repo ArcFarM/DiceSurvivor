@@ -111,7 +111,15 @@ namespace DiceSurvivor.Weapon
             }
 
             // 연발 발사 시작
-            burstFireCoroutine = StartCoroutine(BurstFire(farthestEnemy));
+            if (farthestEnemy != null)
+            {
+                burstFireCoroutine = StartCoroutine(BurstFire(farthestEnemy));
+            }
+            else
+            {
+                return;
+            }
+            
         }
 
         /// <summary>
@@ -157,8 +165,8 @@ namespace DiceSurvivor.Weapon
         private void LaunchLaserBeam(Vector3 direction)
         {
             // 레이저 빔 생성 (플레이어 위치에 생성)
-            GameObject laser = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
-            laser.name = $"LaserBeam_Flash_{System.DateTime.Now.Ticks}";
+            GameObject laser = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity); 
+            weaponController.PlaySfx();
 
             LaserBeam laserBeam = laser.GetComponent<LaserBeam>();
             if (laserBeam == null)
