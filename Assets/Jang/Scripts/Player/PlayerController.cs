@@ -34,6 +34,8 @@ namespace DiceSurvivor.Player
 
         // 체력은 PlayerHealth가 관리
         private PlayerHealth health;
+
+        [SerializeField] private float extraPadding = 0.1f;
         #endregion
 
         #region Unity Event Method
@@ -59,6 +61,10 @@ namespace DiceSurvivor.Player
             }
 
             mainCamera = Camera.main;
+
+            controller.stepOffset = 0.05f; // 기본(0.3~0.5)보다 훨씬 낮게
+            controller.slopeLimit = 45f;   // 과도한 경사 타기 방지(프로젝트에 맞게)
+            controller.skinWidth = 0.03f;  // 너무 크면 끼임/튐. 너무 낮아도 관통주의
         }
 
         private void Update()
@@ -170,6 +176,7 @@ namespace DiceSurvivor.Player
             yield return new WaitForSeconds(duration);
             Debug.Log("자석 효과 종료");
         }
+
         #endregion
     }
 }

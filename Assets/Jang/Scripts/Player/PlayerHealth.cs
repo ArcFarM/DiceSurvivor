@@ -209,6 +209,19 @@ namespace DiceSurvivor.Player
             if (animator != null && !string.IsNullOrEmpty(deathTrigger))
                 animator.SetTrigger(deathTrigger);
 
+            // 자식 오브젝트 전부 정지
+            foreach (Transform child in transform)
+            {
+                if (child.CompareTag("Customization"))
+                    continue; // 커스터마이징 파츠는 유지
+
+                child.gameObject.SetActive(false);
+            }
+
+            // 플레이어 본체의 움직임도 막기
+            GetComponent<PlayerController>().enabled = false;
+            GetComponent<CharacterController>().enabled = false;
+
             // 이후 흐름 코루틴
             StartCoroutine(DeathFlow());
         }

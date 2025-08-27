@@ -14,16 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyId: 
   enemyName: 
-  body: {fileID: 8209244736742389843, guid: 2770322b6562e6c4a8d6285a60c3ff42, type: 3}
+  body: {fileID: 8209244736742389843, guid: ffff5cc7f9fa1614d9b763234d5c4a35, type: 3}
   type: 2
-  health: 1
-  damage: 0
-  speed: 1
-  armor: 0
-  exp: 0
-  gold: 0
-  expDropRate: 0
-  goldDropRate: 0
+  currHealth: 100
+  maxHealth: 100
+  damage: 20
+  speed: 4
+  armor: 10
+  exp: 400
+  gold: 200
+  expDropRate: 1
+  goldDropRate: 1
   boxDropSwitch: 0
   eliteBuff: 
   extraReward: 

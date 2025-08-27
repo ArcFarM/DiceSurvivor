@@ -380,7 +380,7 @@ namespace DiceSurvivor.Enemy
             isDead = true;
             Debug.Log($"{name} 사망!");
 
-            //GrantRewards();
+            GrantRewards();
 
             StartCoroutine(DeathEffect());
         }
