@@ -8,7 +8,7 @@ namespace DiceSurvivor.Weapon
     /// </summary>
     public class PoisonFlaskProjectile : MonoBehaviour
     {
-        private PoisonFlaskWeapon? flaskWeapon = null;
+        private PoisonFlaskWeapon flaskWeapon = null;
         private Vector3 startPosition;         // 시작 위치
         private Vector3 targetPosition;        // 목표 위치
         private float arcHeight;               // 포물선 높이
@@ -161,7 +161,7 @@ namespace DiceSurvivor.Weapon
     /// </summary>
     public class PoisonDotZone : MonoBehaviour
     {
-        private PoisonFlaskWeapon? flaskWeapon = null;
+        private PoisonFlaskWeapon flaskWeapon = null;
         private float radius;
         private float dotDamage;
         private float duration;

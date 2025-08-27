@@ -9,7 +9,7 @@ namespace DiceSurvivor.Weapon
     /// </summary>
     public class DaggerProjectile : MonoBehaviour
     {
-        private DaggerWeapon? daggerWeapon = null;
+        private DaggerWeapon daggerWeapon = null;
         private Vector3 moveDirection;         // 이동 방향
         private float damage;                  // 데미지
         private float maxRange;                // 최대 거리

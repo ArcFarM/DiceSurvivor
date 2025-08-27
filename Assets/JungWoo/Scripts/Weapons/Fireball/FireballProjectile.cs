@@ -10,7 +10,7 @@ namespace DiceSurvivor.Weapon
     /// </summary>
     public class FireballProjectile : MonoBehaviour
     {
-        private FireballWeapon? fireballWeapon = null;
+        private FireballWeapon fireballWeapon = null;
         private Vector3 moveDirection;         // 이동 방향
         private float directDamage;           // 직접 데미지
         private float explosionDamage;        // 폭발 데미지

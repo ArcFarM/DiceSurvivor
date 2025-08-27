@@ -21,7 +21,7 @@ namespace DiceSurvivor.Manager
             get { return dataTable; }
         }
 
-        private void Awake()
+        protected override void Awake()
         {
             base.Awake();
             LoadDataTable();

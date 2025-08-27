@@ -17,7 +17,6 @@ namespace DiceSurvivor.Weapon
         private Vector3 targetDirection;         // 발사 시점의 방향 (고정)
         private float damage;
         private float maxRange;
-        private bool isPiercing;
         private GameObject hitEffectPrefab;
         private float initialWidth;
 
@@ -30,7 +29,6 @@ namespace DiceSurvivor.Weapon
 
         void Awake()
         {
-            isPiercing = true;
             lineRenderer = GetComponent<LineRenderer>();
             lineRenderer.enabled = false;
             damagedEnemies = new HashSet<EnemyFinal>();
@@ -43,7 +41,6 @@ namespace DiceSurvivor.Weapon
             targetDirection = direction.normalized;
             damage = dmg;
             maxRange = range;
-            isPiercing = true;  // 항상 관통
             hitEffectPrefab = hitPrefab;
             initialWidth = laserWidth;
             LA = la;

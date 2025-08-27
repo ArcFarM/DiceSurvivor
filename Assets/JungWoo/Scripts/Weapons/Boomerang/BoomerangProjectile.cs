@@ -9,7 +9,7 @@ namespace DiceSurvivor.Weapon
     /// </summary>
     public class BoomerangProjectile : MonoBehaviour
     {
-        private BoomerangWeapon? boomerangWeapon = null;
+        private BoomerangWeapon boomerangWeapon = null;
         private Transform owner;               // 발사한 플레이어
         private Vector3 initialDirection;      // 초기 방향
         private float damage;                  // 데미지
