@@ -84,7 +84,7 @@ namespace DiceSurvivor.Weapon
             }
             else
             {
-                effect = Instantiate(attackEffect, effectSpawnTransform.position, effectSpawnTransform.rotation, weaponHandler.transform); // 이펙트 생성
+                effect = Instantiate(attackEffect, effectSpawnTransform.position, effectSpawnTransform.rotation, effectSpawnTransform.transform); // 이펙트 생성
             }
                 
 
