@@ -78,7 +78,7 @@ namespace DiceSurvivor.Weapon
         // 공격 이펙트를 생성하는 함수 (애니메이션 이벤트에서 호출 가능)
         public void SpawnAttackEffect()
         {
-            effect = Instantiate(attackEffect, effectSpawnTransform.position, effectSpawnTransform.rotation); // 이펙트 생성
+            effect = Instantiate(attackEffect, effectSpawnTransform.position, effectSpawnTransform.rotation, weaponHandler.transform); // 이펙트 생성
 
             float destroyTime = (currentWeapon == MeleeWeaponType.Staff || currentWeapon == MeleeWeaponType.Spear)
                 ? 0.5f
