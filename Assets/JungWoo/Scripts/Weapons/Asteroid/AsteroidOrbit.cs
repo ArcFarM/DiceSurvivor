@@ -49,7 +49,7 @@ namespace DiceSurvivor.Weapon
             // 초기 위치 설정
             UpdatePosition();
 
-            Debug.Log($"[AsteroidOrbit] 초기화 완료 - 위치: {transform.position}");
+            //Debug.Log($"[AsteroidOrbit] 초기화 완료 - 위치: {transform.position}");
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace DiceSurvivor.Weapon
                         enemy.TakeDamage(damage);
                         hitEnemies.Add(other.gameObject);
 
-                        Debug.Log($"[AsteroidOrbit] {other.name}에게 데미지 {damage} 적용");
+                        //Debug.Log($"[AsteroidOrbit] {other.name}에게 데미지 {damage} 적용");
 
                     }
                 }

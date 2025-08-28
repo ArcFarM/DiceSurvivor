@@ -100,7 +100,7 @@ namespace DiceSurvivor.Weapon
                         damagedEnemies.Add(enemy);
                         CreateHitEffect(hit.point);
 
-                        Debug.Log($"[LaserBeam] 즉시 데미지: {enemy.name} (거리: {hit.distance:F1})");
+                        //Debug.Log($"[LaserBeam] 즉시 데미지: {enemy.name} (거리: {hit.distance:F1})");
                     }
                 }
             }

@@ -80,7 +80,7 @@ public class StageSelector : MonoBehaviour
         selectedNode = found ?? (startingNode ? startingNode : FindClosestNodeToPlayer());
         if (player && selectedNode) player.MoveTo(selectedNode.transform.position);
 
-        Debug.Log($"[선택 씬 시작] 시작 노드: {selectedNode?.name}");
+        //Debug.Log($"[선택 씬 시작] 시작 노드: {selectedNode?.name}");
     }
 
     void Update()
@@ -146,7 +146,7 @@ public class StageSelector : MonoBehaviour
         if (node != null && !node.IsUnlocked())
         {
             node.TriggerLockShake(); // 잠김: 흔들리고 종료
-            Debug.Log("[Enter] 잠금 상태라 입장 불가");
+            //Debug.Log("[Enter] 잠금 상태라 입장 불가");
             return;
         }
 

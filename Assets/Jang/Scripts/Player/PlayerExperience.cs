@@ -59,7 +59,7 @@ namespace DiceSurvivor.Player
             level++;
             expToLevelUp = Mathf.Ceil(expToLevelUp * expGrowthRate); // 올림 처리
             UpdateLevelText();
-            Debug.Log($"레벨업! 현재 레벨: {level}");
+            //Debug.Log($"레벨업! 현재 레벨: {level}");
             DiceSurvivor.Manager.ShopManagerTest smt = DiceSurvivor.Manager.ShopManagerTest.Instance;
             if (smt.CheckCond())
             {

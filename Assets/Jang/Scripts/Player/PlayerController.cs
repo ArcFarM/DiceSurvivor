@@ -84,7 +84,7 @@ namespace DiceSurvivor.Player
         {
             if (groundCheck == null)
             {
-                Debug.LogWarning("GroundCheck가 설정되지 않았습니다.");
+                //Debug.LogWarning("GroundCheck가 설정되지 않았습니다.");
                 return;
             }
 
@@ -157,10 +157,10 @@ namespace DiceSurvivor.Player
         {
             cachedSpeed = moveSpeed;
             moveSpeed *= multiplier;
-            Debug.Log($"이동속도 버프 시작: {moveSpeed}");
+            //Debug.Log($"이동속도 버프 시작: {moveSpeed}");
             yield return new WaitForSeconds(duration);
             moveSpeed = cachedSpeed;
-            Debug.Log("이동속도 버프 종료");
+            //Debug.Log("이동속도 버프 종료");
         }
 
         public void ActivateMagnet(float duration)
@@ -171,10 +171,10 @@ namespace DiceSurvivor.Player
 
         private IEnumerator MagnetRoutine(float duration)
         {
-            Debug.Log("자석 효과 시작");
+            //Debug.Log("자석 효과 시작");
             // TODO: 자석 범위 내 코인 끌어당기기 로직
             yield return new WaitForSeconds(duration);
-            Debug.Log("자석 효과 종료");
+            //Debug.Log("자석 효과 종료");
         }
 
         #endregion

@@ -58,7 +58,7 @@ public class CustomizeUI : MonoBehaviour
         PlayerPrefs.SetInt("SelectedMouthVariant", mouthIndex);
         PlayerPrefs.Save();
 
-        Debug.Log($"Saved: Head={headIndex}, Eye={eyeIndex}, Mouth={mouthIndex}");
+        //Debug.Log($"Saved: Head={headIndex}, Eye={eyeIndex}, Mouth={mouthIndex}");
 
         // 메인 메뉴로 복귀
         StartCoroutine(ReturnToMainMenu());

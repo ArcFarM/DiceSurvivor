@@ -143,7 +143,7 @@ namespace DiceSurvivor.Weapon
             if (Weapon.duration > 0f)
                 deactivateCoroutine = StartCoroutine(DeactivateAfterDuration());
 
-            Debug.Log($"[Asteroid] {Weapon.projectileCount}개 소행성 생성 - Duration: {Weapon.duration}초");
+            //Debug.Log($"[Asteroid] {Weapon.projectileCount}개 소행성 생성 - Duration: {Weapon.duration}초");
         }
 
         /// <summary>

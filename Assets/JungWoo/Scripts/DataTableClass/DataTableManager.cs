@@ -31,7 +31,7 @@ namespace DiceSurvivor.Manager
         {
             if (jsonFile != null)
             {
-                Debug.Log($"JSON 파일 로드 시작: {jsonFile.name}");
+                //Debug.Log($"JSON 파일 로드 시작: {jsonFile.name}");
                 //Debug.Log($"JSON 내용 첫 500자: {jsonFile.text.Substring(0, Mathf.Min(500, jsonFile.text.Length))}");
 
                 dataTable = JsonDataParser.ParseJsonToDataTable(jsonFile.text);
@@ -113,7 +113,7 @@ namespace DiceSurvivor.Manager
 
                 // 사용 가능한 무기 목록 출력
                 var availableWeapons = dataTable.MeleeWeapons.GetWeaponNames();
-                Debug.Log($"사용 가능한 무기: {string.Join(", ", availableWeapons)}");
+                //Debug.Log($"사용 가능한 무기: {string.Join(", ", availableWeapons)}");
             }
             else
             {
@@ -155,46 +155,46 @@ namespace DiceSurvivor.Manager
                 return;
             }
 
-            Debug.Log("=== 모든 무기 정보 ===");
+            //Debug.Log("=== 모든 무기 정보 ===");
 
             // 근접 무기
-            Debug.Log("--- 근접 무기 ---");
+            //Debug.Log("--- 근접 무기 ---");
             foreach (var weaponName in dataTable.MeleeWeapons.GetWeaponNames())
             {
                 var levels = dataTable.MeleeWeapons.GetAllLevelsOfWeapon(weaponName);
-                Debug.Log($"{weaponName}: {levels.Count}개 레벨");
+                //Debug.Log($"{weaponName}: {levels.Count}개 레벨");
             }
 
             // 원거리 무기
-            Debug.Log("--- 원거리 무기 ---");
+            //Debug.Log("--- 원거리 무기 ---");
             foreach (var weaponName in dataTable.RangedWeapons.GetWeaponNames())
             {
                 var levels = dataTable.RangedWeapons.GetAllLevelsOfWeapon(weaponName);
-                Debug.Log($"{weaponName}: {levels.Count}개 레벨");
+                //Debug.Log($"{weaponName}: {levels.Count}개 레벨");
             }
 
             // 범위 무기
-            Debug.Log("--- 범위 무기 ---");
+            //Debug.Log("--- 범위 무기 ---");
             foreach (var weaponName in dataTable.SplashWeapons.GetWeaponNames())
             {
                 var levels = dataTable.SplashWeapons.GetAllLevelsOfWeapon(weaponName);
-                Debug.Log($"{weaponName}: {levels.Count}개 레벨");
+                //Debug.Log($"{weaponName}: {levels.Count}개 레벨");
             }
 
             // 패시브 아이템
-            Debug.Log("--- 스텟 패시브 아이템  ---");
+            //Debug.Log("--- 스텟 패시브 아이템  ---");
             foreach (var passiveName in dataTable.StatPassives.GetPassiveNames())
             {
                 var levels = dataTable.StatPassives.GetAllLevelsOfPassive(passiveName);
-                Debug.Log($"{passiveName}: {levels.Count}개 레벨");
+                //Debug.Log($"{passiveName}: {levels.Count}개 레벨");
             }
 
             // 패시브 아이템
-            Debug.Log("---Revive 패시브 아이템  ---");
+            //Debug.Log("---Revive 패시브 아이템  ---");
             foreach (var passiveName in dataTable.RevivePassives.GetPassiveNames())
             {
                 var levels = dataTable.RevivePassives.GetAllLevelsOfPassive(passiveName);
-                Debug.Log($"{passiveName}: {levels.Count}개 레벨");
+                //Debug.Log($"{passiveName}: {levels.Count}개 레벨");
             }
         }
     }

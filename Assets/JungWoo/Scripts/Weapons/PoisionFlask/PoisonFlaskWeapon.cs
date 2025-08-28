@@ -141,7 +141,7 @@ namespace DiceSurvivor.Weapon
 
             activeFlasks.Add(projectile);
 
-            Debug.Log($"[PoisonFlask] 투척! 타겟: {(target != null ? target.name : "없음")}");
+            //Debug.Log($"[PoisonFlask] 투척! 타겟: {(target != null ? target.name : "없음")}");
         }
 
         /// <summary>

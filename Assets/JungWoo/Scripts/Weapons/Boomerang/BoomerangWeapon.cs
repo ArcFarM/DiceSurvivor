@@ -66,7 +66,7 @@ namespace DiceSurvivor.Weapon
 
             if (closestEnemy == null)
             {
-                Debug.Log("[Boomerang] 타겟이 없습니다.");
+                //Debug.Log("[Boomerang] 타겟이 없습니다.");
                 return;
             }
 
@@ -136,7 +136,7 @@ namespace DiceSurvivor.Weapon
 
             activeBoomerangs.Add(projectile);
 
-            Debug.Log($"[Boomerang] 발사! 타겟: {(target != null ? target.name : "없음")}");
+            //Debug.Log($"[Boomerang] 발사! 타겟: {(target != null ? target.name : "없음")}");
         }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace DiceSurvivor.Weapon
         public override void LevelUp()
         {
             base.LevelUp();
-            Debug.Log($"[Boomerang] 레벨업! 현재 레벨: {Weapon.level}");
+            //Debug.Log($"[Boomerang] 레벨업! 현재 레벨: {Weapon.level}");
         }
     }
 }

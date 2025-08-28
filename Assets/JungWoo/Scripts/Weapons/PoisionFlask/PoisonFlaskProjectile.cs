@@ -1,8 +1,6 @@
-using Autodesk.Fbx;
 using DiceSurvivor.Audio;
 using DiceSurvivor.Enemy;
 using UnityEngine;
-using UnityEngine.Audio;
 
 namespace DiceSurvivor.Weapon 
 {
@@ -62,7 +60,7 @@ namespace DiceSurvivor.Weapon
             // 크기 설정
             transform.localScale = Vector3.one * projectileSize;
 
-            Debug.Log($"[PoisonFlaskProjectile] 초기화 - 폭발: {explosionDamage}, DoT: {dotDamage}");
+            //Debug.Log($"[PoisonFlaskProjectile] 초기화 - 폭발: {explosionDamage}, DoT: {dotDamage}");
         }
 
         void Update()
@@ -113,7 +111,7 @@ namespace DiceSurvivor.Weapon
             if (hasLanded) return;
             hasLanded = true;
             
-            Debug.Log($"[PoisonFlaskProjectile] 착지! 위치: {transform.position}");
+            //Debug.Log($"[PoisonFlaskProjectile] 착지! 위치: {transform.position}");
             SfxManager.Instance.PlaySfx(SfxType.PoisonFlask);
 
 
@@ -136,7 +134,7 @@ namespace DiceSurvivor.Weapon
             int enemyLayer = LayerMask.GetMask("Enemy");
             Collider[] enemies = Physics.OverlapSphere(transform.position, explosionRadius, enemyLayer);
 
-            Debug.Log($"[PoisonFlaskProjectile] 폭발! 범위: {explosionRadius}, 적: {enemies.Length}명");
+            //Debug.Log($"[PoisonFlaskProjectile] 폭발! 범위: {explosionRadius}, 적: {enemies.Length}명");
 
             foreach (var enemyCollider in enemies)
             {
@@ -144,7 +142,7 @@ namespace DiceSurvivor.Weapon
                 if (enemy != null)
                 {
                     flaskWeapon.ApplyDamage(enemy.gameObject,explosionDamage);
-                    Debug.Log($"[PoisonFlaskProjectile] 폭발 데미지: {enemyCollider.name} - {explosionDamage}");
+                    //Debug.Log($"[PoisonFlaskProjectile] 폭발 데미지: {enemyCollider.name} - {explosionDamage}");
                 }
             }
 
@@ -161,7 +159,7 @@ namespace DiceSurvivor.Weapon
             PoisonDotZone zone = poisonZone.AddComponent<PoisonDotZone>();
             zone.Initialize(explosionRadius, dotDamage, dotDuration, projectileSize, poisonGasPrefab, PF);
 
-            Debug.Log($"[PoisonFlaskProjectile] 독 구역 생성 - DoT: {dotDamage}/초, 지속: {dotDuration}초");
+            //Debug.Log($"[PoisonFlaskProjectile] 독 구역 생성 - DoT: {dotDamage}/초, 지속: {dotDuration}초");
         }
 
     }
@@ -244,10 +242,10 @@ namespace DiceSurvivor.Weapon
                 // 파티클 재생
                 ps.Play();
 
-                Debug.Log($"[PoisonDotZone] ParticleSystem 설정 - StartLifetime: {duration}초, Scale: {projectileSize}");
+                //Debug.Log($"[PoisonDotZone] ParticleSystem 설정 - StartLifetime: {duration}초, Scale: {projectileSize}");
             }
 
-            Debug.Log($"[PoisonDotZone] 독가스 프리팹 생성 - Scale: {gasEffect.transform.localScale}, Duration: {duration}초");
+            //Debug.Log($"[PoisonDotZone] 독가스 프리팹 생성 - Scale: {gasEffect.transform.localScale}, Duration: {duration}초");
         }
 
         void Update()
@@ -282,7 +280,7 @@ namespace DiceSurvivor.Weapon
 
             if (enemies.Length > 0)
             {
-                Debug.Log($"[PoisonDotZone] {enemies.Length}명에게 DoT 데미지 {dotDamage} 적용");
+                //Debug.Log($"[PoisonDotZone] {enemies.Length}명에게 DoT 데미지 {dotDamage} 적용");
             }
         }
     }

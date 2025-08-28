@@ -121,7 +121,7 @@ namespace DiceSurvivor.Weapon
             {
                 weaponType = WeaponType.MeleeWeapon;
                 weaponTypeString = "Wp_Me";
-                Debug.Log($"[WeaponController] {weaponName}은(는) 근접 무기입니다.");
+                //Debug.Log($"[WeaponController] {weaponName}은(는) 근접 무기입니다.");
                 return true;
             }
 
@@ -131,7 +131,7 @@ namespace DiceSurvivor.Weapon
             {
                 weaponType = WeaponType.RangedWeapon;
                 weaponTypeString = "Wp_Ra";
-                Debug.Log($"[WeaponController] {weaponName}은(는) 원거리 무기입니다.");
+                //Debug.Log($"[WeaponController] {weaponName}은(는) 원거리 무기입니다.");
                 return true;
             }
 
@@ -141,7 +141,7 @@ namespace DiceSurvivor.Weapon
             {
                 weaponType = WeaponType.SplashWeapon;
                 weaponTypeString = "Wp_Sp";
-                Debug.Log($"[WeaponController] {weaponName}은(는) 범위 무기입니다.");
+                //Debug.Log($"[WeaponController] {weaponName}은(는) 범위 무기입니다.");
                 return true;
             }
 
@@ -194,7 +194,7 @@ namespace DiceSurvivor.Weapon
             if (currentWeaponStats != null)
             {
                 OnWeaponLoaded?.Invoke(currentWeaponStats);
-                Debug.Log($"[Melee] {weaponName} Lv.{weaponLevel} 로드 완료");
+                //Debug.Log($"[Melee] {weaponName} Lv.{weaponLevel} 로드 완료");
             }
             else
             {
@@ -211,7 +211,7 @@ namespace DiceSurvivor.Weapon
             if (currentWeaponStats != null)
             {
                 OnWeaponLoaded?.Invoke(currentWeaponStats);
-                Debug.Log($"[Ranged] {weaponName} Lv.{weaponLevel} 로드 완료");
+                //Debug.Log($"[Ranged] {weaponName} Lv.{weaponLevel} 로드 완료");
             }
             else
             {
@@ -228,7 +228,7 @@ namespace DiceSurvivor.Weapon
             if (currentWeaponStats != null)
             {
                 OnWeaponLoaded?.Invoke(currentWeaponStats);
-                Debug.Log($"[Splash] {weaponName} Lv.{weaponLevel} 로드 완료");
+                //Debug.Log($"[Splash] {weaponName} Lv.{weaponLevel} 로드 완료");
             }
             else
             {
@@ -241,27 +241,27 @@ namespace DiceSurvivor.Weapon
         /// </summary>
         private void LogWeaponStats()
         {
-            Debug.Log($"===== {weaponName} Lv.{weaponLevel} 속성 =====");
-            Debug.Log($"타입: {weaponTypeString}");
-            Debug.Log($"데미지: {currentWeaponStats.damage}");
-            Debug.Log($"쿨다운: {currentWeaponStats.cooldown}");
+            //Debug.Log($"===== {weaponName} Lv.{weaponLevel} 속성 =====");
+            //Debug.Log($"타입: {weaponTypeString}");
+            //Debug.Log($"데미지: {currentWeaponStats.damage}");
+            //Debug.Log($"쿨다운: {currentWeaponStats.cooldown}");
 
             if (currentWeaponStats.range > 0)
-                Debug.Log($"사거리: {currentWeaponStats.range}");
+                //Debug.Log($"사거리: {currentWeaponStats.range}");
 
             if (currentWeaponStats.projectileCount > 0)
-                Debug.Log($"투사체 수: {currentWeaponStats.projectileCount}");
+                //Debug.Log($"투사체 수: {currentWeaponStats.projectileCount}");
 
             if (currentWeaponStats.projectileSpeed > 0)
-                Debug.Log($"투사체 속도: {currentWeaponStats.projectileSpeed}");
+                //Debug.Log($"투사체 속도: {currentWeaponStats.projectileSpeed}");
 
             if (currentWeaponStats.explosionRadius > 0)
-                Debug.Log($"폭발 반경: {currentWeaponStats.explosionRadius}");
+                //Debug.Log($"폭발 반경: {currentWeaponStats.explosionRadius}");
 
             if (currentWeaponStats.isPiercing)
-                Debug.Log($"관통: {currentWeaponStats.isPiercing}");
+                //Debug.Log($"관통: {currentWeaponStats.isPiercing}");
 
-            Debug.Log("================================");
+            //Debug.Log("================================");
         }
 
         /// <summary>
@@ -307,11 +307,11 @@ namespace DiceSurvivor.Weapon
             {
                 weaponLevel++;
                 UpdateWeaponData();
-                Debug.Log($"[WeaponController] {weaponName} 레벨업! 현재 레벨: {weaponLevel}");
+                //Debug.Log($"[WeaponController] {weaponName} 레벨업! 현재 레벨: {weaponLevel}");
             }
             else
             {
-                Debug.Log($"[WeaponController] {weaponName}은(는) 최대 레벨입니다.");
+                //Debug.Log($"[WeaponController] {weaponName}은(는) 최대 레벨입니다.");
             }
         }
         #endregion

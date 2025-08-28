@@ -201,7 +201,7 @@ namespace DiceSurvivor.Player
 
             StopBlinkImmediate();
             SetVisible(true);
-            Debug.Log("[PlayerHealth] Player Died");
+            //Debug.Log("[PlayerHealth] Player Died");
 
             // 플레이어가 죽을 때 SFX
             SfxManager.Instance.PlaySfx(SfxType.PlayerDeath);

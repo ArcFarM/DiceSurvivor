@@ -128,7 +128,7 @@ namespace DiceSurvivor.PlayerStats
         {
             playerHP += amount;
             playerHP = Mathf.Min(playerHP, 100f);
-            Debug.Log($"HP 회복: {amount} → 현재 HP: {playerHP}");
+            //Debug.Log($"HP 회복: {amount} → 현재 HP: {playerHP}");
         }
 
         public void AddCoins(int amount)
@@ -148,12 +148,12 @@ namespace DiceSurvivor.PlayerStats
         {
             currentSpeed = moveSpeed;
             moveSpeed *= multiplier;
-            Debug.Log($"이동속도 버프 시작: {moveSpeed}");
+            //Debug.Log($"이동속도 버프 시작: {moveSpeed}");
 
             yield return new WaitForSeconds(duration);
 
             moveSpeed = currentSpeed;
-            Debug.Log("이동속도 버프 종료");
+            //Debug.Log("이동속도 버프 종료");
         }
 
         public void ActivateMagnet(float duration)
@@ -166,10 +166,10 @@ namespace DiceSurvivor.PlayerStats
 
         private IEnumerator MagnetRoutine(float duration)
         {
-            Debug.Log("자석 효과 시작");
+            //Debug.Log("자석 효과 시작");
             // 자석 범위 내 코인 끌어당기기 구현 가능
             yield return new WaitForSeconds(duration);
-            Debug.Log("자석 효과 종료");
+            //Debug.Log("자석 효과 종료");
         }
 
         public void TakeDamage(float damage)
@@ -177,12 +177,12 @@ namespace DiceSurvivor.PlayerStats
             if (isDead) return;
 
             playerHP -= damage;
-            Debug.Log("플레이어 HP: " + playerHP);
+            //Debug.Log("플레이어 HP: " + playerHP);
         }
 
         private void Die()
         {
-            Debug.Log("플레이어 사망");
+            //Debug.Log("플레이어 사망");
             Time.timeScale = 0f;
 
             /*GameOverUI gameOver = FindObjectOfType<GameOverUI>();

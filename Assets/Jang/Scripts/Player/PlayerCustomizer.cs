@@ -18,7 +18,7 @@ public class PlayerCustomizer : MonoBehaviour
         int eyeIndex = PlayerPrefs.GetInt("SelectedEyeVariant", 0);
         int mouthIndex = PlayerPrefs.GetInt("SelectedMouthVariant", 0);
 
-        Debug.Log($"[PlayerCustomizer] Loaded: Head={headIndex}, Eye={eyeIndex}, Mouth={mouthIndex}");
+        //Debug.Log($"[PlayerCustomizer] Loaded: Head={headIndex}, Eye={eyeIndex}, Mouth={mouthIndex}");
 
         ApplyPart(headProps, headIndex);
         ApplyPart(eyes, eyeIndex);

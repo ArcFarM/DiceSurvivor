@@ -57,7 +57,7 @@ namespace DiceSurvivor.Weapon
 
 
 
-            Debug.Log($"[FireballProjectile] 초기화 - 직접: {directDamage}, 폭발: {explosionDamage}, DoT: {dotDamage}");
+            //Debug.Log($"[FireballProjectile] 초기화 - 직접: {directDamage}, 폭발: {explosionDamage}, DoT: {dotDamage}");
         }
 
         void Update()
@@ -93,7 +93,7 @@ namespace DiceSurvivor.Weapon
                 if (enemy != null)
                 {
                     fireballWeapon.ApplyDamage(enemy.gameObject, directDamage);
-                    Debug.Log($"[FireballProjectile] 직접 타격: {other.name} - 데미지: {directDamage}");
+                    //Debug.Log($"[FireballProjectile] 직접 타격: {other.name} - 데미지: {directDamage}");
                 }
 
                 // 충돌 위치에서 폭발
@@ -109,7 +109,7 @@ namespace DiceSurvivor.Weapon
             if (hasExploded) return;
             hasExploded = true;
 
-            Debug.Log($"[FireballProjectile] 폭발! 위치: {position}, 범위: {explosionRadius}");
+            //Debug.Log($"[FireballProjectile] 폭발! 위치: {position}, 범위: {explosionRadius}");
 
             // 폭발 범위 내 적에게 데미지
             int enemyLayer = LayerMask.GetMask("Enemy");
@@ -122,7 +122,7 @@ namespace DiceSurvivor.Weapon
                 {
                     // 폭발 데미지
                     fireballWeapon.ApplyDamage(enemy.gameObject,explosionDamage);
-                    Debug.Log($"[FireballProjectile] 폭발 데미지: {enemyCollider.name} - {explosionDamage}");
+                    //Debug.Log($"[FireballProjectile] 폭발 데미지: {enemyCollider.name} - {explosionDamage}");
                 }
             }
 
@@ -157,7 +157,7 @@ namespace DiceSurvivor.Weapon
                 Destroy(effect, dotDuration);
             }
 
-            Debug.Log($"[FireballProjectile] DoT 구역 생성 - 데미지: {dotDamage}/초, 지속: {dotDuration}초");
+            //Debug.Log($"[FireballProjectile] DoT 구역 생성 - 데미지: {dotDamage}/초, 지속: {dotDuration}초");
         }
 
         /// <summary>

@@ -254,7 +254,7 @@ namespace DiceSurvivor.Enemy
             if (Time.time - lastAttackTime < attackCooldown) return;
 
             isAttacking = true;
-            Debug.Log($"{name}이(가) 플레이어를 공격! 데미지: {damage}");
+            //Debug.Log($"{name}이(가) 플레이어를 공격! 데미지: {damage}");
             
             if (target.TryGetComponent<DiceSurvivor.Player.PlayerController>(out var pc))
             {
@@ -281,7 +281,7 @@ namespace DiceSurvivor.Enemy
             if (Vector3.Distance(transform.position, target.position) <= attackRange)
             {
                 // 실제 구현 시 플레이어에게 copiedData.damage만큼 피해
-                Debug.Log($"보스 접촉 피해! 데미지: {copiedData.damage}");
+                //Debug.Log($"보스 접촉 피해! 데미지: {copiedData.damage}");
             }
         }
 
@@ -313,7 +313,7 @@ namespace DiceSurvivor.Enemy
 
             if (currentHealth <= 0)
             {
-                Debug.Log($"[Enemy] {gameObject.name} 체력 0 도달 - 사망 처리");
+                //Debug.Log($"[Enemy] {gameObject.name} 체력 0 도달 - 사망 처리");
                 Die();
             }
         }
@@ -369,7 +369,7 @@ namespace DiceSurvivor.Enemy
                 enemyRenderer.material.color = originalColor;
             }
 
-            Debug.Log($"{name} 감속 해제됨");
+            //Debug.Log($"{name} 감속 해제됨");
         }
 
         // WJEnemy의 Die (수정: 풀 시스템 연동)
@@ -378,7 +378,7 @@ namespace DiceSurvivor.Enemy
             if (isDead) return;
 
             isDead = true;
-            Debug.Log($"{name} 사망!");
+            //Debug.Log($"{name} 사망!");
 
             GrantRewards();
 
@@ -411,7 +411,7 @@ namespace DiceSurvivor.Enemy
         public void Heal(float healAmount)
         {
             currentHealth = Mathf.Min(currentHealth + healAmount, copiedData.maxHealth);
-            Debug.Log($"{name} 체력 회복: {healAmount}, 현재 체력: {currentHealth}/{copiedData.maxHealth}");
+            //Debug.Log($"{name} 체력 회복: {healAmount}, 현재 체력: {currentHealth}/{copiedData.maxHealth}");
         }
 
         // WJEnemy의 GetHealthPercentage
@@ -530,7 +530,7 @@ namespace DiceSurvivor.Enemy
                 if (exp != null)
                 {
                     exp.GainExp(expReward);
-                    Debug.Log($"[Reward] EXP +{expReward}");
+                    //Debug.Log($"[Reward] EXP +{expReward}");
                 }
             }
 
@@ -545,7 +545,7 @@ namespace DiceSurvivor.Enemy
                 if (player != null)
                 {
                     player.AddCoins(goldReward);
-                    Debug.Log($"[Reward] GOLD +{goldReward}");
+                    //Debug.Log($"[Reward] GOLD +{goldReward}");
                 }
             }
         }

@@ -38,7 +38,7 @@ namespace DiceSurvivor.Weapon
 
             if (attackTimer >= 0.5)
             {
-                Debug.Log($"cooldown:{cooldown}");
+                //Debug.Log($"cooldown:{cooldown}");
                 Attack();
                 attackTimer = 0f;
             }

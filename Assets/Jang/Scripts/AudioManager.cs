@@ -68,7 +68,7 @@ using DiceSurvivor.Manager;
             //찾았는지 체크
             if(sound == null)
             {
-                Debug.Log("Cannot Find " + name + " Sound");
+                //Debug.Log("Cannot Find " + name + " Sound");
                 return;
             }
 
@@ -93,7 +93,7 @@ using DiceSurvivor.Manager;
             //찾았는지 체크
             if (sound == null)
             {
-                Debug.Log("Cannot Find " + name + " Sound");
+                //Debug.Log("Cannot Find " + name + " Sound");
                 return;
             }
 

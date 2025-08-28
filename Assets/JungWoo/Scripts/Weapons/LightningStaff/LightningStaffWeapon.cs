@@ -58,7 +58,7 @@ namespace DiceSurvivor.Weapon
 
             if (farthestEnemies.Count == 0)
             {
-                Debug.Log("[LightningStaff] 범위 내에 적이 없습니다.");
+                //Debug.Log("[LightningStaff] 범위 내에 적이 없습니다.");
                 return;
             }
 
@@ -76,7 +76,7 @@ namespace DiceSurvivor.Weapon
                 }
                 else
                 {
-                    Debug.Log($"target: {target}");
+                    //Debug.Log($"target: {target}");
                 }
             }
         }
@@ -106,7 +106,7 @@ namespace DiceSurvivor.Weapon
                 enemiesInRange.Add(collider.gameObject);
             }
 
-            Debug.Log($"[LightningStaff] 범위({Weapon.radius}) 내 적: {enemiesInRange.Count}명");
+            //Debug.Log($"[LightningStaff] 범위({Weapon.radius}) 내 적: {enemiesInRange.Count}명");
 
             return enemiesInRange;
         }
@@ -137,7 +137,7 @@ namespace DiceSurvivor.Weapon
 
             activeBolts.Add(bolt);
 
-            Debug.Log($"[LightningStaff] 번개 생성! 타겟: {target.name}, 위치: {strikePosition}");
+            //Debug.Log($"[LightningStaff] 번개 생성! 타겟: {target.name}, 위치: {strikePosition}");
         }
 
         /// <summary>

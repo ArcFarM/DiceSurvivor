@@ -155,7 +155,7 @@ namespace DiceSurvivor.Weapon
             sphereCollider.isTrigger = true;
             sphereCollider.radius = Weapon.radius;
 
-            Debug.Log($"[KillingAura] Collider 설정 - 반경: {Weapon.radius}");
+            //Debug.Log($"[KillingAura] Collider 설정 - 반경: {Weapon.radius}");
         }
 
         /// <summary>

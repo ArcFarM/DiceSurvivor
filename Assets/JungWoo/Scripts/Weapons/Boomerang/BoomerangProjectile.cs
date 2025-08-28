@@ -58,7 +58,7 @@ namespace DiceSurvivor.Weapon
             // 크기 설정
             transform.localScale = Vector3.one * projectileSize;
 
-            Debug.Log($"[BoomerangProjectile] 초기화 - 데미지: {damage}, 범위: {maxRange}, 속도: {moveSpeed}");
+            //Debug.Log($"[BoomerangProjectile] 초기화 - 데미지: {damage}, 범위: {maxRange}, 속도: {moveSpeed}");
         }
 
         void Update()
@@ -111,7 +111,7 @@ namespace DiceSurvivor.Weapon
             if (traveledDistance >= maxRange)
             {
                 isReturning = true;
-                Debug.Log($"[BoomerangProjectile] 최대 거리 도달 - 돌아오기 시작");
+                //Debug.Log($"[BoomerangProjectile] 최대 거리 도달 - 돌아오기 시작");
             }
         }
 
@@ -134,7 +134,7 @@ namespace DiceSurvivor.Weapon
             // 소유자에게 도달했는지 체크
             if (Vector3.Distance(transform.position, owner.position) < 1f)
             {
-                Debug.Log($"[BoomerangProjectile] 소유자에게 도착 - 제거");
+                //Debug.Log($"[BoomerangProjectile] 소유자에게 도착 - 제거");
                 Deactivate();
             }
         }
@@ -161,7 +161,7 @@ namespace DiceSurvivor.Weapon
                         boomerangWeapon.ApplyDamage(enemy.gameObject, damage);
                         currentHitList.Add(other.gameObject);
 
-                        Debug.Log($"[BoomerangProjectile] {other.name}에게 데미지 {damage} 적용 (돌아오는 중: {isReturning})");
+                        //Debug.Log($"[BoomerangProjectile] {other.name}에게 데미지 {damage} 적용 (돌아오는 중: {isReturning})");
                     }
                 }
             }

@@ -77,7 +77,7 @@ namespace DiceSurvivor.Weapon
             );
             activeFireballs.Add(projectile);
 
-            Debug.Log($"[Fireball] 발사! 방향: {randomDirection}");
+            //Debug.Log($"[Fireball] 발사! 방향: {randomDirection}");
         }
         /// <summary>
         /// 비활성 파이어볼 정리

@@ -132,7 +132,7 @@ namespace DiceSurvivor.Enemy
             isAttacking = true;
 
             // 플레이어에게 데미지 (실제 구현 시 Player 스크립트와 연동)
-            Debug.Log($"{name}이(가) 플레이어를 공격! 데미지: {damage}");
+            //Debug.Log($"{name}이(가) 플레이어를 공격! 데미지: {damage}");
 
             // 타겟 바라보기
             transform.LookAt(new Vector3(target.position.x, transform.position.y, target.position.z));
@@ -170,10 +170,10 @@ namespace DiceSurvivor.Enemy
             currentHealth -= damageAmount;
 
             // 상세 로그 출력
-            Debug.Log($"[Enemy] {gameObject.name} 데미지 받음!");
-            Debug.Log($"[Enemy] 받은 데미지: {damageAmount}");
-            Debug.Log($"[Enemy] 남은 체력: {currentHealth}/{maxHealth}");
-            Debug.Log($"[Enemy] 체력 비율: {(currentHealth / maxHealth * 100):F1}%");
+            //Debug.Log($"[Enemy] {gameObject.name} 데미지 받음!");
+            //Debug.Log($"[Enemy] 받은 데미지: {damageAmount}");
+            //Debug.Log($"[Enemy] 남은 체력: {currentHealth}/{maxHealth}");
+            //Debug.Log($"[Enemy] 체력 비율: {(currentHealth / maxHealth * 100):F1}%");
 
             // 피격 효과
             StartCoroutine(DamageEffect());
@@ -181,7 +181,7 @@ namespace DiceSurvivor.Enemy
             // 사망 체크
             if (currentHealth <= 0)
             {
-                Debug.Log($"[Enemy] {gameObject.name} 체력 0 도달 - 사망 처리");
+                //Debug.Log($"[Enemy] {gameObject.name} 체력 0 도달 - 사망 처리");
                 Die();
             }
         }
@@ -255,7 +255,7 @@ namespace DiceSurvivor.Enemy
                 enemyRenderer.material.color = originalColor;
             }
 
-            Debug.Log($"{name} 감속 해제됨");
+            //Debug.Log($"{name} 감속 해제됨");
         }
 
         /// <summary>
@@ -266,7 +266,7 @@ namespace DiceSurvivor.Enemy
             if (isDead) return;
 
             isDead = true;
-            Debug.Log($"{name} 사망!");
+            //Debug.Log($"{name} 사망!");
 
             // 사망 효과
             StartCoroutine(DeathEffect());
@@ -299,7 +299,7 @@ namespace DiceSurvivor.Enemy
         public void Heal(float healAmount)
         {
             currentHealth = Mathf.Min(currentHealth + healAmount, maxHealth);
-            Debug.Log($"{name} 체력 회복: {healAmount}, 현재 체력: {currentHealth}/{maxHealth}");
+            //Debug.Log($"{name} 체력 회복: {healAmount}, 현재 체력: {currentHealth}/{maxHealth}");
         }
 
         /// <summary>

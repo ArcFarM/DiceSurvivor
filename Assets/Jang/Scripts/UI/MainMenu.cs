@@ -160,7 +160,7 @@ using System.Collections;
             //TODO: Cheating
             PlayerPrefs.DeleteAll();
 
-            Debug.Log("Quit Game!!!");
+            //Debug.Log("Quit Game!!!");
             Application.Quit();
         }
 

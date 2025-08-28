@@ -71,7 +71,7 @@ public class GameTimerManager : MonoBehaviour
             IsRunning = false;
 
             // 타이머가 끝났을 때 원하는 처리 (예: 보스 등장)
-            Debug.Log("⏰ 타이머 종료!");
+            //Debug.Log("⏰ 타이머 종료!");
         }
     }
 

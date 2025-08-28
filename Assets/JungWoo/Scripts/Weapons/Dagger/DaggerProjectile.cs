@@ -39,7 +39,7 @@ namespace DiceSurvivor.Weapon
             traveledDistance = 0f;
             //hasHitEnemy = false;
             IsActive = true;
-            Debug.Log($"IsActive 1:{IsActive }");
+            //Debug.Log($"IsActive 1:{IsActive }");
 
             // 크기 설정
             transform.localScale = Vector3.one * projectileSize;
@@ -73,18 +73,18 @@ namespace DiceSurvivor.Weapon
         /// </summary>
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log($"IsActive 2:{IsActive}");
+            //Debug.Log($"IsActive 2:{IsActive}");
 
-            Debug.Log($"TriggerEnter 1:{other.tag}");
+            //Debug.Log($"TriggerEnter 1:{other.tag}");
 
             if (IsActive == false) return;
 
-            Debug.Log($"TriggerEnter 2:{other.tag}");
+            //Debug.Log($"TriggerEnter 2:{other.tag}");
 
             // Enemy 레이어 체크
             if (other.gameObject.tag == "Enemy")
             {
-                Debug.Log("12312312312312");
+                //Debug.Log("12312312312312");
                 // 즉시 데미지
                 var enemy = other.GetComponent<EnemyFinal>();
                 if (enemy != null)
@@ -92,7 +92,7 @@ namespace DiceSurvivor.Weapon
                     daggerWeapon.ApplyDamage(enemy.gameObject, damage);
                     //hasHitEnemy = true;
 
-                    Debug.Log($"[DaggerProjectile] {other.name}에게 데미지 {damage} 적용");
+                    //Debug.Log($"[DaggerProjectile] {other.name}에게 데미지 {damage} 적용");
 
                     // 타격 이펙트
                     //CreateHitEffect(other.transform.position);

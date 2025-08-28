@@ -86,7 +86,7 @@ namespace DiceSurvivor.Weapon
             if (hasStruck) return;
             hasStruck = true;
 
-            Debug.Log($"[LightningBolt] 1차 데미지 적용 - 위치: {transform.position}, 범위: {primaryRadius}, 데미지: {primaryDamage}");
+            //Debug.Log($"[LightningBolt] 1차 데미지 적용 - 위치: {transform.position}, 범위: {primaryRadius}, 데미지: {primaryDamage}");
 
             // projectileSize 범위 내 적에게 데미지
             int enemyLayer = LayerMask.GetMask("Enemy");
@@ -98,7 +98,7 @@ namespace DiceSurvivor.Weapon
                 if (enemy != null)
                 {
                     enemy.TakeDamage(primaryDamage);
-                    Debug.Log($"[LightningBolt] 1차 데미지 {primaryDamage} → {enemyCollider.name}");
+                    //Debug.Log($"[LightningBolt] 1차 데미지 {primaryDamage} → {enemyCollider.name}");
                 }
             }
 
@@ -114,7 +114,7 @@ namespace DiceSurvivor.Weapon
             if (hasExploded) return;
             hasExploded = true;
 
-            Debug.Log($"[LightningBolt] 2차 폭발 데미지 - 위치: {transform.position}, 범위: {secondaryRadius}, 데미지: {secondaryDamage}");
+            //Debug.Log($"[LightningBolt] 2차 폭발 데미지 - 위치: {transform.position}, 범위: {secondaryRadius}, 데미지: {secondaryDamage}");
 
             // explosionRadius 범위 내 적에게 데미지
             int enemyLayer = LayerMask.GetMask("Enemy");
@@ -126,7 +126,7 @@ namespace DiceSurvivor.Weapon
                 if (enemy != null)
                 {
                     enemy.TakeDamage(secondaryDamage);
-                    Debug.Log($"[LightningBolt] 2차 폭발 데미지 {secondaryDamage} → {enemyCollider.name}");
+                    //Debug.Log($"[LightningBolt] 2차 폭발 데미지 {secondaryDamage} → {enemyCollider.name}");
                 }
             }
 

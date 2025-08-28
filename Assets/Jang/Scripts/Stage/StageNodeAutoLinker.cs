@@ -25,7 +25,7 @@ public class StageNodeAutoLinker : MonoBehaviour
             EditorUtility.SetDirty(node);
         }
 
-        Debug.Log("노드 자동 연결 완료!");
+        //Debug.Log("노드 자동 연결 완료!");
     }
 }
 #endif
