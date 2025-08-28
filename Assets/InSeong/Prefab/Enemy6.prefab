@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -9069266442471204870}
   - component: {fileID: -1415198469441702908}
   m_Layer: 7
-  m_Name: EnemyTest1
+  m_Name: Enemy6
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e42c1d9fe648a9418bbdb3fa951b7dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyData: {fileID: 11400000, guid: 872633735e3cd0a429a8101d60e69065, type: 2}
+  enemyData: {fileID: 11400000, guid: c7ec5f4daad0703449702d3c0e09748f, type: 2}
   playerPos: {fileID: 0}
   border: 2
   outTimeThreshold: 2
@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 983577228701aed4aa0b65808a44fa32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyData: {fileID: 11400000, guid: 872633735e3cd0a429a8101d60e69065, type: 2}
+  enemyData: {fileID: 11400000, guid: c7ec5f4daad0703449702d3c0e09748f, type: 2}
   playerPos: {fileID: 0}
   border: 2
   outTimeThreshold: 2

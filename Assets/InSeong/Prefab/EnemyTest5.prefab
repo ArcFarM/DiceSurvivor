@@ -11,11 +11,11 @@ GameObject:
   - component: {fileID: 43677737424027660}
   - component: {fileID: 3382238244315917998}
   - component: {fileID: 3717555704524197801}
-  - component: {fileID: 3369913465642457241}
   - component: {fileID: -5212112545469443783}
   - component: {fileID: 371261089179039185}
   - component: {fileID: 5177812211879795127}
-  m_Layer: 0
+  - component: {fileID: -480289357127310306}
+  m_Layer: 7
   m_Name: EnemyTest5
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -94,23 +94,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &3369913465642457241
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8209244736742389843}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 983577228701aed4aa0b65808a44fa32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyData: {fileID: 11400000, guid: 67057c2c88f91e340b39f65240ef50bd, type: 2}
-  playerPos: {fileID: 0}
-  border: 2
-  outTimeThreshold: 2
-  clusterThreshold: 2
 --- !u!136 &-5212112545469443783
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -189,6 +172,23 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-480289357127310306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8209244736742389843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 983577228701aed4aa0b65808a44fa32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyData: {fileID: 11400000, guid: 67057c2c88f91e340b39f65240ef50bd, type: 2}
+  playerPos: {fileID: 0}
+  border: 2
+  outTimeThreshold: 2
+  clusterThreshold: 2
 --- !u!1001 &163191005893637202
 PrefabInstance:
   m_ObjectHideFlags: 0

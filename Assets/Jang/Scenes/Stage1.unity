@@ -780,8 +780,19 @@ MonoBehaviour:
   enemyDataArray:
   - {fileID: 11400000, guid: 67057c2c88f91e340b39f65240ef50bd, type: 2}
   - {fileID: 11400000, guid: 7926f0d39163c894e88760cab56fb8c1, type: 2}
+  - {fileID: 11400000, guid: 872633735e3cd0a429a8101d60e69065, type: 2}
+  - {fileID: 11400000, guid: 6b111d1f7b17b53478f47084dc167f08, type: 2}
+  - {fileID: 11400000, guid: 2f9f1820704320a4a8dd254c9e3db7cc, type: 2}
+  - {fileID: 11400000, guid: 8d61b0a84376b26479fe2ababa95d9a9, type: 2}
+  - {fileID: 11400000, guid: fad9be37aa2ea63439530e358028603a, type: 2}
+  - {fileID: 11400000, guid: c7ec5f4daad0703449702d3c0e09748f, type: 2}
+  - {fileID: 11400000, guid: 684108028ab65684e939bfdba9b1a343, type: 2}
+  - {fileID: 11400000, guid: 8388defbfd5b11e4fa0e0d62a0ca3edb, type: 2}
   eliteEnemyDataArray:
   - {fileID: 11400000, guid: 7ece6aebfeeb220478e91738a70808e4, type: 2}
+  - {fileID: 11400000, guid: db3cb842be930c44e9f7c62633f6ac1a, type: 2}
+  - {fileID: 11400000, guid: f18852211043575479e233e9e542c792, type: 2}
+  - {fileID: 11400000, guid: 2b6f4663ada59ce4fbba185cbc709d69, type: 2}
   bossEnemyDataArray:
   - {fileID: 11400000, guid: f0a7fc04823942247b16842bb934cac7, type: 2}
   maxEnemyCount: 100
@@ -925,7 +936,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8031053931147681167, guid: a723439f173058f4baa95dbab8856307, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8623123210893175869, guid: a723439f173058f4baa95dbab8856307, type: 3}
       propertyPath: m_IsActive
@@ -1056,12 +1067,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3579610990525023532, guid: b72fb9fc194724042a62fd0c3206a7bd, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 3579610990525023532, guid: b72fb9fc194724042a62fd0c3206a7bd, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3579610990525023532, guid: b72fb9fc194724042a62fd0c3206a7bd, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3579610990525023532, guid: b72fb9fc194724042a62fd0c3206a7bd, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 3645821460024060008, guid: b72fb9fc194724042a62fd0c3206a7bd, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1100,6 +1119,22 @@ PrefabInstance:
       value: -181
       objectReference: {fileID: 0}
     - target: {fileID: 4672840395754172077, guid: b72fb9fc194724042a62fd0c3206a7bd, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5235964234010033228, guid: b72fb9fc194724042a62fd0c3206a7bd, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5235964234010033228, guid: b72fb9fc194724042a62fd0c3206a7bd, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5235964234010033228, guid: b72fb9fc194724042a62fd0c3206a7bd, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5235964234010033228, guid: b72fb9fc194724042a62fd0c3206a7bd, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
@@ -1417,6 +1452,10 @@ PrefabInstance:
       propertyPath: dontDestroyOnLoad
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2483198415019452529, guid: 06b1db16c31cb1447b73a70ad1711441, type: 3}
+      propertyPath: startTimeInSeconds
+      value: 600
+      objectReference: {fileID: 0}
     - target: {fileID: 2634395846419739099, guid: 06b1db16c31cb1447b73a70ad1711441, type: 3}
       propertyPath: m_Name
       value: GameTimerManager
@@ -1533,7 +1572,7 @@ PrefabInstance:
     - target: {fileID: 7559859782965988024, guid: afaf1ee9514d560458a519c5904bf8af, type: 3}
       propertyPath: 'boxPrefabs.Array.data[1]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 6095188416438690137, guid: 136730c9c68153548a5d4736189719d7, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

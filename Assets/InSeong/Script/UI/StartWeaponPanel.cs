@@ -43,7 +43,7 @@ namespace DiceSurvivor.UI
         {
             //담겨 있는 무기 정보를 아이템 매니저로 넘겨서 플레이어 근접 무기로 할당
             ItemManager.Instance.BuyItem(weapon);
-            parent.RemoveUnused(weapon);
+            parent.RemoveUnused(weapon.name);
             parent.gameObject.SetActive(false);
             //DiceSurvivor.Manager.ShopManagerTest.Instance.OpenShop();
             Time.timeScale = 1f;

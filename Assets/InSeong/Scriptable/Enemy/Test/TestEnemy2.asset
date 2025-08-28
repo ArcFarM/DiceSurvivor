@@ -19,10 +19,10 @@ MonoBehaviour:
   currHealth: 50
   maxHealth: 50
   damage: 15
-  speed: 5
+  speed: 3
   armor: 3
   exp: 150
-  gold: 100
+  gold: 30
   expDropRate: 1
   goldDropRate: 1
   boxDropSwitch: 0

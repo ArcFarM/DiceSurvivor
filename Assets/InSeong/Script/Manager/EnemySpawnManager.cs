@@ -80,9 +80,15 @@ namespace DiceSurvivor.Manager {
                 SpawnEnemy(epManager.enemyDataArray[currentWaveIndex]);
                 spawnTimer = 0f;
                 //TODO : 일정 조건을 만족했을 때 엘리트적/보스 적 소환 추가
+
                 //TODO : 엘리트는 일정 이상 적을 처치 or 시간 경과 시 소환
-                SpawnEnemy(epManager.eliteEnemyDataArray[currentWaveIndex / 3]);
+                if (EliteSpawnCond())
+                    SpawnEnemy(epManager.eliteEnemyDataArray[currentWaveIndex / 3]);
                 //TODO : 보스는 최종 웨이브 시간이 지났을 때 소환
+                if (GameTimerManager.Instance.RemainingTime <= 0)
+                {
+                    SpawnEnemy(epManager.bossEnemyDataArray[0]);
+                }
             }
         }
         #endregion
@@ -188,12 +194,12 @@ namespace DiceSurvivor.Manager {
                         break;
                 }
 
-                // 적의 EnemyActivity 컴포넌트에 데이터 설정 - EnemyData는 EnemyPoolManager의 DataArray의 waveIndex번째 데이터
-                if (enemyObj.TryGetComponent<EnemyActivity>(out EnemyActivity enemyActivity))
+                // 적의 enemyfinal 컴포넌트에 데이터 설정 - EnemyData는 EnemyPoolManager의 DataArray의 waveIndex번째 데이터
+                if (enemyObj.TryGetComponent<EnemyFinal>(out EnemyFinal enemyFinal))
                 {
-                    enemyActivity.EnemyData = enemyData;
+                    enemyFinal.EnemyData = enemyData;
                 }
-                else Debug.LogError("EnemyActivity component not found on spawned enemy object.");
+                else Debug.LogError("EnemyFinal component not found on spawned enemy object.");
 
                 //적 활성화
                 enemyObj.SetActive(true);

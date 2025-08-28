@@ -378,7 +378,7 @@ namespace DiceSurvivor.Manager {
         {
             foreach (var item in testItems.items)
             {
-                if (!im.CanAddItem(item.type))
+                if (!im.CanAddItem(item.type) && item.type != TestItem.ItemType.MeleeWeapon)
                 {
                     item.canIBuy = false;
                 }
@@ -402,15 +402,15 @@ namespace DiceSurvivor.Manager {
             {
                 case TestItem.ItemType.MeleeWeapon:
                     currWeapon = dt.MeleeWeapons.GetWeapon(item.itemName, currLevel);
-                    //Debug.Log(currWeapon.description);
+                    Debug.Log(currWeapon.description);
                     return currWeapon.description;
                 case TestItem.ItemType.RangedWeapon:
                     currWeapon = dt.RangedWeapons.GetWeapon(item.itemName, currLevel);
-                    //Debug.Log(currWeapon.description);
+                    Debug.Log(currWeapon.description);
                     return currWeapon.description;
                 case TestItem.ItemType.SplashWeapon:
                     currWeapon = dt.SplashWeapons.GetWeapon(item.itemName, currLevel);
-                    //Debug.Log(currWeapon.description);
+                    Debug.Log(currWeapon.description);
                     return currWeapon.description;
                 default:
                     return "알 수 없는 아이템 타입입니다.";
@@ -433,7 +433,7 @@ namespace DiceSurvivor.Manager {
             int currGold = GoldWallet.Instance.GetGold();
             int interest = (int)Mathf.Min(100, currGold / 10);
             GoldWallet.Instance.Add(interest);
-            //Debug.Log("이자 지급 : " + interest);
+            Debug.Log("이자 지급 : " + interest);
         }
         #endregion
     }

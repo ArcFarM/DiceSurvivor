@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9bef9d946b134d49b8ddaa0fee9d824, type: 3}
-  m_Name: TestEnemy1-2
+  m_Name: TestEnemy1-9
   m_EditorClassIdentifier: 
   enemyId: 
   enemyName: 456
-  body: {fileID: 8209244736742389843, guid: 2770322b6562e6c4a8d6285a60c3ff42, type: 3}
+  body: {fileID: 8209244736742389843, guid: fc486ebf4fe57184997a570b707bb403, type: 3}
   type: 0
-  currHealth: 10
-  maxHealth: 10
+  currHealth: 50
+  maxHealth: 50
   damage: 10
-  speed: 2.2
-  armor: 0
-  exp: 3
-  gold: 3
+  speed: 2.8
+  armor: 1
+  exp: 4
+  gold: 4
   expDropRate: 100
   goldDropRate: 0.25
   boxDropSwitch: 0

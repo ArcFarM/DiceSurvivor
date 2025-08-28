@@ -50,15 +50,16 @@ namespace DiceSurvivor.UI
             }
         }
 
-        public void RemoveUnused(TestItem item)
+        public void RemoveUnused(string item)
         {
             foreach (var weapon in meleeWeaponArray.items)
             {
-                if (weapon.itemName != item.itemName)
+                if (weapon.itemName != item)
                 {
                     weapon.canIBuy = false;
                 }
             }
+            transform.parent.gameObject.SetActive(false);
         }
         
         #endregion

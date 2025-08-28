@@ -179,7 +179,12 @@ namespace DiceSurvivor.Manager {
         //현재 인덱스에 유효한 객체를 반환하기 위한 메서드
         GameObject GetValidEnemy(Queue<GameObject> pool, EnemyData data, EnemyData[] dataArray) {
             //Debug.Log("적 유효성 검사 및 반환");
-            if (CheckValid(esManager.currentWaveIndex, dataArray, data))
+            int currIndex = esManager.currentWaveIndex;
+            if(data.type == EnemyData.EnemyType.Elite)
+                currIndex = esManager.currentWaveIndex / 3;
+            else if (data.type == EnemyData.EnemyType.Boss)
+                currIndex = 0; //보스는 항상 첫 번째 데이터 사용
+            if (CheckValid(currIndex, dataArray, data))
             {
                 //Debug.Log(pool.Count);
                 GameObject result = pool.Dequeue();
@@ -193,7 +198,7 @@ namespace DiceSurvivor.Manager {
                 while (pool.Count > 0)
                 {
                     GameObject obj = pool.Dequeue();
-                    if (CheckValid(esManager.currentWaveIndex, dataArray, data))
+                    if (CheckValid(currIndex, dataArray, data))
                     {
                         return obj;
                     }
@@ -315,11 +320,12 @@ namespace DiceSurvivor.Manager {
         }
 
         bool CheckValid(int index, EnemyData[] dataArray, EnemyData data)
-        {   
+        {
             //조건 1 : 현재 웨이브 상태가 유효한 웨이브인가?
             bool cond1 = index >= 0 && index < dataArray.Length;
             //조건 2 : 반환해야 할 객체의 EnemyData가 현재 웨이브에 맞는 데이터인가?
             bool cond2 = data != null && data.enemyName == dataArray[index].enemyName;
+
             //Debug.Log("조건 검사 : " + cond1 + " , " + cond2);
             return cond1 && cond2;
         }

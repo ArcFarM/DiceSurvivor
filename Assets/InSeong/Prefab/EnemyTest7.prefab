@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 43677737424027660}
   - component: {fileID: 3382238244315917998}
   - component: {fileID: 3717555704524197801}
-  - component: {fileID: 3369913465642457241}
   - component: {fileID: 1691540211180285609}
   - component: {fileID: 5165824810184270655}
-  m_Layer: 0
+  - component: {fileID: 4474717684989473850}
+  m_Layer: 7
   m_Name: EnemyTest7
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -92,23 +92,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &3369913465642457241
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8209244736742389843}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 983577228701aed4aa0b65808a44fa32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyData: {fileID: 0}
-  playerPos: {fileID: 0}
-  border: 2
-  outTimeThreshold: 2
-  clusterThreshold: 2
 --- !u!136 &1691540211180285609
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -160,6 +143,23 @@ MonoBehaviour:
   isDead: 0
   isAttacking: 0
   isSlowed: 0
+--- !u!114 &4474717684989473850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8209244736742389843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 983577228701aed4aa0b65808a44fa32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyData: {fileID: 11400000, guid: 7ece6aebfeeb220478e91738a70808e4, type: 2}
+  playerPos: {fileID: 0}
+  border: 2
+  outTimeThreshold: 2
+  clusterThreshold: 2
 --- !u!1001 &1204981556448922295
 PrefabInstance:
   m_ObjectHideFlags: 0

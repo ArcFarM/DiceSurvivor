@@ -52,7 +52,7 @@ namespace DiceSurvivor.Enemy {
                 if (Repulse()) return;
                 NormalEnemyMove();
             }
-            else if (copiedData.type == EnemyData.EnemyType.Elite)
+            else
             {
                 //엘리트 타입은 충돌감지 추가
                 CheckCollision();
